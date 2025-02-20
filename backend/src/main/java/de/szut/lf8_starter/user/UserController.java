@@ -2,9 +2,11 @@ package de.szut.lf8_starter.user;
 
 
 import de.szut.lf8_starter.models.TokenResponse;
+import de.szut.lf8_starter.user.dto.LoginUserDto;
 import de.szut.lf8_starter.user.dto.RegisterUserDto;
 import de.szut.lf8_starter.services.KeycloakService;
 import jakarta.validation.Valid;
+import org.antlr.v4.runtime.Token;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,13 +21,15 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<TokenResponse> register(@RequestBody @Valid RegisterUserDto dto) throws Exception {
-        TokenResponse tokenResponse = this.service.registerUser(dto.getUsername(), dto.getPassword(), dto.getEmail());
-        if (tokenResponse != null) {
-            return ResponseEntity.ok(tokenResponse);
-        } else {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
+    public ResponseEntity<TokenResponse> register(@RequestBody @Valid RegisterUserDto dto) {
+        var tokenResponse = this.service.registerUser(dto.getUsername(), dto.getPassword(), dto.getEmail());
+        return ResponseEntity.ok(tokenResponse);
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<TokenResponse> login(@RequestBody @Valid LoginUserDto dto) {
+        var tokenResponse = this.service.loginUser(dto.getUsername(), dto.getPassword());
+        return ResponseEntity.ok(tokenResponse);
     }
 
 

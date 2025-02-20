@@ -58,16 +58,23 @@ class KeycloakSecurityConfig {
     public SecurityFilterChain resourceServerFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(csrf -> csrf
-                        .ignoringRequestMatchers("/api/user/**"))  // Disable CSRF for /api/user/*
+                        .ignoringRequestMatchers("/api/user/**")) // Disable CSRF for specific endpoints
                 .authorizeHttpRequests(auth -> auth
+                        .requestMatchers(
+                                "/swagger",
+                                "/swagger-ui/**",
+                                "/v3/api-docs/**",
+                                "/swagger-resources/**"
+                        ).permitAll()
                         .requestMatchers("/api/user/**")
-                        .permitAll()  // Allow access to this endpoint without a token
+                        .permitAll()
                         .anyRequest()
-                        .authenticated())  // Other requests should be authenticated
+                        .authenticated())
                 .oauth2ResourceServer(spec -> spec.jwt(Customizer.withDefaults()));  // Use JWT for authentication
 
         return http.build();
     }
+
 
     @Bean
     public JwtAuthenticationConverter jwtAuthenticationConverter() {
