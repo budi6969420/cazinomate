@@ -77,59 +77,6 @@ public class KeycloakService {
         return mapToUser(response.getBody());
     }
 
-    public TokenResponse registerUser(String username, String password, String email) {
-        TokenResponse token = getAdminToken();
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.set("Authorization", "Bearer " + token.getAccess_token());
-        headers.setContentType(MediaType.APPLICATION_JSON);
-
-        Map<String, Object> userPayload = Map.of(
-                "username", username,
-                "email", email,
-                "enabled", true,
-                "credentials", new Object[]{
-                        Map.of("type", "password", "value", password, "temporary", false)
-                }
-        );
-
-        HttpEntity<Map<String, Object>> request = new HttpEntity<>(userPayload, headers);
-        ResponseEntity<Void> response = restTemplate.exchange(
-                keycloakUrl + "/admin/realms/" + realm + "/users",
-                HttpMethod.POST,
-                request,
-                Void.class
-        );
-
-        if (response.getStatusCode().is2xxSuccessful()) {
-            return loginUser(username, password);
-        }
-
-        return null;
-
-    }
-
-    public TokenResponse loginUser(String username, String password) {
-        MultiValueMap<String, String> requestBody = new LinkedMultiValueMap<>();
-        requestBody.add("client_id", normalClientId);
-        requestBody.add("grant_type", "password");
-        requestBody.add("username", username);
-        requestBody.add("password", password);
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-
-        HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(requestBody, headers);
-        ResponseEntity<TokenResponse> response = restTemplate.exchange(
-                keycloakUrl + "/realms/" + realm + "/protocol/openid-connect/token",
-                HttpMethod.POST,
-                request,
-                TokenResponse.class
-        );
-
-        return response.getBody();
-    }
-
     private User mapToUser(Map<String, Object> data) {
         User user = new User();
         user.setId((String) data.get("id"));
