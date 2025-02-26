@@ -1,36 +1,25 @@
 package de.szut.lf8_starter.user;
 
 
-import de.szut.lf8_starter.models.TokenResponse;
-import de.szut.lf8_starter.user.dto.LoginUserDto;
-import de.szut.lf8_starter.user.dto.RegisterUserDto;
+import de.szut.lf8_starter.models.User;
+import de.szut.lf8_starter.services.JWTService;
 import de.szut.lf8_starter.services.KeycloakService;
-import jakarta.validation.Valid;
-import org.antlr.v4.runtime.Token;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(value = "api/user")
 public class UserController {
-    private final KeycloakService service;
+    private final KeycloakService keycloakService;
+    private final JWTService jwtService;
 
-    public UserController(KeycloakService service) {
-        this.service = service;
+    public UserController(KeycloakService keycloakService, JWTService jwtService) {
+        this.keycloakService = keycloakService;
+        this.jwtService = jwtService;
     }
 
-    @PostMapping("/register")
-    public ResponseEntity<TokenResponse> register(@RequestBody @Valid RegisterUserDto dto) {
-        var tokenResponse = this.service.registerUser(dto.getUsername(), dto.getPassword(), dto.getEmail());
-        return ResponseEntity.ok(tokenResponse);
+    @GetMapping()
+    public ResponseEntity<User> getSelfInfo(@RequestHeader(value = "Authorization", required = false) String authorizationHeader) throws Exception {
+        return ResponseEntity.ok(keycloakService.getUserData(jwtService.decodeId(authorizationHeader)));
     }
-
-    @PostMapping("/login")
-    public ResponseEntity<TokenResponse> login(@RequestBody @Valid LoginUserDto dto) {
-        var tokenResponse = this.service.loginUser(dto.getUsername(), dto.getPassword());
-        return ResponseEntity.ok(tokenResponse);
-    }
-
-
 }
