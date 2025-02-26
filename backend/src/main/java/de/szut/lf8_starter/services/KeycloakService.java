@@ -67,22 +67,13 @@ public class KeycloakService {
         headers.set("Authorization", "Bearer " + token.getAccess_token());
 
         HttpEntity<Void> request = new HttpEntity<>(headers);
-        ResponseEntity<Map> response = restTemplate.exchange(
+        ResponseEntity<User> response = restTemplate.exchange(
                 keycloakUrl + "/admin/realms/" + realm + "/users/" + userId,
                 HttpMethod.GET,
                 request,
-                Map.class
+                User.class
         );
 
-        return mapToUser(response.getBody());
-    }
-
-    private User mapToUser(Map<String, Object> data) {
-        User user = new User();
-        user.setId((String) data.get("id"));
-        user.setUsername((String) data.get("username"));
-        user.setEmail((String) data.get("email"));
-        user.setEmailVerified((boolean) data.get("emailVerified"));
-        return user;
+        return response.getBody();
     }
 }
