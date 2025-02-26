@@ -18,8 +18,13 @@ public class UserController {
         this.jwtService = jwtService;
     }
 
-    @GetMapping()
+    @GetMapping("/self")
     public ResponseEntity<User> getSelfInfo(@RequestHeader(value = "Authorization", required = false) String authorizationHeader) throws Exception {
         return ResponseEntity.ok(keycloakService.getUserData(jwtService.decodeId(authorizationHeader)));
+    }
+
+    @GetMapping()
+    public ResponseEntity<User> getUser(String userId) {
+        return ResponseEntity.ok(keycloakService.getUserData(userId));
     }
 }
