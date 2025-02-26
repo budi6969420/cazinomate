@@ -56,20 +56,14 @@ class KeycloakSecurityConfig {
 
     @Bean
     public SecurityFilterChain resourceServerFilterChain(HttpSecurity http) throws Exception {
-        http
-                .csrf(csrf -> csrf
-                        .ignoringRequestMatchers("/api/auth/**"))
-                .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(
-                                "/swagger-ui/**",
-                                "/v3/api-docs/**",
-                                "/swagger-resources/**",
-                                "/swagger"
-                        ).permitAll()
-                        .requestMatchers("/api/auth/**").permitAll()
-                        .anyRequest().permitAll()
-                );
-
+        http.authorizeHttpRequests(auth -> auth
+                .requestMatchers(
+                        new AntPathRequestMatcher("/swagger"),
+                        new AntPathRequestMatcher("/swagger-ui/**"),
+                        new AntPathRequestMatcher("/v3/api-docs/**"))
+                .permitAll()
+                .anyRequest()
+                .authenticated()).oauth2ResourceServer(spec -> spec.jwt(Customizer.withDefaults()));
         return http.build();
     }
 
