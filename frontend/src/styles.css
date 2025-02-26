@@ -1,1 +1,49 @@
-/* You can add global styles to this file, and also import other style files */
+:root {
+  --app-color-background-primary: #181818;
+  --app-color-background-secondary: #313131;
+  --app-color-background-tertiary: #4E4E4E;
+  --app-color-text-primary: white;
+  --app-color-text-secondary: #c5c5c5;
+  --app-color-text-error: #CD5353;
+  --app-color-green: #16B858;
+
+  --app-spacing-xsmall: 10px;
+  --app-spacing-small: 15px;
+  --app-spacing-medium: 20px;
+  --app-spacing-big: 25px;
+
+  --app-transition-time-medium: 0.3s;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  font-size: 16px;
+}
+
+body {
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+  color: var(--app-color-text-primary);
+  background: var(--app-color-background-primary);
+  font-family: Inter;
+}
+
+svg {
+  height: 100%;
+  fill: var(--app-color-text-primary)
+}
+button {
+  color: var(--app-color-text-primary);
+  padding: var(--app-spacing-small) var(--app-spacing-medium);
+  border: none;
+  border-radius: calc(var(--app-spacing-small)/2);
+  font-weight: bold;
+  font-size: 14px;
+  background: none;
+  cursor: pointer;
+}
+.green-button {
+  background-color: var(--app-color-green);
+}

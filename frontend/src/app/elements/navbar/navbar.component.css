@@ -1,0 +1,20 @@
+:host {
+  flex: 1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: row;
+  flex-wrap: wrap;
+  background-color: var(--app-color-background-secondary);
+  padding: var(--app-spacing-xsmall);
+}
+img {
+  height: 54px;
+}
+ul{
+  display: flex;
+  gap: var(--app-spacing-xsmall);
+}
+li{
+  list-style: none;
+}

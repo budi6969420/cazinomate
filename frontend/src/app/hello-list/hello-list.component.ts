@@ -12,9 +12,7 @@ import {KeycloakService} from "keycloak-angular";
     AsyncPipe
   ],
   providers: [KeycloakService],
-  templateUrl: './hello-list.component.html',
-  styleUrl: './hello-list.component.css'
-})
+  templateUrl: './hello-list.component.html'})
 export class HelloListComponent {
   employees$: Observable<Hello[]>;
 
