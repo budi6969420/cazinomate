@@ -23,8 +23,8 @@ public class UserController {
         return ResponseEntity.ok(keycloakService.getUserData(jwtService.decodeId(authorizationHeader)));
     }
 
-    @GetMapping()
-    public ResponseEntity<User> getUser(String userId) {
+    @GetMapping("/{userId}")
+    public ResponseEntity<User> getUser(@PathVariable String userId) {
         return ResponseEntity.ok(keycloakService.getUserData(userId));
     }
 }
