@@ -60,7 +60,8 @@ class KeycloakSecurityConfig {
                 .requestMatchers(
                         new AntPathRequestMatcher("/swagger"),
                         new AntPathRequestMatcher("/swagger-ui/**"),
-                        new AntPathRequestMatcher("/v3/api-docs/**"))
+                        new AntPathRequestMatcher("/v3/api-docs/**"),
+                        new AntPathRequestMatcher("/api/stripe-webhook"))
                 .permitAll()
                 .anyRequest()
                 .authenticated()).oauth2ResourceServer(spec -> spec.jwt(Customizer.withDefaults()));

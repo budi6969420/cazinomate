@@ -37,6 +37,7 @@ dependencies {
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.6.0")
     implementation("org.springframework.boot:spring-boot-starter-webflux")
     implementation("io.projectreactor:reactor-core")
+    implementation("com.stripe:stripe-java:20.105.0")
 }
 
 tasks.withType<Test> {
