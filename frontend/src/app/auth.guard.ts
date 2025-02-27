@@ -11,7 +11,6 @@ export const authGuard: CanActivateFn = async (route, state) => {
   if (isLoggedIn) {
     return true;
   } else {
-    return true;
     keycloakService.login();
     return false;
   }

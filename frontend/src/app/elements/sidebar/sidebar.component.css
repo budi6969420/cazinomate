@@ -16,6 +16,7 @@ li {
   align-items: center;
   flex-wrap: nowrap;
   flex-direction: row;
+  gap: var(--app-spacing-xsmall);
   background: var(--app-color-background-tertiary);
   border-radius: calc(var(--app-spacing-small)/2);
   overflow: hidden;
@@ -33,7 +34,7 @@ li {
   justify-content: center;
 }
 .icon svg {
-  height: 60%;
+  height: 45%;
   flex-shrink: 0;
   overflow: hidden;
 }
