@@ -47,7 +47,7 @@ li span {
   white-space: nowrap;
   opacity: 0;
   transition: opacity 0.3s ease-in-out;
-  padding-right: var(--app-spacing-xsmall);
+  padding-right: var(--app-spacing-medium);
 }
 
 ul > li {
