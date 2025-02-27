@@ -11,18 +11,16 @@
 
 li {
   list-style: none;
-  height: var(--app-spacing-big);
+  height: 55px;
   display: flex;
   align-items: center;
   flex-wrap: nowrap;
   flex-direction: row;
-  gap: var(--app-spacing-medium);
-  padding: var(--app-spacing-small);
   background: var(--app-color-background-tertiary);
   border-radius: calc(var(--app-spacing-small)/2);
   overflow: hidden;
-  min-width: var(--app-spacing-big);
-  width: var(--app-spacing-big);
+  min-width: 55px;
+  width: 55px;
   transition: min-width var(--app-transition-time-medium) ease-in-out, width var(--app-transition-time-medium) ease-in-out;
   cursor: pointer;
   user-select: none;
@@ -30,18 +28,25 @@ li {
 .icon {
   aspect-ratio: 1;
   height: 100%;
-  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .icon svg {
-  height: 100%;
+  height: 60%;
   flex-shrink: 0;
   overflow: hidden;
+}
+
+.icon img {
+  height: 100%;
 }
 
 li span {
   white-space: nowrap;
   opacity: 0;
   transition: opacity 0.3s ease-in-out;
+  padding-right: var(--app-spacing-xsmall);
 }
 
 ul > li {
