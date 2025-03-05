@@ -1,15 +1,16 @@
 package de.szut.lf8_starter.transaction;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Data
+@NoArgsConstructor
 @Table(name = "transactions")
 public class TransactionModel {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String userId;
     private int amount;
@@ -17,9 +18,5 @@ public class TransactionModel {
     public TransactionModel(String userId, int amount) {
         this.userId = userId;
         this.amount = amount;
-    }
-
-    public TransactionModel() {
-
     }
 }
