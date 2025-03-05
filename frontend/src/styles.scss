@@ -34,16 +34,18 @@ svg {
   height: 100%;
   fill: var(--app-color-text-primary)
 }
+
 button {
   color: var(--app-color-text-primary);
   padding: var(--app-spacing-small) var(--app-spacing-medium);
   border: none;
-  border-radius: calc(var(--app-spacing-small)/2);
+  border-radius: calc(var(--app-spacing-small) / 2);
   font-weight: bold;
   font-size: 14px;
   background: none;
   cursor: pointer;
 }
+
 .green-button {
   background-color: var(--app-color-green);
 }

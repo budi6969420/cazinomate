@@ -1,46 +1,52 @@
-import { Component, ElementRef, QueryList, ViewChildren, AfterViewInit } from '@angular/core';
+import {AfterViewInit, Component, ElementRef, QueryList, ViewChildren} from '@angular/core';
+import {SidebarWidthService} from "../../services/sidebar-width.service";
 
 @Component({
-  selector: 'app-sidebar',
-  standalone: true,
-  imports: [],
-  templateUrl: './sidebar.component.html',
-  styleUrl: './sidebar.component.scss'
+    selector: 'app-sidebar',
+    standalone: true,
+    imports: [],
+    templateUrl: './sidebar.component.html',
+    styleUrl: './sidebar.component.scss'
 })
 export class SidebarComponent implements AfterViewInit {
-  menuIsExpanded: boolean = false;
+    menuIsExpanded: boolean = false;
+    private _maxWidth: number = 0;
 
-  @ViewChildren('menuItem') menuItems!: QueryList<ElementRef>;
+    @ViewChildren('menuItem') menuItems!: QueryList<ElementRef>;
 
-  ngAfterViewInit(): void {
-    this.calculateMaxWidth();
-  }
+    constructor(private sidebarService: SidebarWidthService) {}
 
-  expandMenu(): void {
-    this.menuIsExpanded = !this.menuIsExpanded;
-    this.updateMenuWidth();
-  }
+    ngAfterViewInit(): void {
+        this.calculateMaxWidth();
+    }
 
-  private calculateMaxWidth(): void {
-    let maxWidth = 0;
+    expandMenu(): void {
+        this.menuIsExpanded = !this.menuIsExpanded;
+        this.updateMenuWidth();
+    }
 
-    this.menuItems.forEach((menuItem) => {
-      menuItem.nativeElement.classList.add('expanded');
-      const width = menuItem.nativeElement.getBoundingClientRect().width;
-      if (width > maxWidth) maxWidth = width;
-      menuItem.nativeElement.classList.remove('expanded');
-    });
+    private calculateMaxWidth(): void {
+        this.menuItems.forEach((menuItem) => {
+            menuItem.nativeElement.classList.add('expanded');
+            const width = menuItem.nativeElement.getBoundingClientRect().width;
+            if (width > this._maxWidth) {
+                this._maxWidth = width;
+            }
+            menuItem.nativeElement.classList.remove('expanded');
+        });
 
-    document.documentElement.style.setProperty('--expanded-menu-width', `${maxWidth}px`);
-  }
+        document.documentElement.style.setProperty('--expanded-menu-width', `${this._maxWidth}px`);
 
-  private updateMenuWidth(): void {
-    this.menuItems.forEach((menuItem) => {
-      if (this.menuIsExpanded) {
-        menuItem.nativeElement.classList.add('expanded');
-      } else {
-        menuItem.nativeElement.classList.remove('expanded');
-      }
-    });
-  }
+        this.sidebarService.setMaxWidth(this._maxWidth);
+    }
+
+    private updateMenuWidth(): void {
+        this.menuItems.forEach((menuItem) => {
+            if (this.menuIsExpanded) {
+                menuItem.nativeElement.classList.add('expanded');
+            } else {
+                menuItem.nativeElement.classList.remove('expanded');
+            }
+        });
+    }
 }

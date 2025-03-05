@@ -17,6 +17,7 @@ main {
   flex-grow: 1;
   flex-wrap: nowrap;
   gap: var(--app-spacing-big);
+  min-height: 100vh;
 
   > div {
     margin: var(--app-spacing-big)
