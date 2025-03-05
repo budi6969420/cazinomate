@@ -15,7 +15,7 @@ public class ProductWithPriceModel {
     private String priceId;
     private long priceAmount;
     private String currency;
-    private String amount;
+    private int amount;
     private String isRecommended;
 
     public ProductWithPriceModel(Product product, Price price) {
@@ -24,7 +24,7 @@ public class ProductWithPriceModel {
 
         try {
             var map = new ObjectMapper().readValue(product.getDescription(), Map.class);
-            this.amount = map.get("amount").toString();
+            this.amount = Integer.parseInt(map.get("amount").toString());
             this.isRecommended = map.get("isRecommended").toString();
         }
         catch (JsonProcessingException e) {

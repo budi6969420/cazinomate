@@ -2,9 +2,12 @@ package de.szut.lf8_starter.stripeWebHook;
 
 import com.stripe.Stripe;
 import com.stripe.exception.SignatureVerificationException;
+import com.stripe.exception.StripeException;
 import com.stripe.model.Event;
 import com.stripe.model.checkout.Session;
 import com.stripe.net.Webhook;
+import de.szut.lf8_starter.services.StripeService;
+import de.szut.lf8_starter.transaction.TransactionService;
 import jakarta.annotation.PostConstruct;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -14,6 +17,9 @@ import org.springframework.http.ResponseEntity;
 @RequestMapping(value = "api/stripe-webhook")
 @RestController
 public class StripeWebHookController {
+
+    private final StripeService stripeService;
+    private final TransactionService transactionService;
 
     @Value("${stripe.secret.key}")
     private String stripeSecretKey;
@@ -26,10 +32,14 @@ public class StripeWebHookController {
         Stripe.apiKey = stripeSecretKey;
     }
 
+    public StripeWebHookController(StripeService stripeService, TransactionService transactionService) {
+        this.stripeService = stripeService;
+        this.transactionService = transactionService;
+    }
 
     @PostMapping
     public ResponseEntity<String> handleStripeWebhook(@RequestBody String payload,
-                                                      @RequestHeader("Stripe-Signature") String sigHeader) {
+                                                      @RequestHeader("Stripe-Signature") String sigHeader) throws StripeException {
         Event event;
 
         try {
@@ -46,19 +56,11 @@ public class StripeWebHookController {
     }
 
 
-    private void handleCompletedSession(Session session) {
+    private void handleCompletedSession(Session session) throws StripeException {
         String productId = session.getMetadata().get("productId");
-        if (productId != null) {
-            System.out.println("Product ID: " + productId);
-        } else {
-            System.out.println("No product ID found in metadata");
-        }
-
         String userId = session.getMetadata().get("userId");
-        if (userId != null) {
-            System.out.println("User ID: " + userId);
-        } else {
-            System.out.println("No user ID found in metadata");
-        }
+
+        var product = stripeService.getProductById(productId);
+        transactionService.AddTransaction(userId, product.getAmount());
     }
 }
