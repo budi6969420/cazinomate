@@ -29,8 +29,8 @@ public class StripeService {
         Stripe.apiKey = stripeSecretKey;
     }
 
-    public String createPaymentLink(String bundleId, String userId) throws StripeException {
-        var product = getProductById(bundleId);
+    public String createPaymentLink(String productId, String userId) throws StripeException {
+        var product = getProductById(productId);
         try {
 
             SessionCreateParams params = SessionCreateParams.builder()
@@ -48,8 +48,8 @@ public class StripeService {
                                     .setQuantity(1L)
                                     .build())
                     .setMode(SessionCreateParams.Mode.PAYMENT)
-                    .putMetadata("bundle_id", bundleId)
-                    .putMetadata("user_id", userId)
+                    .putMetadata("productId", productId)
+                    .putMetadata("userId", userId)
                     .setSuccessUrl("https://stripe.com/")
                     .setCancelUrl("https://google.com/")
                     .build();
