@@ -25,6 +25,13 @@ li {
   transition: min-width var(--app-transition-time-medium) ease-in-out, width var(--app-transition-time-medium) ease-in-out;
   cursor: pointer;
   user-select: none;
+
+  span {
+    white-space: nowrap;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+    padding-right: var(--app-spacing-medium);
+  }
 }
 .icon {
   aspect-ratio: 1;
@@ -32,45 +39,41 @@ li {
   display: flex;
   align-items: center;
   justify-content: center;
-}
-.icon svg {
-  height: 45%;
-  flex-shrink: 0;
-  overflow: hidden;
+
+  svg {
+    height: 40%;
+    flex-shrink: 0;
+    overflow: hidden;
+  }
+
+  img {
+    height: 100%;
+  }
 }
 
-.icon img {
-  height: 100%;
-}
+ul {
+  > li {
+    border-radius: 0;
+    position: relative;
 
-li span {
-  white-space: nowrap;
-  opacity: 0;
-  transition: opacity 0.3s ease-in-out;
-  padding-right: var(--app-spacing-medium);
-}
+    &:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: calc(var(--app-spacing-medium)/2);
+      right: calc(var(--app-spacing-medium)/2);
+      height: 1px;
+      background: var(--app-color-background-secondary, rgba(255, 255, 255, 0.2));
+    }
 
-ul > li {
-  border-radius: 0;
-  position: relative;
-}
+    &:first-of-type {
+      border-radius: calc(var(--app-spacing-medium)/2) calc(var(--app-spacing-medium)/2) 0 0;
+    }
 
-ul > li:not(:last-child)::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: calc(var(--app-spacing-medium)/2);
-  right: calc(var(--app-spacing-medium)/2);
-  height: 1px;
-  background: var(--app-color-background-secondary, rgba(255, 255, 255, 0.2));
-}
-
-ul > li:first-of-type {
-  border-radius: calc(var(--app-spacing-medium)/2) calc(var(--app-spacing-medium)/2) 0 0;
-}
-
-ul > li:last-of-type {
-  border-radius: 0 0 calc(var(--app-spacing-medium)/2) calc(var(--app-spacing-medium)/2);
+    &:last-of-type {
+      border-radius: 0 0 calc(var(--app-spacing-medium)/2) calc(var(--app-spacing-medium)/2);
+    }
+  }
 }
 
 span {
@@ -79,11 +82,10 @@ span {
 }
 
 .expanded {
-  /* Instead of width: auto, use a CSS variable that holds a fixed pixel value */
   min-width: var(--expanded-menu-width, auto);
   width: var(--expanded-menu-width, auto);
-}
 
-.expanded > span {
-  opacity: 1;
+  > span {
+    opacity: 1;
+  }
 }

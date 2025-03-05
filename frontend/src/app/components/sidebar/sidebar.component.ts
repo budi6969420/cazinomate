@@ -5,7 +5,7 @@ import { Component, ElementRef, QueryList, ViewChildren, AfterViewInit } from '@
   standalone: true,
   imports: [],
   templateUrl: './sidebar.component.html',
-  styleUrl: './sidebar.component.css'
+  styleUrl: './sidebar.component.scss'
 })
 export class SidebarComponent implements AfterViewInit {
   menuIsExpanded: boolean = false;

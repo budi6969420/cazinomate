@@ -1,5 +1,4 @@
 :host {
-  flex: 1;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -7,9 +6,10 @@
   flex-wrap: wrap;
   background-color: var(--app-color-background-secondary);
   padding: var(--app-spacing-xsmall);
+  height: 55px;
 }
 img {
-  height: 54px;
+  height: 55px;
 }
 ul{
   display: flex;

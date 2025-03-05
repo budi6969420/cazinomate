@@ -1,8 +1,0 @@
-<h3>List of Hellos</h3>
-<ul>
-  @for(e of employees$ | async; track e.id) {
-    <li>
-      {{e.id }}, {{e.message}}
-    </li>
-  }
-</ul>
