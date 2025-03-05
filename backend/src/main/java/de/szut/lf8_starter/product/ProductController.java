@@ -29,8 +29,10 @@ public class ProductController {
     }
 
     @PostMapping("/{bundleId}")
-    public ResponseEntity<String> createBuyLink(@PathVariable String bundleId, @RequestHeader(value = "Authorization", required = false) String authorizationHeader) throws Exception {
+    public ResponseEntity<String> createBuyLink(@PathVariable String bundleId,
+                                                @RequestBody PaymentLinkCreationOptionsModel paymentLinkCreationModel,
+                                                @RequestHeader(value = "Authorization", required = false) String authorizationHeader) throws Exception {
         var userId = jwtService.decodeId(authorizationHeader);
-        return ResponseEntity.ok(stripeService.createPaymentLink(bundleId, userId));
+        return ResponseEntity.ok(stripeService.createPaymentLink(bundleId, userId, paymentLinkCreationModel.getSuccessUrl(), paymentLinkCreationModel.getCancelUrl()));
     }
 }

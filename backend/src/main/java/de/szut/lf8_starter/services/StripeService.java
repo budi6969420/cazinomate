@@ -29,7 +29,7 @@ public class StripeService {
         Stripe.apiKey = stripeSecretKey;
     }
 
-    public String createPaymentLink(String productId, String userId) throws StripeException {
+    public String createPaymentLink(String productId, String userId, String successUrl, String cancelUrl) throws StripeException {
         var product = getProductById(productId);
         try {
 
@@ -50,8 +50,8 @@ public class StripeService {
                     .setMode(SessionCreateParams.Mode.PAYMENT)
                     .putMetadata("productId", productId)
                     .putMetadata("userId", userId)
-                    .setSuccessUrl("https://stripe.com/")
-                    .setCancelUrl("https://google.com/")
+                    .setSuccessUrl(successUrl)
+                    .setCancelUrl(cancelUrl)
                     .build();
 
             Session session = Session.create(params);
