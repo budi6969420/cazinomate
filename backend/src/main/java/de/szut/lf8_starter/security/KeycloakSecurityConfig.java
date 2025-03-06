@@ -55,19 +55,18 @@ class KeycloakSecurityConfig {
 
 
     @Bean
-    public SecurityFilterChain resourceServerFilterChain(HttpSecurity http) throws Exception {
-        http.authorizeHttpRequests(auth -> auth
-                .requestMatchers(
-                        new AntPathRequestMatcher("/swagger"),
-                        new AntPathRequestMatcher("/swagger-ui/**"),
-                        new AntPathRequestMatcher("/v3/api-docs/**"))
-                .permitAll()
-                .anyRequest()
-                .authenticated()).oauth2ResourceServer(spec -> spec.jwt(Customizer.withDefaults()));
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        http
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/api/stripe-webhook").permitAll()
+                        .requestMatchers("/swagger", "/swagger-ui/**", "/v3/api-docs/**").permitAll()
+                        .anyRequest().authenticated()
+                )
+                .oauth2ResourceServer(oauth2 -> oauth2.jwt(Customizer.withDefaults()))
+                .csrf(csrf -> csrf.ignoringRequestMatchers("/api/stripe-webhook"));
+
         return http.build();
     }
-
-
 
     @Bean
     public JwtAuthenticationConverter jwtAuthenticationConverter() {
