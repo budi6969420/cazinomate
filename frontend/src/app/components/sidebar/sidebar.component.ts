@@ -10,7 +10,6 @@ import { Component, ElementRef, QueryList, ViewChildren, AfterViewInit } from '@
 export class SidebarComponent implements AfterViewInit {
   menuIsExpanded: boolean = false;
 
-  // Get all li elements with #menuItem
   @ViewChildren('menuItem') menuItems!: QueryList<ElementRef>;
 
   ngAfterViewInit(): void {
