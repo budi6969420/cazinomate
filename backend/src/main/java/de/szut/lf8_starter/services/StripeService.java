@@ -10,11 +10,10 @@ import com.stripe.model.checkout.Session;
 import com.stripe.param.PriceListParams;
 import com.stripe.param.ProductListParams;
 import com.stripe.param.checkout.SessionCreateParams;
-import de.szut.lf8_starter.models.ProductWithPriceModel;
+import de.szut.lf8_starter.product.ProductWithPriceModel;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

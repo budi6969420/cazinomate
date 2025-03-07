@@ -1,4 +1,4 @@
-package de.szut.lf8_starter.models;
+package de.szut.lf8_starter.product;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
