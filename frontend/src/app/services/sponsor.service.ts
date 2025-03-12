@@ -1,0 +1,22 @@
+import { Injectable } from '@angular/core';
+import {Observable} from "rxjs";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
+import {Sponsor} from "../models/sponsor";
+
+@Injectable({
+  providedIn: 'root'
+})
+export class SponsorService {
+
+  private apiUrl = 'http://localhost:8080/api/sponsor'; // API endpoint
+
+  constructor(private http: HttpClient) { }
+
+  getSponsors(): Observable<Sponsor[]> {
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICIxX3I2eDlta1B3cm9NWHQ5Q1Y4cktyak5WNndybktrWnI0Qk5xYW9QM2VVIn0.eyJleHAiOjE3NDE3NzU5MTIsImlhdCI6MTc0MTc3NTYxMiwianRpIjoiY2ExYmIyZmEtMDk4Yi00YTc4LThhZTMtZDU4MmYyYjgwMjQ3IiwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo5MDkwL3JlYWxtcy9MRjEyIiwiYXVkIjoiYWNjb3VudCIsInN1YiI6IjUyY2MwMjA4LWEzYmQtNDM2Ny05NGM1LTA0MDRiMDE2YTAwMyIsInR5cCI6IkJlYXJlciIsImF6cCI6ImxmMTIiLCJzZXNzaW9uX3N0YXRlIjoiZjZiM2JlOTMtNjQ1Yy00MTA4LWJiYmMtY2FjZTg3NmE4ZmVjIiwiYWNyIjoiMSIsImFsbG93ZWQtb3JpZ2lucyI6WyJodHRwOi8vbG9jYWxob3N0OjQyMDAiXSwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbImRlZmF1bHQtcm9sZXMtbGYxMiIsImxmMTJfdGVzdF9yb2xlIiwib2ZmbGluZV9hY2Nlc3MiLCJ1bWFfYXV0aG9yaXphdGlvbiJdfSwicmVzb3VyY2VfYWNjZXNzIjp7ImFjY291bnQiOnsicm9sZXMiOlsibWFuYWdlLWFjY291bnQiLCJtYW5hZ2UtYWNjb3VudC1saW5rcyIsInZpZXctcHJvZmlsZSJdfX0sInNjb3BlIjoicHJvZmlsZSBlbWFpbCIsInNpZCI6ImY2YjNiZTkzLTY0NWMtNDEwOC1iYmJjLWNhY2U4NzZhOGZlYyIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJwcmVmZXJyZWRfdXNlcm5hbWUiOiJsZjEyX3Rlc3RfdXNlciIsImVtYWlsIjoidXVAZy5jb20ifQ.oTC755H9ZzLfyxLC2htM3681gDIrB-BcVp1Vmm-mmTqIduGoY7492bJWMMoBlcU16u6vXlxjaf1lbTf7y2DHQnQGhKNVwMMbDvM9HQ7iFiNqGsTHr4Uf6OKUaQi4e29d4AjK6lwUGKTRUzM_Defm8nPDgrPEkurlM9eDHttBPcoNDRFb9d-R5mVJEoaoUd68NyGH3QB_9s_Ed8XeTGvJr-Jkyn9xfningXjvtAszDHCe8K2qnqYYNAXDE95P9CaAG714J-sEgD1wIRXsF9q9fnaOtOHJCGZtgRBJLILoki6Rdn9hir5PwX4qO0HN8wKn-T9eJmaNPzZ08a3QBXBwYA`
+    });
+
+    return this.http.get<Sponsor[]>(this.apiUrl, { headers: headers });
+  }
+}
