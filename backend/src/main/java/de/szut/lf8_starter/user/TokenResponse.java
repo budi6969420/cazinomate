@@ -1,4 +1,4 @@
-package de.szut.lf8_starter.models;
+package de.szut.lf8_starter.user;
 
 import lombok.Data;
 

@@ -2,9 +2,7 @@ package de.szut.lf8_starter.product;
 
 
 import com.stripe.exception.StripeException;
-import de.szut.lf8_starter.models.ProductWithPriceModel;
-import de.szut.lf8_starter.services.JWTService;
-import de.szut.lf8_starter.services.KeycloakService;
+import de.szut.lf8_starter.user.JwtService;
 import de.szut.lf8_starter.services.StripeService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,9 +14,9 @@ import java.util.List;
 public class ProductController {
 
     private final StripeService stripeService;
-    private final JWTService jwtService;
+    private final JwtService jwtService;
 
-    public ProductController(StripeService stripeService, JWTService jwtService) {
+    public ProductController(StripeService stripeService, JwtService jwtService) {
         this.stripeService = stripeService;
         this.jwtService = jwtService;
     }
