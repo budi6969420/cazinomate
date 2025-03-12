@@ -11,7 +11,7 @@
 
 li {
   list-style: none;
-  height: 55px;
+  height: var(--app-navbar-height);
   display: flex;
   align-items: center;
   flex-wrap: nowrap;
@@ -20,8 +20,8 @@ li {
   background: var(--app-color-background-tertiary);
   border-radius: calc(var(--app-spacing-small)/2);
   overflow: hidden;
-  min-width: 55px;
-  width: 55px;
+  min-width: var(--app-navbar-height);
+  width: var(--app-navbar-height);
   transition: min-width var(--app-transition-time-medium) ease-in-out, width var(--app-transition-time-medium) ease-in-out;
   cursor: pointer;
   user-select: none;

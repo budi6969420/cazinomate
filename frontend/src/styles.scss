@@ -13,6 +13,8 @@
   --app-spacing-big: 25px;
 
   --app-transition-time-medium: 0.3s;
+
+  --app-navbar-height: 55px;
 }
 
 * {
@@ -34,6 +36,12 @@ svg {
   height: 100%;
   fill: var(--app-color-text-primary)
 }
+
+h1{
+  font-size: 25px;
+  text-align: center;
+}
+
 button {
   color: var(--app-color-text-primary);
   padding: var(--app-spacing-small) var(--app-spacing-medium);
