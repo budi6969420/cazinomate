@@ -59,6 +59,11 @@ class KeycloakSecurityConfig {
         http
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/stripe-webhook").permitAll()
+
+                        .requestMatchers(HttpMethod.POST, "/api/sponsor").hasRole("admin")
+                        .requestMatchers(HttpMethod.PUT, "/api/sponsor").hasRole("admin")
+                        .requestMatchers(HttpMethod.DELETE, "/api/sponsor/**").hasRole("admin")
+
                         .requestMatchers("/swagger", "/swagger-ui/**", "/v3/api-docs/**").permitAll()
                         .anyRequest().authenticated()
                 )
