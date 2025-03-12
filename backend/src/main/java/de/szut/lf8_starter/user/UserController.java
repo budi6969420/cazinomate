@@ -1,8 +1,6 @@
 package de.szut.lf8_starter.user;
 
 
-import de.szut.lf8_starter.models.User;
-import de.szut.lf8_starter.services.JWTService;
 import de.szut.lf8_starter.services.KeycloakService;
 import de.szut.lf8_starter.transaction.BalanceDto;
 import de.szut.lf8_starter.transaction.TransactionService;
@@ -13,10 +11,10 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(value = "api/user")
 public class UserController {
     private final KeycloakService keycloakService;
-    private final JWTService jwtService;
+    private final JwtService jwtService;
     private final TransactionService transactionService;
 
-    public UserController(KeycloakService keycloakService, JWTService jwtService, TransactionService transactionService) {
+    public UserController(KeycloakService keycloakService, JwtService jwtService, TransactionService transactionService) {
         this.keycloakService = keycloakService;
         this.jwtService = jwtService;
         this.transactionService = transactionService;
