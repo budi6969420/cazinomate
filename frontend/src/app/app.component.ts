@@ -4,12 +4,13 @@ import { RouterOutlet } from '@angular/router';
 import {KeycloakAngularModule} from "keycloak-angular";
 import {SidebarComponent} from "./components/sidebar/sidebar.component";
 import {NavbarComponent} from "./components/navbar/navbar.component";
-import {SponsorshipsComponent} from "./components/sponsorships/sponsorships.component";
+import {CookieConsentComponent} from "./components/cookie-consent/cookie-consent.component";
+
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, RouterOutlet, KeycloakAngularModule, SidebarComponent, NavbarComponent, SponsorshipsComponent],
+  imports: [CommonModule, RouterOutlet, KeycloakAngularModule, SidebarComponent, NavbarComponent, CookieConsentComponent],
   providers: [ ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
