@@ -1,6 +1,42 @@
 <main>
   <h1>Einstellungen</h1>
-  <app-pseudo-text-input label="E-Mail" placeholder="email@mail.il" [isVerified]="true"></app-pseudo-text-input>
-  <app-pseudo-text-input label="Benutzername" placeholder="benutzername" [isEditable]="true"></app-pseudo-text-input>
-  <app-pseudo-text-input label="Passwort" [isEditable]="true" [isPassword]="true"></app-pseudo-text-input>
+
+  <div class="container">
+    <div class="overview">
+      <app-pseudo-text-input label="E-Mail" placeholder="email@mail.il" [isVerified]="true"></app-pseudo-text-input>
+      <app-pseudo-text-input label="Benutzername" placeholder="benutzername" [isEditable]="true" [settingsBox]="usernameBox"></app-pseudo-text-input>
+      <app-pseudo-text-input label="Passwort" [isEditable]="true" [isPassword]="true" [settingsBox]="passwordBox"></app-pseudo-text-input>
+    </div>
+
+    <div class="settings_box" #usernameBox>
+      <span>
+        <label>Aktueller Benutzername</label>
+        <input type="text" value="BENUTZERNAME" disabled>
+      </span>
+      <span>
+        <label>Neuer Benutzername</label>
+        <input type="text">
+      </span>
+      <div class="buttons">
+        <button class="red-button" (click)="closeUsernameBox()">Zurück</button>
+        <button class="green-button" (click)="closeUsernameBox(true)">Speichern</button>
+      </div>
+    </div>
+
+    <div class="settings_box" #passwordBox>
+      <span>
+        <label>Neues Passwort</label>
+        <input type="password">
+      </span>
+      <span>
+        <label>Passwort wiederholen</label>
+        <input type="password">
+      </span>
+      <div class="buttons">
+        <button class="red-button" (click)="closePasswordBox()">Zurück</button>
+        <button class="green-button" (click)="closePasswordBox(true)">Speichern</button>
+      </div>
+    </div>
+
+  </div>
 </main>

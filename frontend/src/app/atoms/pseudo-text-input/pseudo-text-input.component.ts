@@ -16,4 +16,9 @@ export class PseudoTextInputComponent {
   @Input() isPassword!: boolean;
   @Input() isEditable!: boolean;
   @Input() isVerified!: boolean;
+  @Input() settingsBox!: HTMLDivElement;
+
+  showModal(): void {
+    this.settingsBox.style.display = "flex";
+  }
 }

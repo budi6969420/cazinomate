@@ -4,7 +4,7 @@
   --app-color-background-tertiary: #4E4E4E;
   --app-color-text-primary: white;
   --app-color-text-secondary: #c5c5c5;
-  --app-color-text-error: #CD5353;
+  --app-color-red: #CD5353;
   --app-color-green: #16B858;
 
   --app-spacing-xsmall: 10px;
@@ -54,4 +54,7 @@ button {
 }
 .green-button {
   background-color: var(--app-color-green);
+}
+.red-button {
+  background-color: var(--app-color-red);
 }
