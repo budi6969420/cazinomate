@@ -14,4 +14,5 @@ public class SponsorModel {
 
     private String name;
     private String imageUrl;
+    private String url;
 }

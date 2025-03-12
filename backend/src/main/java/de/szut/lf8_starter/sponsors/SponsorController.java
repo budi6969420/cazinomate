@@ -25,6 +25,7 @@ public class SponsorController {
         var model = new SponsorModel();
         model.setName(addSponsorDto.getName());
         model.setImageUrl(addSponsorDto.getImageUrl());
+        model.setUrl(addSponsorDto.getUrl());
         return ResponseEntity.ok(this.sponsorService.createSponsor(model));
     }
 

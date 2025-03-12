@@ -6,4 +6,5 @@ import lombok.Data;
 public class AddSponsorDto {
     private String name;
     private String imageUrl;
+    private String url;
 }
