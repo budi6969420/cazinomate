@@ -8,7 +8,7 @@ import {Sponsor} from "../models/sponsor";
 })
 export class SponsorService {
 
-  private apiUrl = 'http://localhost:8080/api/sponsor'; // API endpoint
+  private apiUrl = 'http://localhost:8080/api/sponsor';
 
   constructor(private http: HttpClient) { }
 

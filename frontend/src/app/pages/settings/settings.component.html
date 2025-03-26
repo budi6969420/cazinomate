@@ -15,7 +15,7 @@
       </span>
       <span>
         <label>Neuer Benutzername</label>
-        <input type="text">
+        <input type="text" #newUsername>
       </span>
       <div class="buttons">
         <button class="red-button" (click)="closeUsernameBox()">Zurück</button>
@@ -26,15 +26,15 @@
     <div class="settings_box" #passwordBox>
       <span>
         <label>Neues Passwort</label>
-        <input type="password">
+        <input type="password" #newPassword>
       </span>
       <span>
         <label>Passwort wiederholen</label>
-        <input type="password">
+        <input type="password" #repeatedNewPassword>
       </span>
       <div class="buttons">
         <button class="red-button" (click)="closePasswordBox()">Zurück</button>
-        <button class="green-button" (click)="closePasswordBox(true)">Speichern</button>
+        <button class="green-button" (click)="closePasswordBox(true)" [disabled]="!newPasswordsAreEqual()">Speichern</button>
       </div>
     </div>
 
