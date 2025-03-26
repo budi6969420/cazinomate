@@ -6,5 +6,5 @@ import {SettingsComponent} from "./pages/settings/settings.component";
 
 export const routes: Routes = [
   {path: '', component: HomeComponent},
-  {path: 'settings', component: SettingsComponent}
+  {path: 'settings', component: SettingsComponent, canActivate: [authGuard]}
 ];
