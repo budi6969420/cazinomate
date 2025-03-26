@@ -18,7 +18,7 @@ li {
   flex-direction: row;
   gap: var(--app-spacing-xsmall);
   background: var(--app-color-background-tertiary);
-  border-radius: calc(var(--app-spacing-small) / 2);
+  border-radius: calc(var(--app-spacing-small)/2);
   overflow: hidden;
   min-width: 55px;
   width: 55px;
@@ -33,7 +33,6 @@ li {
     padding-right: var(--app-spacing-medium);
   }
 }
-
 .icon {
   aspect-ratio: 1;
   height: 100%;
@@ -61,18 +60,18 @@ ul {
       content: '';
       position: absolute;
       bottom: 0;
-      left: calc(var(--app-spacing-medium) / 2);
-      right: calc(var(--app-spacing-medium) / 2);
+      left: calc(var(--app-spacing-medium)/2);
+      right: calc(var(--app-spacing-medium)/2);
       height: 1px;
       background: var(--app-color-background-secondary, rgba(255, 255, 255, 0.2));
     }
 
     &:first-of-type {
-      border-radius: calc(var(--app-spacing-medium) / 2) calc(var(--app-spacing-medium) / 2) 0 0;
+      border-radius: calc(var(--app-spacing-medium)/2) calc(var(--app-spacing-medium)/2) 0 0;
     }
 
     &:last-of-type {
-      border-radius: 0 0 calc(var(--app-spacing-medium) / 2) calc(var(--app-spacing-medium) / 2);
+      border-radius: 0 0 calc(var(--app-spacing-medium)/2) calc(var(--app-spacing-medium)/2);
     }
   }
 }

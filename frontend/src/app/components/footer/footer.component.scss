@@ -1,11 +1,5 @@
 :host {
-  position: fixed;
-  bottom: 0;
-  right: 0;
   z-index: 999;
-}
-
-footer {
   background: var(--app-color-background-secondary);
   padding: 40px 90px;
   height: 579px;
