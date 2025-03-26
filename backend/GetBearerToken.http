@@ -3,4 +3,11 @@ Content-Type: application/x-www-form-urlencoded
 
 grant_type=password&client_id=lf12&username=lf12_test_user&password=secret
 
+###
+
+POST http://localhost:9090/realms/LF12/protocol/openid-connect/token
+Content-Type: application/x-www-form-urlencoded
+
+grant_type=password&client_id=lf12&username=admin&password=admin
+
 

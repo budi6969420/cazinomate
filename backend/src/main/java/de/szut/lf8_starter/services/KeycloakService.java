@@ -1,15 +1,13 @@
 package de.szut.lf8_starter.services;
 
-import de.szut.lf8_starter.models.TokenResponse;
-import de.szut.lf8_starter.models.User;
+import de.szut.lf8_starter.user.TokenResponse;
+import de.szut.lf8_starter.user.User;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
-
-import java.util.Map;
 
 @Service
 public class KeycloakService {

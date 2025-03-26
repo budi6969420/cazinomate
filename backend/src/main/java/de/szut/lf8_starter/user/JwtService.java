@@ -1,4 +1,4 @@
-package de.szut.lf8_starter.services;
+package de.szut.lf8_starter.user;
 
 import java.util.Base64;
 import java.util.Map;
@@ -7,7 +7,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Service;
 
 @Service
-public class JWTService {
+public class JwtService {
 
     private Map<String, Object> decodeJWT(String bearerToken) throws Exception {
         if (bearerToken == null || !bearerToken.startsWith("Bearer ")) {
