@@ -3,15 +3,15 @@
 
   <div class="container">
     <div class="overview">
-      <app-pseudo-text-input label="E-Mail" placeholder="email@mail.il" [isVerified]="true"></app-pseudo-text-input>
-      <app-pseudo-text-input label="Benutzername" placeholder="benutzername" [isEditable]="true" [settingsBox]="usernameBox"></app-pseudo-text-input>
+      <app-pseudo-text-input label="E-Mail" [placeholder]="user.email" [isVerified]="user.emailVerified"></app-pseudo-text-input>
+      <app-pseudo-text-input label="Benutzername" [placeholder]="user.username" [isEditable]="true" [settingsBox]="usernameBox"></app-pseudo-text-input>
       <app-pseudo-text-input label="Passwort" [isEditable]="true" [isPassword]="true" [settingsBox]="passwordBox"></app-pseudo-text-input>
     </div>
 
     <div class="settings_box" #usernameBox>
       <span>
         <label>Aktueller Benutzername</label>
-        <input type="text" value="BENUTZERNAME" disabled>
+        <input type="text" value="{{user.username}}" disabled>
       </span>
       <span>
         <label>Neuer Benutzername</label>
