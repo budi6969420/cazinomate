@@ -19,6 +19,6 @@ public class SlotsGame extends BaseGame {
     }
     @Override
     public String getPreviewHexColor() {
-        return "#000000";
+        return "#EE0D0D";
     }
 }

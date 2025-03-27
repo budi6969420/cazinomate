@@ -20,6 +20,6 @@ public class CrossyRoadBangBangGame extends BaseGame {
 
     @Override
     public String getPreviewHexColor() {
-        return "#FFFFFF";
+        return "#2A03C7";
     }
 }
