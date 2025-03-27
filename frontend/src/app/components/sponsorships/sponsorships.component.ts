@@ -15,11 +15,11 @@ import {Sponsor} from "../../models/sponsor";
 export class SponsorshipsComponent{
   sponsors: Sponsor[] = [];
   sponsorPlaceholders: Sponsor[] = [
-    { "id": 1, "name": "PLACEHOLDER", "imageUrl": "https://placehold.co/600x300", "url": "https://placehold.co/600x300" },
-    { "id": 2, "name": "PLACEHOLDER", "imageUrl": "https://placehold.co/600x300", "url": "https://placehold.co/600x300" },
-    { "id": 3, "name": "PLACEHOLDER", "imageUrl": "https://placehold.co/600x300", "url": "https://placehold.co/600x300" },
-    { "id": 4, "name": "PLACEHOLDER", "imageUrl": "https://placehold.co/600x300", "url": "https://placehold.co/600x300" },
-    { "id": 5, "name": "PLACEHOLDER", "imageUrl": "https://placehold.co/600x300", "url": "https://placehold.co/600x300" }
+    { "id": 1, "name": "PLACEHOLDER", "imageUrl": "https://placehold.co/600x300", "url": "https://placehold.co/600x300", "isVip": false },
+    { "id": 2, "name": "PLACEHOLDER", "imageUrl": "https://placehold.co/600x300", "url": "https://placehold.co/600x300", "isVip": false  },
+    { "id": 3, "name": "PLACEHOLDER", "imageUrl": "https://placehold.co/600x300", "url": "https://placehold.co/600x300", "isVip": false  },
+    { "id": 4, "name": "PLACEHOLDER", "imageUrl": "https://placehold.co/600x300", "url": "https://placehold.co/600x300", "isVip": false  },
+    { "id": 5, "name": "PLACEHOLDER", "imageUrl": "https://placehold.co/600x300", "url": "https://placehold.co/600x300", "isVip": false  }
   ];
 
   constructor(private service: SponsorService) {
