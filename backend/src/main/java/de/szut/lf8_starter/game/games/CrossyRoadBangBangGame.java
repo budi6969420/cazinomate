@@ -17,4 +17,9 @@ public class CrossyRoadBangBangGame extends BaseGame {
     public String getPreviewImageUrl() {
         return "https://static.wikia.nocookie.net/crossyroad/images/7/73/CrossyRoad_Chicken_x_AmongUs_RedCrewmate.png/revision/latest?cb=20240924183713";
     }
+
+    @Override
+    public String getPreviewHexColor() {
+        return "#FFFFFF";
+    }
 }

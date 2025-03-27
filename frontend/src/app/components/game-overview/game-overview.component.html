@@ -1,0 +1,15 @@
+<div class="search">
+  <input type="text" placeholder="Nach Spielen suchen..." #searchInput (input)="filterGames()"/>
+  <button (click)="clearSearchInput()">x</button>
+</div>
+
+<h1>CazinoMate - Spiele</h1>
+
+<div class="gameTiles">
+    <a *ngFor="let game of filteredGames">
+      <img [src]="game.previewImageUrl">
+      <div style="--preview-bg-color: {{game.previewHexColor}};">
+        <h1>{{game.title}}</h1>
+      </div>
+    </a>
+</div>
