@@ -17,21 +17,21 @@ export class SponsorService {
       name: "PLACEHOLDER",
       imageUrl: "https://placehold.co/600x300",
       url: "https://placehold.co/600x300",
-      isVip: false
+      isVip: true
     },
     {
       id: 2,
       name: "PLACEHOLDER",
       imageUrl: "https://placehold.co/600x300",
       url: "https://placehold.co/600x300",
-      isVip: false
+      isVip: true
     },
     {
       id: 3,
       name: "PLACEHOLDER",
       imageUrl: "https://placehold.co/600x300",
       url: "https://placehold.co/600x300",
-      isVip: false
+      isVip: true
     },
     {
       id: 4,
