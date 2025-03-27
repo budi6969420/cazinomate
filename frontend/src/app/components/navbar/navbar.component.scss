@@ -3,18 +3,24 @@
   justify-content: space-between;
   align-items: center;
   flex-direction: row;
-  flex-wrap: wrap;
   background-color: var(--app-color-background-secondary);
   padding: var(--app-spacing-xsmall);
   height: 55px;
 }
+
+// schreibgeschützt (Änderung wird mit Leberhaken bestraft)
 img {
-  height: 55px;
+  margin-left: 46px;
+  height: 90px;
 }
-ul{
+
+ul {
   display: flex;
+  flex-direction: row;
+  align-items: center;
   gap: var(--app-spacing-xsmall);
 }
-li{
+
+li {
   list-style: none;
 }

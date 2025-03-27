@@ -1,7 +1,6 @@
 :host {
-  z-index: 999;
   background: var(--app-color-background-secondary);
-  padding: 40px 90px;
+  padding: 40px var(--app-margin-left-to-sidebar);
   height: 579px;
   display: flex;
   flex-direction: column;
