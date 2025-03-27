@@ -1,4 +1,5 @@
 :host {
+  z-index: 999;
   display: flex;
   flex-direction: column;
   background: var(--app-color-background-secondary);
@@ -7,6 +8,7 @@
   font-weight: bold;
   padding: var(--app-spacing-xsmall);
   gap: var(--app-spacing-small);
+  box-shadow: 1px 0 10px var(--app-color-background-primary);
 }
 
 li {

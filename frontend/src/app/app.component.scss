@@ -19,6 +19,7 @@ main {
   flex-wrap: nowrap;
   align-items: stretch;
   gap: var(--app-spacing-big);
+  overflow-y: scroll
 }
 
 main > div {
