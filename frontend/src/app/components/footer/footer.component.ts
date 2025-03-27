@@ -10,6 +10,6 @@ import {SponsorService} from "../../services/sponsor.service";
 })
 export class FooterComponent {
   currentYear: number = new Date().getFullYear();
-  constructor(sponsorService: SponsorService) {
+  constructor(protected sponsorService: SponsorService) {
   }
 }

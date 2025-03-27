@@ -33,14 +33,7 @@
 </div>
 <hr>
 <div id="bottomWrapper">
-  <img src="/images/goenrgy-logo.svg" alt="sponsor logo">
-  <img src="/images/prime-logo.svg" alt="sponsor logo">
-  <img src="/images/onlyfans-logo.svg" alt="sponsor logo">
-  <div id="brnsLogo">
-    <img src="/images/prod-by-brns-logo.png" alt="sponsor logo">
-    <div>
-      <h1>BEATS</h1>
-      <p>by prodBrns</p>
-    </div>
-  </div>
+  @for (sponsor of sponsorService.getVipSponsors(); track sponsor.id) {
+    <img [src]="sponsor.imageUrl" [alt]="sponsor.name">
+  }
 </div>

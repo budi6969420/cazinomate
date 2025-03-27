@@ -67,4 +67,8 @@ export class SponsorService {
   private getSponsors(): Observable<Sponsor[]> {
     return this.http.get<Sponsor[]>(this.apiUrl);
   }
+
+  public getVipSponsors() : Sponsor[] {
+    return this.sponsors.filter(x => x.isVip);
+  }
 }

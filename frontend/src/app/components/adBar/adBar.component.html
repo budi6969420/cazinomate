@@ -7,7 +7,7 @@
 
   <div class="logos-slide">
     @for (sponsor of service.sponsors; track sponsor.id) {
-      <img [src]="(sponsor.imageUrl)">
+      <img [src]="(sponsor.imageUrl)" [alt]="sponsor.name">
     }
   </div>
 </div>
