@@ -2,13 +2,15 @@ import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {NgForOf, NgIf} from "@angular/common";
 import {GameMetadataService} from "../../services/game-metadata.service";
 import {GameMetadata} from "../../models/gameMetadata";
+import {RouterLink} from "@angular/router";
 
 @Component({
   selector: 'app-game-overview',
   standalone: true,
   imports: [
     NgForOf,
-    NgIf
+    NgIf,
+    RouterLink
   ],
   templateUrl: './game-overview.component.html',
   styleUrl: './game-overview.component.scss'

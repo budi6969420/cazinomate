@@ -6,7 +6,7 @@
 <h1>CazinoMate - Spiele</h1>
 
 <div class="gameTiles">
-    <a *ngFor="let game of filteredGames">
+    <a *ngFor="let game of filteredGames" routerLink="/game/{{game.id}}">
       <img [src]="game.previewImageUrl">
       <div style="--preview-bg-color: {{game.previewHexColor}};">
         <h1>{{game.title}}</h1>
