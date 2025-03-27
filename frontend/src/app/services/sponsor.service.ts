@@ -10,9 +10,61 @@ export class SponsorService {
 
   private apiUrl = 'http://localhost:8080/api/sponsor';
 
-  constructor(private http: HttpClient) { }
+  public sponsors: Sponsor[] = [];
+  private sponsorPlaceholders: Sponsor[] = [
+    {
+      id: 1,
+      name: "PLACEHOLDER",
+      imageUrl: "https://placehold.co/600x300",
+      url: "https://placehold.co/600x300",
+      isVip: false
+    },
+    {
+      id: 2,
+      name: "PLACEHOLDER",
+      imageUrl: "https://placehold.co/600x300",
+      url: "https://placehold.co/600x300",
+      isVip: false
+    },
+    {
+      id: 3,
+      name: "PLACEHOLDER",
+      imageUrl: "https://placehold.co/600x300",
+      url: "https://placehold.co/600x300",
+      isVip: false
+    },
+    {
+      id: 4,
+      name: "PLACEHOLDER",
+      imageUrl: "https://placehold.co/600x300",
+      url: "https://placehold.co/600x300",
+      isVip: false
+    },
+    {
+      id: 5,
+      name: "PLACEHOLDER",
+      imageUrl: "https://placehold.co/600x300",
+      url: "https://placehold.co/600x300",
+      isVip: false
+    }
+  ];
 
-  getSponsors(): Observable<Sponsor[]> {
+  constructor(private http: HttpClient) {
+    this.getSponsors().subscribe({
+      next: (sponsors) => {
+        if (sponsors && sponsors.length > 0) {
+          this.sponsors = sponsors;
+        } else {
+          this.sponsors = this.sponsorPlaceholders;
+        }
+      },
+      error: () => {
+        this.sponsors = this.sponsorPlaceholders;
+      }
+    });
+  }
+
+  private getSponsors(): Observable<Sponsor[]> {
     return this.http.get<Sponsor[]>(this.apiUrl);
   }
 }

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {SponsorshipsComponent} from "../../components/sponsorships/sponsorships.component";
+import {SponsorshipsComponent} from "../../components/adBar/sponsorships.component";
 
 @Component({
   selector: 'app-home',
