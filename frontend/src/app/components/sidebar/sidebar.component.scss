@@ -33,6 +33,7 @@ li {
     opacity: 0;
     transition: opacity 0.3s ease-in-out;
     padding-right: var(--app-spacing-medium);
+    text-wrap: wrap;
   }
 }
 .icon {
@@ -41,6 +42,8 @@ li {
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 55px;
+
 
   svg {
     height: 40%;
@@ -49,7 +52,9 @@ li {
   }
 
   img {
+    width: 100%;
     height: 100%;
+    object-fit: cover
   }
 }
 

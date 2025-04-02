@@ -1,4 +1,5 @@
 import { Component, ElementRef, QueryList, ViewChildren, AfterViewInit } from '@angular/core';
+import {GameMetadataService} from "../../services/game-metadata.service";
 
 @Component({
   selector: 'app-sidebar',
@@ -9,6 +10,9 @@ import { Component, ElementRef, QueryList, ViewChildren, AfterViewInit } from '@
 })
 export class SidebarComponent implements AfterViewInit {
   menuIsExpanded: boolean = false;
+
+  constructor(protected gameMetaDataService: GameMetadataService) {
+  }
 
   @ViewChildren('menuItem') menuItems!: QueryList<ElementRef>;
 
