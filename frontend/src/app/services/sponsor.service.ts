@@ -38,14 +38,14 @@ export class SponsorService {
       name: "PLACEHOLDER",
       imageUrl: "https://placehold.co/600x300",
       url: "https://placehold.co/600x300",
-      isVip: false
+      isVip: true
     },
     {
       id: 5,
       name: "PLACEHOLDER",
       imageUrl: "https://placehold.co/600x300",
       url: "https://placehold.co/600x300",
-      isVip: false
+      isVip: true
     }
   ];
 
@@ -69,6 +69,6 @@ export class SponsorService {
   }
 
   public getVipSponsors() : Sponsor[] {
-    return this.sponsors.filter(x => x.isVip);
+    return this.sponsors.filter(x => x.isVip).slice(0, 5);
   }
 }
