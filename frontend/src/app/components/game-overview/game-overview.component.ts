@@ -18,9 +18,10 @@ import { Subscription } from 'rxjs';
 })
 export class GameOverviewComponent {
   @ViewChild("searchInput") searchInput!: ElementRef;
-  filteredGames: GameMetadata[] = [];
+  filteredGames: GameMetadata[] = []
 
   constructor(private gameMetadataService: GameMetadataService) {
+    this.filteredGames = this.gameMetadataService.gameMetadatas;
   }
 
   updateFilteredGames(): void {
