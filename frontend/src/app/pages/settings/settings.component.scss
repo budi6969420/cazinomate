@@ -16,6 +16,10 @@ main {
   padding: var(--app-spacing-big);
   border-radius: calc(var(--app-spacing-xsmall) / 2);
 }
+h1{
+  font-size: 25px;
+  text-align: center;
+}
 .overview {
   display: flex;
   flex-direction: column;
