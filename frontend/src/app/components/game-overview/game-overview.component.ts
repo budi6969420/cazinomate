@@ -26,11 +26,11 @@ export class GameOverviewComponent {
   updateFilteredGames(): void {
     const searchTerm = this.searchInput.nativeElement.value.toLowerCase();
     if (searchTerm) {
-      this.filteredGames = this.gameMetadataService.getGameMetadatas().filter(game =>
+      this.filteredGames = this.gameMetadataService.gameMetadatas.filter(game =>
         game.title.toLowerCase().includes(searchTerm)
       );
     } else {
-      this.filteredGames = [...this.gameMetadataService.getGameMetadatas()];
+      this.filteredGames = [...this.gameMetadataService.gameMetadatas];
     }
   }
 
