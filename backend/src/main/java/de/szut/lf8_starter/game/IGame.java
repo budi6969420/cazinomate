@@ -4,6 +4,7 @@ public interface IGame {
     String getId();
     String getTitle();
     String getPreviewImageUrl();
+    String getPreviewHexColor();
 
     GameMetadata getMetadata();
 }
