@@ -17,4 +17,8 @@ public class SlotsGame extends BaseGame {
     public String getPreviewImageUrl() {
         return "https://cdn.vectorstock.com/i/500p/28/62/casino-slot-machine-777-jackpot-winning-game-vector-23732862.jpg";
     }
+    @Override
+    public String getPreviewHexColor() {
+        return "#EE0D0D";
+    }
 }
