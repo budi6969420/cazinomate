@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import {KeycloakService} from "keycloak-angular";
 
 @Component({
   selector: 'app-navbar',
@@ -9,4 +10,14 @@ import { Component } from '@angular/core';
 })
 export class NavbarComponent {
 
+  constructor(private keycloakService: KeycloakService) {
+  }
+
+  async onLogin() {
+    await this.keycloakService.login();
+  }
+
+  async onRegister() {
+    await this.keycloakService.register();
+  }
 }

@@ -18,7 +18,7 @@ export const initializeKeycloak = (keycloak: KeycloakService) => async () =>
       silentCheckSsoRedirectUri:
         window.location.origin + '/silent-check-sso.html',
       checkLoginIframe: false,
-      redirectUri: 'http://localhost:4200',
+      redirectUri: window.location.origin,
     },
   });
 
