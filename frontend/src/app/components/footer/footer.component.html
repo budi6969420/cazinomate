@@ -13,8 +13,9 @@
 <div id="midWrapper">
   <ul>
     <h3>Casino</h3>
-    <li>Crossy Road</li>
-    <li>Slots</li>
+    @for (gameMetadata of gameMetaDataService.gameMetadatas; track gameMetadata.id) {
+      <li>{{gameMetadata.title}}</li>
+    }
   </ul>
   <ul>
     <h3>Support</h3>

@@ -1,5 +1,6 @@
 import {Component} from '@angular/core';
 import {SponsorService} from "../../services/sponsor.service";
+import {GameMetadataService} from "../../services/game-metadata.service";
 
 @Component({
   selector: 'app-footer',
@@ -10,6 +11,6 @@ import {SponsorService} from "../../services/sponsor.service";
 })
 export class FooterComponent {
   currentYear: number = new Date().getFullYear();
-  constructor(protected sponsorService: SponsorService) {
+  constructor(protected sponsorService: SponsorService, protected gameMetaDataService: GameMetadataService) {
   }
 }
