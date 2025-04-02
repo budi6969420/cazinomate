@@ -11,11 +11,11 @@ import {NgIf} from "@angular/common";
   styleUrl: './pseudo-text-input.component.scss'
 })
 export class PseudoTextInputComponent {
-  @Input() label!: string;
-  @Input() placeholder!: string;
-  @Input() isPassword!: boolean;
-  @Input() isEditable!: boolean;
-  @Input() isVerified!: boolean;
+  @Input() label!: string | undefined;
+  @Input() placeholder!: string | undefined;
+  @Input() isPassword!: boolean | undefined;
+  @Input() isEditable!: boolean | undefined;
+  @Input() isVerified!: boolean | undefined;
   @Input() settingsBox!: HTMLDivElement;
 
   showModal(): void {

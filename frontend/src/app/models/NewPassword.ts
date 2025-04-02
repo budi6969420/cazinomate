@@ -1,9 +1,9 @@
 export class NewPassword {
   password: string;
-  repeatedPassword: string;
+  currentPassword: string;
 
-  constructor(password: string, repeatedPassword: string) {
+  constructor(password: string, currentPassword: string) {
     this.password = password;
-    this.repeatedPassword = repeatedPassword;
+    this.currentPassword = currentPassword;
   }
 }

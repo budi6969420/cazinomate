@@ -18,12 +18,10 @@ export class UserService {
   getUserInfo(): Observable<User>{
     return this.http.get<User>(this.apiUrl + "/self");
   }
-
-  changePassword(userPassword: NewPassword): void{
-    this.http.put<NewPassword>(this.apiUrl + "/password", userPassword).subscribe()
+  changeUsername(username: NewUsername): Observable<User>{
+    return this.http.put<User>(this.apiUrl + "/username", username);
   }
-  changeUsername(username: NewUsername): void{
-    this.http.put<NewUsername>(this.apiUrl + "/username", username).subscribe()
-
+  changePassword(userPassword: NewPassword): Observable<User>{
+    return this.http.put<User>(this.apiUrl + "/password", userPassword);
   }
 }
