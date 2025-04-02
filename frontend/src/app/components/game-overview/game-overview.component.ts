@@ -16,12 +16,20 @@ import { Subscription } from 'rxjs';
   templateUrl: './game-overview.component.html',
   styleUrl: './game-overview.component.scss'
 })
-export class GameOverviewComponent {
+export class GameOverviewComponent implements OnInit{
   @ViewChild("searchInput") searchInput!: ElementRef;
   filteredGames: GameMetadata[] = []
+  dataLoadedSubscription: Subscription | null = null;
 
-  constructor(private gameMetadataService: GameMetadataService) {
-    this.filteredGames = this.gameMetadataService.gameMetadatas;
+  constructor(protected gameMetadataService: GameMetadataService) {
+  }
+
+  ngOnInit(): void {
+    this.dataLoadedSubscription = this.gameMetadataService.dataLoaded$.subscribe(
+      (loadedMetadatas) => {
+        this.filteredGames = [...loadedMetadatas];
+      }
+    );
   }
 
   updateFilteredGames(): void {

@@ -1,9 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
-import { Observable, BehaviorSubject, ReplaySubject, of } from "rxjs";
+import { Observable, ReplaySubject } from "rxjs";
 import { GameMetadata } from "../models/gameMetadata";
-import { tap, catchError } from 'rxjs/operators';
-import {Sponsor} from "../models/sponsor";
 
 @Injectable({
   providedIn: 'root'
@@ -11,6 +9,8 @@ import {Sponsor} from "../models/sponsor";
 export class GameMetadataService {
   private apiUrl = 'http://localhost:8080/api/game';
   gameMetadatas: GameMetadata[] = [];
+  private dataLoadedSubject = new ReplaySubject<GameMetadata[]>(1);
+  public dataLoaded$: Observable<GameMetadata[]> = this.dataLoadedSubject.asObservable();
   gameMetadatasPlacholders: GameMetadata[] = [
     {
       "id":"39c63177-b7ad-478b-a009-69b8fa043e6f",
@@ -34,6 +34,7 @@ export class GameMetadataService {
         } else {
           this.gameMetadatas = this.gameMetadatasPlacholders;
         }
+        this.dataLoadedSubject.next(this.gameMetadatas);
       },
       error: () => {
         this.gameMetadatas = this.gameMetadatasPlacholders;
