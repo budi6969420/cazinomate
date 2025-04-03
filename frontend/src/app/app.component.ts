@@ -7,12 +7,11 @@ import {NavbarComponent} from "./components/navbar/navbar.component";
 import {CookieConsentComponent} from "./components/cookie-consent/cookie-consent.component";
 
 @Component({
-  selector: 'app-root',
-  standalone: true,
-  imports: [CommonModule, RouterOutlet, KeycloakAngularModule, SidebarComponent, NavbarComponent, CookieConsentComponent],
-  providers: [ ],
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+    selector: 'app-root',
+    imports: [CommonModule, RouterOutlet, KeycloakAngularModule, SidebarComponent, NavbarComponent, CookieConsentComponent],
+    providers: [],
+    templateUrl: './app.component.html',
+    styleUrl: './app.component.scss'
 })
 export class AppComponent{
 

@@ -1,16 +1,16 @@
 import { Component } from '@angular/core';
-import {KeycloakService} from "keycloak-angular";
+import Keycloak from "keycloak-js";
+import {KeycloakAuthService} from "../../services/keycloak-auth.service";
 
 @Component({
-  selector: 'app-navbar',
-  standalone: true,
-  imports: [],
-  templateUrl: './navbar.component.html',
-  styleUrl: './navbar.component.scss'
+    selector: 'app-navbar',
+    imports: [],
+    templateUrl: './navbar.component.html',
+    styleUrl: './navbar.component.scss'
 })
 export class NavbarComponent {
 
-  constructor(private keycloakService: KeycloakService) {
+  constructor(protected  keycloakService: KeycloakAuthService) {
   }
 
   async onLogin() {
@@ -19,5 +19,9 @@ export class NavbarComponent {
 
   async onRegister() {
     await this.keycloakService.register();
+  }
+
+  async onLogout() {
+    await this.keycloakService.logout();
   }
 }
