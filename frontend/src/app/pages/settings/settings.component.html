@@ -2,11 +2,37 @@
   <h1>Einstellungen</h1>
 
   <div class="container">
-    <div class="overview">
-      <app-pseudo-text-input label="E-Mail" [placeholder]="user?.email" [isVerified]="user?.emailVerified"></app-pseudo-text-input>
-      <app-pseudo-text-input label="Benutzername" [placeholder]="user?.username" [isEditable]="true" [settingsBox]="usernameBox"></app-pseudo-text-input>
-      <app-pseudo-text-input label="Passwort" [isEditable]="true" [isPassword]="true" [settingsBox]="passwordBox"></app-pseudo-text-input>
-    </div>
+      <div class="overview">
+
+          <div class="setting">
+              <div class="meta">
+                  <div class="title">
+                      <h3>E-Mail</h3>
+                      <span>Bestätigt</span>
+                  </div>
+                  <span>{{user?.email}}</span>
+              </div>
+          </div>
+          <div class="setting">
+              <div class="meta">
+                  <div class="title">
+                      <h3>Benutzername</h3>
+                  </div>
+                  <span>{{user?.username}}</span>
+              </div>
+              <button (click)="showUsernameBox()">Benutzernamen ändern</button>
+          </div>
+          <div class="setting">
+              <div class="meta">
+                  <div class="title">
+                      <h3>Passwort</h3>
+                  </div>
+                  <span>*************</span>
+              </div>
+              <button (click)="showPasswordBox()">Passwort ändern</button>
+          </div>
+
+      </div>
 
       <div class="settings_box" #usernameBox style="display: none;">
   <span>

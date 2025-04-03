@@ -52,8 +52,7 @@ export class SettingsComponent implements OnInit {
     if (save && this.newPasswordsAreEqual() && this.currentPasswordforChangingPassword) {
       const userPassword = new NewPassword(this.newPassword, this.currentPasswordforChangingPassword);
       this.userService.changePassword(userPassword).subscribe({
-        next: (updatedUser) => {
-          this.user = updatedUser;
+        next: () => {
           console.log("Password changed successfully.");
           this.passwordBox.nativeElement.style.display = "none";
           this.resetPasswordFields();
