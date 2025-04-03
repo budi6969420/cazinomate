@@ -4,18 +4,14 @@
   </div>
 </li>
 
-<li #menuItem>
-  <div class="icon">
-    <img src="https://cdn.itslearning.com/v2025.2.4.10535/images/logo-badge.svg">
-  </div>
-  <span>Crossy Road</span>
-</li>
-<li #menuItem>
-  <div class="icon">
-    <img src="https://cdn.itslearning.com/v2025.2.4.10535/images/logo-badge.svg">
-  </div>
-  <span>Slots</span>
-</li>
+@for (gameMetaData of gameMetaDataService.gameMetadatas; track gameMetaData.id) {
+  <li #menuItem>
+    <div class="icon">
+      <img [src]="gameMetaData.previewImageUrl">
+    </div>
+    <span>{{gameMetaData.title}}</span>
+  </li>
+}
 
 <ul>
   <li #menuItem>

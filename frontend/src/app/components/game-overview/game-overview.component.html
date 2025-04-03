@@ -1,6 +1,9 @@
 <div class="search">
   <input type="text" placeholder="Nach Spielen suchen..." #searchInput (input)="updateFilteredGames()"/>
-  <button (click)="clearSearchInput()">x</button>
+  @if (searchInput.value.length > 0) {
+    <button (click)="clearSearchInput()">x</button>
+  }
+
 </div>
 
 <h1>CazinoMate - Spiele</h1>

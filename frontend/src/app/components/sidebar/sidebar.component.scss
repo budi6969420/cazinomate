@@ -1,4 +1,5 @@
 :host {
+  z-index: 999;
   display: flex;
   flex-direction: column;
   background: var(--app-color-background-secondary);
@@ -7,6 +8,7 @@
   font-weight: bold;
   padding: var(--app-spacing-xsmall);
   gap: var(--app-spacing-small);
+  box-shadow: 1px 0 10px var(--app-color-background-primary);
 }
 
 li {
@@ -39,6 +41,8 @@ li {
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 55px;
+
 
   svg {
     height: 40%;
@@ -47,7 +51,9 @@ li {
   }
 
   img {
+    width: 100%;
     height: 100%;
+    object-fit: cover
   }
 }
 
