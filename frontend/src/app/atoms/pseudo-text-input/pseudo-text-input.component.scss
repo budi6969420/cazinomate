@@ -1,0 +1,18 @@
+div {
+  height: var(--app-spacing-medium);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--app-spacing-xsmall);
+  padding: var(--app-spacing-xsmall);
+  background: var(--app-color-text-primary);
+  color: var(--app-color-text-secondary);
+  border-radius: calc(var(--app-spacing-xsmall) / 2);
+  user-select: none;
+}
+
+label {
+  font-weight: bold;
+  padding-bottom: var(--app-spacing-xsmall);
+  display: block;
+}

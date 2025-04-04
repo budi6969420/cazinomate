@@ -1,16 +1,18 @@
 :root {
-  --app-color-background-primary: #181818;
+  --app-color-background-primary: #272727;
   --app-color-background-secondary: #313131;
   --app-color-background-tertiary: #4E4E4E;
   --app-color-text-primary: white;
   --app-color-text-secondary: #c5c5c5;
-  --app-color-text-error: #CD5353;
+  --app-color-red: #CD5353;
   --app-color-green: #16B858;
 
   --app-font-size-gigantic: 25px;
   --app-font-size-normal: 16px;
   --app-font-size-small: 13px;
+  --app-font-size-xsmall: 10px;
 
+  --app-spacing-xxxsmall: 2px;
   --app-spacing-xxsmall: 5px;
   --app-spacing-xsmall: 10px;
   --app-spacing-small: 15px;
@@ -20,6 +22,8 @@
   --app-margin-left-to-sidebar: 90px;
 
   --app-transition-time-medium: 0.3s;
+
+  --app-navbar-height: 55px;
 }
 
 * {
@@ -41,6 +45,7 @@ svg {
   height: 100%;
   fill: var(--app-color-text-primary)
 }
+
 button {
   color: var(--app-color-text-primary);
   padding: var(--app-spacing-small) var(--app-spacing-medium);
@@ -53,4 +58,7 @@ button {
 }
 .green-button {
   background-color: var(--app-color-green);
+}
+.red-button {
+  background-color: var(--app-color-red);
 }
