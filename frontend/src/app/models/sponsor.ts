@@ -3,4 +3,5 @@ export interface Sponsor {
   name: string;
   imageUrl: string;
   url: string;
+  isVip: boolean;
 }

@@ -1,0 +1,14 @@
+<div class="logos">
+  <div class="logos-slide">
+    @for (sponsor of service.sponsors; track sponsor.id) {
+      <img [src]="(sponsor.imageUrl)">
+    }
+  </div>
+
+  <div class="logos-slide">
+    @for (sponsor of service.sponsors; track sponsor.id) {
+      <img [src]="(sponsor.imageUrl)" [alt]="sponsor.name">
+    }
+  </div>
+</div>
+<div class="overlay"></div>
