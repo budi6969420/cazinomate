@@ -6,6 +6,7 @@
   --app-color-text-secondary: #c5c5c5;
   --app-color-text-error: #CD5353;
   --app-color-green: #16B858;
+  --app-color-red: #f00;
 
   --app-spacing-xsmall: 10px;
   --app-spacing-small: 15px;
@@ -46,4 +47,7 @@ button {
 }
 .green-button {
   background-color: var(--app-color-green);
+}
+.red-button {
+  background-color: var(--app-color-red);
 }
