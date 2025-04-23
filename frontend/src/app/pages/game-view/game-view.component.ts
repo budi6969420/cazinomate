@@ -1,9 +1,12 @@
 import {Component, OnInit} from '@angular/core';
 import { ActivatedRoute } from '@angular/router'
+import {SponsorshipsComponent} from "../../components/adBar/sponsorships.component";
 
 @Component({
   selector: 'app-game-view',
-  imports: [],
+  imports: [
+    SponsorshipsComponent
+  ],
   templateUrl: './game-view.component.html',
   styleUrl: './game-view.component.scss'
 })

@@ -1,6 +1,19 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+main {
+  display: flex;
+  flex-direction: column;
+  gap: 80px;
+  max-width: 100%;
+  width: calc(65svh/9*16); //Hängt direkt mit aspect-ratio in game-view zusammen
+}
 .game-view {
-  height: 70svh;
-  aspect-ratio: 4/3;
-  background-color: var(--app-color-background-tertiary);
+  width: 100%;
+  aspect-ratio: 16/9;
+  background-color: var(--app-color-background-secondary);
   border-radius: var(--app-spacing-big)
 }
