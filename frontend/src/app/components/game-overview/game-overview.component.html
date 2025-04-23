@@ -10,7 +10,7 @@
 
 <div class="gameTiles">
   @for (game of filteredGames; track game.id){
-    <a routerLink="/game/{{game.id}}">
+    <a [routerLink]="['/game', game.id]">
       <img [src]="game.previewImageUrl">
       <div style="--preview-bg-color: {{game.previewHexColor}};">
         <h1>{{game.title}}</h1>
