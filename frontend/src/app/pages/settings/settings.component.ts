@@ -47,7 +47,7 @@ export class SettingsComponent implements OnInit {
   }
 
   closePasswordBox(save: boolean = false): void {
-    if (save && this.newPasswordsAreEqual() && this.currentPasswordforChangingPassword) {
+    if (save && this.newPasswordsAreEqual() && this.currentPasswordforChangingPassword && this.currentPasswordforChangingPassword !== this.newPassword) {
       const userPassword = new NewPassword(this.newPassword, this.currentPasswordforChangingPassword);
 
       this.userService.changePassword(userPassword).subscribe({
