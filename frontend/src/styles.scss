@@ -6,6 +6,7 @@
   --app-color-text-secondary: #c5c5c5;
   --app-color-red: #CD5353;
   --app-color-green: #16B858;
+  --app-color-red: #f00;
 
   --app-font-size-gigantic: 25px;
   --app-font-size-normal: 16px;
@@ -85,4 +86,11 @@ button:disabled {
 .red-button:hover:enabled {
   background-color: var(--app-color-background-primary);
   color: var(--app-color-text-primary);
+}
+.red-button {
+  background-color: var(--app-color-red);
+}
+
+.clickable {
+  cursor: pointer;
 }
