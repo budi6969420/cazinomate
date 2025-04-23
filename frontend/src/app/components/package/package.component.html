@@ -1,27 +1,21 @@
 <div
-  [ngClass]="package.isRecommended == 'true' ? 'card-recommended' : 'card'"
-  (click)="ShowConfirmationModal()"
->
-  <!-- Background Grid -->
+  [ngClass]="package.isRecommended ? 'card-recommended' : 'card'"
+  (click)="ShowConfirmationModal()">
+
   <div class="background-grid">
     <div class="grid-tile" *ngFor="let tile of tiles"></div>
   </div>
 
-  <!-- Foreground content -->
   <label class="title">{{ package.name }}</label>
 
-  @if (package.isRecommended == 'true') {
-    <div class="recommended-rectangle">
-      <label class="recommended-label">Empfohlen</label>
-    </div>
-  }
+  <div [class]="package.isRecommended ? 'recommended-rectangle active' : 'recommended-rectangle'">
+    <label class="recommended-label">Empfohlen</label>
+  </div>
 
   <div class="container">
-    <div class="content">
-      <img src="/favicon.ico" class="image" />
-      <label class="amount">{{ package.amount }}</label>
-      <label style="cursor: inherit">Mate Coins</label>
-    </div>
+      <img src="{{package.imageUrl}}" class="image" />
+    <label class="amount">{{ package.amount | number:'1.0-0' }}</label>
+      <label class="mateCoin-label">Mate Coins</label>
   </div>
 
   <div class="container-price">

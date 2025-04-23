@@ -1,10 +1,13 @@
 import {Component, ElementRef, QueryList, ViewChildren, AfterViewInit, OnInit} from '@angular/core';
 import {GameMetadataService} from "../../services/game-metadata.service";
 import {Subscription} from "rxjs";
+import {RouterLink} from "@angular/router";
 
 @Component({
     selector: 'app-sidebar',
-    imports: [],
+  imports: [
+    RouterLink
+  ],
     templateUrl: './sidebar.component.html',
     styleUrl: './sidebar.component.scss'
 })

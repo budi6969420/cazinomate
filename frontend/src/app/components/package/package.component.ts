@@ -1,13 +1,14 @@
 import {Component, EventEmitter, inject, Input, OnInit, Output} from '@angular/core';
 import {Package} from "../../models/package";
-import {NgClass, NgForOf} from "@angular/common";
+import {DecimalPipe, NgClass, NgForOf} from "@angular/common";
 
 @Component({
   selector: 'app-package',
   standalone: true,
   imports: [
     NgClass,
-    NgForOf
+    NgForOf,
+    DecimalPipe
   ],
   templateUrl: './package.component.html',
   styleUrl: './package.component.scss'
@@ -24,7 +25,7 @@ export class PackageComponent implements OnInit {
 
   ngOnInit() {
     const cols = 16;
-    const rows = Math.ceil(window.innerHeight / (window.innerWidth / cols));
+    const rows = 18;
     this.tiles = new Array(cols * rows);
   }
 }
