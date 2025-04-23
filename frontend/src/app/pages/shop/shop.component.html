@@ -1,0 +1,14 @@
+<div class="background">
+  <h1 class="header">Wähle dein Mate Coin Paket aus</h1>
+  @if (selectedPackage) {
+    <app-buy-confirmation-modal [product]="selectedPackage" (confirmationClosed)="handleModalClose()">></app-buy-confirmation-modal>
+  }
+    <div class="container">
+    <ul>
+      @for (item of packageService.packages; track item.productId)
+      {
+        <li><app-package [package]="item" (packageClicked)="handlePackageClick($event)"></app-package></li>
+      }
+    </ul>
+  </div>
+</div>
