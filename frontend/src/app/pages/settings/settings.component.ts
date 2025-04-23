@@ -49,9 +49,11 @@ export class SettingsComponent implements OnInit {
   closePasswordBox(save: boolean = false): void {
     if (save && this.newPasswordsAreEqual() && this.currentPasswordforChangingPassword) {
       const userPassword = new NewPassword(this.newPassword, this.currentPasswordforChangingPassword);
+
       this.userService.changePassword(userPassword).subscribe({
         next: () => {
           console.log("Password changed successfully.");
+
           this.passwordBox.nativeElement.style.display = "none";
           this.resetPasswordFields();
           this.cdr.markForCheck();
@@ -61,10 +63,9 @@ export class SettingsComponent implements OnInit {
         }
       });
     } else {
+      if (save) console.warn("Save aborted. Passwords might not match or current password missing.");
+
       this.passwordBox.nativeElement.style.display = "none";
-      if (save) {
-        console.warn("Save aborted. Passwords might not match or current password missing.");
-      }
       this.resetPasswordFields();
     }
   }
@@ -81,10 +82,12 @@ export class SettingsComponent implements OnInit {
   closeUsernameBox(save: boolean = false): void {
     if (save && this.newUsername && this.currentPasswordforChangingUsername) {
       const usernameData = new NewUsername(this.newUsername, this.currentPasswordforChangingUsername);
+
       this.userService.changeUsername(usernameData).subscribe({
         next: (updatedUser) => {
-          this.user = updatedUser;
           console.log("Username changed successfully.");
+
+          this.user = updatedUser;
           this.usernameBox.nativeElement.style.display = "none";
           this.resetUsernameFields();
           this.cdr.markForCheck();
@@ -94,10 +97,9 @@ export class SettingsComponent implements OnInit {
         }
       });
     } else {
+      if (save) console.warn("Save aborted. New username or current password missing.");
+
       this.usernameBox.nativeElement.style.display = "none";
-      if (save) {
-        console.warn("Save aborted. New username or current password missing.");
-      }
       this.resetUsernameFields();
     }
   }
