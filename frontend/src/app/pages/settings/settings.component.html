@@ -1,0 +1,98 @@
+<main>
+  <h1>Einstellungen</h1>
+
+  <div class="container">
+      <div class="overview">
+
+          <div class="setting">
+              <div class="meta">
+                  <div class="title">
+                      <h3>E-Mail</h3>
+                      <span *ngIf="user?.emailVerified && user?.email">Bestätigt</span>
+                  </div>
+                  <span>{{user?.email}}</span>
+              </div>
+          </div>
+          <div class="setting">
+              <div class="meta">
+                  <div class="title">
+                      <h3>Benutzername</h3>
+                  </div>
+                  <span>{{user?.username}}</span>
+              </div>
+              <button (click)="showUsernameBox()">Benutzernamen ändern</button>
+          </div>
+          <div class="setting">
+              <div class="meta">
+                  <div class="title">
+                      <h3>Passwort</h3>
+                  </div>
+                  <span>*************</span>
+              </div>
+              <button (click)="showPasswordBox()">Passwort ändern</button>
+          </div>
+
+      </div>
+
+  </div>
+</main>
+
+<div class="settings_box" #usernameBox style="display: none;">
+  <div class="content">
+
+    <h1><span>Einstellungen</span> -> Benutzername</h1>
+    <span>
+      <label>Aktueller Benutzername</label>
+      <input type="text" placeholder="Aktueller Benutzername" [value]="user?.username" disabled>
+    </span>
+    <hr>
+    <span>
+      <label>Neuer Benutzername</label>
+      <input type="text" placeholder="Neuer Benutzername" [(ngModel)]="newUsername">
+    </span>
+    <span>
+      <label>Passwort (zur Bestätigung)</label>
+      <input type="password" placeholder="Passwort (zur Bestätigung)" [(ngModel)]="currentPasswordforChangingUsername">
+    </span>
+
+    <div class="buttons">
+      <button (click)="closeUsernameBox()">Zurück</button>
+      <button class="green-button"
+              (click)="closeUsernameBox(true)"
+              [disabled]="!newUsername || !currentPasswordforChangingUsername">
+        Speichern
+      </button>
+    </div>
+
+  </div>
+</div>
+
+<div class="settings_box" #passwordBox style="display: none;">
+  <div class="content">
+
+    <h1><span>Einstellungen</span> -> Passwort</h1>
+    <span>
+      <label>Aktuelles Passwort</label>
+      <input type="password" placeholder="Aktuelles Passwort" [(ngModel)]="currentPasswordforChangingPassword">
+    </span>
+    <hr>
+    <span>
+      <label>Neues Passwort</label>
+      <input type="password" placeholder="Neues Passwort" [(ngModel)]="newPassword">
+    </span>
+    <span>
+      <label>Neues Passwort wiederholen</label>
+      <input type="password" placeholder="Neues Passwort wiederholen" [(ngModel)]="repeatedNewPassword">
+    </span>
+
+    <div class="buttons">
+      <button (click)="closePasswordBox()">Zurück</button>
+      <button class="green-button"
+              (click)="closePasswordBox(true)"
+              [disabled]="!currentPasswordforChangingPassword || !newPasswordsAreEqual()">
+        Speichern
+      </button>
+    </div>
+
+  </div>
+</div>

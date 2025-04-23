@@ -6,9 +6,7 @@ import {Sponsor} from "../../models/sponsor";
 @Component({
   selector: 'app-adBar',
   standalone: true,
-  imports: [
-    NgForOf
-  ],
+  imports: [],
   templateUrl: './adBar.component.html',
   styleUrl: './adBar.component.scss'
 })

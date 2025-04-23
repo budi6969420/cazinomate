@@ -4,6 +4,9 @@ package de.szut.lf8_starter.user;
 import de.szut.lf8_starter.services.KeycloakService;
 import de.szut.lf8_starter.transaction.BalanceDto;
 import de.szut.lf8_starter.transaction.TransactionService;
+import de.szut.lf8_starter.user.dto.ChangePasswordDto;
+import de.szut.lf8_starter.user.dto.ChangeUsernameDto;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -44,4 +47,31 @@ public class UserController {
         return ResponseEntity.ok(new BalanceDto(transactionService.GetUserBalance(userId)));
     }
 
+    @PutMapping("/password")
+    public ResponseEntity<?> changePassword(@RequestHeader(value = "Authorization", required = false) String authorizationHeader, @RequestBody ChangePasswordDto changeDto) throws Exception {
+        var user = keycloakService.getUserData(jwtService.decodeId(authorizationHeader));
+        var currentPasswordValid = keycloakService.validateUserPassword(user.getUsername(), changeDto.getCurrentPassword());
+
+        if (!currentPasswordValid) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Current password is incorrect");
+        }
+
+        keycloakService.updateUserPassword(user.getId(), changeDto.getPassword());
+
+        return ResponseEntity.ok().build();
+    }
+
+    @PutMapping("/username")
+    public ResponseEntity<?> changeUsername(@RequestHeader(value = "Authorization", required = false) String authorizationHeader, @RequestBody ChangeUsernameDto changeDto) throws Exception {
+        var user = keycloakService.getUserData(jwtService.decodeId(authorizationHeader));
+        var currentPasswordValid = keycloakService.validateUserPassword(user.getUsername(), changeDto.getCurrentPassword());
+
+        if (!currentPasswordValid) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Password is incorrect");
+        }
+
+        user.setUsername(changeDto.getUsername());
+        keycloakService.updateUser(user);
+        return ResponseEntity.ok(user);
+    }
 }

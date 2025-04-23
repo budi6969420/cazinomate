@@ -2,10 +2,10 @@ import { Component, AfterViewInit } from '@angular/core';
 import * as CookieConsent from 'vanilla-cookieconsent';
 
 @Component({
-    selector: 'cookie-consent-component',
-    imports: [],
-    templateUrl: './cookie-consent.component.html',
-    styleUrls: ['./cookie-consent.component.css']
+  selector: 'cookie-consent-component',
+  templateUrl: './cookie-consent.component.html',
+  standalone: true,
+  styleUrls: ['./cookie-consent.component.css']
 })
 export class CookieConsentComponent implements AfterViewInit {
   ngAfterViewInit(): void {
