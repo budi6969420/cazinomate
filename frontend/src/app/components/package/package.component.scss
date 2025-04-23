@@ -1,21 +1,16 @@
 .card, .card-recommended {
   position: relative;
   overflow: hidden;
-  padding: 1rem;
   width: 150px;
   height: 250px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   cursor: pointer;
+  background: linear-gradient(180deg, #494949 0%, #181818 100%);
   transition: transform 0.3s ease-in-out;
   box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
   border-radius: 10px;
-  background-color: transparent;
-}
-
-.card {
-  background-image: url('/frontend/src/Group.png');
 }
 
 .card-recommended {
@@ -34,11 +29,12 @@
   font-weight: 700;
   display: flex;
   width: 100%;
-  height: 31px;
+  height: 25px;
   justify-content: center;
-  margin-bottom: 5px;
   position: relative;
   z-index: 2;
+  cursor: inherit;
+  margin-top: 7px;
 }
 
 .recommended-rectangle {
@@ -52,10 +48,16 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  align-self: flex-end;
+  align-self: end;
   margin-bottom: 10px;
   position: relative;
   z-index: 2;
+  cursor: inherit;
+  visibility: hidden;
+}
+
+.recommended-rectangle.active {
+  visibility: visible;
 }
 
 .recommended-label {
@@ -64,6 +66,7 @@
   font-size: 12px;
   font-weight: 700;
   text-align: center;
+  cursor: inherit;
 }
 
 .container {
@@ -75,12 +78,15 @@
   flex-grow: 1;
   position: relative;
   z-index: 2;
+  cursor: inherit;
 }
 
-.image {
+.image{
   width: 75px;
   height: 75px;
-  aspect-ratio: 1 / 1;
+  flex-shrink: 0;
+  aspect-ratio: 1/1;
+  vertical-align: top;
 }
 
 .amount {
@@ -90,29 +96,46 @@
   font-family: Inter, serif;
   font-size: 24px;
   font-weight: 700;
+  cursor: inherit;
 }
 
-.container-price {
-  background: rgba(149, 149, 149, 0.25);
-  width: 100%;
+.container-price{
+  background: #494949;
+  width: 150px;
   height: 28px;
-  display: flex;
+  flex-shrink: 0;
+  z-index: 2;
+  align-content: center;
+  justify-items: center;
+  vertical-align: bottom;
   justify-content: center;
   border-bottom-left-radius: inherit;
   border-bottom-right-radius: inherit;
-  position: relative;
-  z-index: 2;
 }
 
-.price {
+.price{
+  width: 55px;
+  height: 17.291px;
+  flex-shrink: 0;
   color: #FFF;
+  text-align: center;
   font-family: Inter, serif;
   font-size: 16px;
+  font-style: normal;
   font-weight: 700;
+  line-height: normal;
   display: flex;
   justify-content: center;
-  align-items: center;
-  height: 100%;
+  cursor: inherit;
+}
+
+.mateCoin-label {
+  color: #FFFFFF;
+  text-align: center;
+  font-family: Inter, serif;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: inherit;
 }
 
 .background-grid {
@@ -125,6 +148,7 @@
   grid-template-columns: repeat(16, 1fr);
   grid-auto-rows: 1fr;
   z-index: 0;
+  opacity: 30%;
   pointer-events: none;
 }
 

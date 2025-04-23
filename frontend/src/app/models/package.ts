@@ -5,5 +5,6 @@ export interface Package {
   priceAmount: number;
   currency: string;
   amount: number;
-  isRecommended: string;
+  isRecommended: boolean;
+  imageUrl: string;
 }

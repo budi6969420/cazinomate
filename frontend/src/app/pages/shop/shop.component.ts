@@ -2,7 +2,6 @@ import { Component} from '@angular/core';
 import {PackageComponent} from "../../components/package/package.component";
 import {PackageService} from "../../services/package.service";
 import {BuyConfirmationModalComponent} from "../../components/buy-confirmation-modal/buy-confirmation-modal.component";
-import {NgClass} from "@angular/common";
 import {Package} from "../../models/package";
 
 @Component({
@@ -11,7 +10,6 @@ import {Package} from "../../models/package";
   imports: [
     PackageComponent,
     BuyConfirmationModalComponent,
-    NgClass,
   ],
   templateUrl: './shop.component.html',
   styleUrl: './shop.component.scss',
