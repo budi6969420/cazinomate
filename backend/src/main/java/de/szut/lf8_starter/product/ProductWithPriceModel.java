@@ -7,16 +7,17 @@ import com.stripe.model.Product;
 import lombok.Data;
 
 import java.util.Map;
+import java.util.Objects;
 
 @Data
 public class ProductWithPriceModel {
     private String productId;
     private String name;
-    private String priceId;
     private long priceAmount;
     private String currency;
     private int amount;
-    private String isRecommended;
+    private boolean isRecommended;
+    private String imageUrl;
 
     public ProductWithPriceModel(Product product, Price price) {
         this.productId = product.getId();
@@ -25,14 +26,18 @@ public class ProductWithPriceModel {
         try {
             var map = new ObjectMapper().readValue(product.getDescription(), Map.class);
             this.amount = Integer.parseInt(map.get("count").toString());
-            this.isRecommended = map.get("isRecommended").toString();
+            this.isRecommended = map.get("isRecommended").toString().equals("true");
+
+            var images = product.getImages();
+            if (images != null && !images.isEmpty()) {
+                this.imageUrl = images.getFirst();
+            }
         }
         catch (JsonProcessingException e) {
             System.out.println(e.getMessage());
         }
 
         if (price != null) {
-            this.priceId = price.getId();
             this.priceAmount = price.getUnitAmount();
             this.currency = price.getCurrency();
         }
