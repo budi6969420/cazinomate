@@ -8,7 +8,7 @@
               <div class="meta">
                   <div class="title">
                       <h3>E-Mail</h3>
-                      <span>Bestätigt</span>
+                      <span *ngIf="user?.emailVerified && user?.email">Bestätigt</span>
                   </div>
                   <span>{{user?.email}}</span>
               </div>
