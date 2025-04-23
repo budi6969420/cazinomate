@@ -11,14 +11,18 @@ nav {
   flex-wrap: nowrap;
   align-items: flex-start;
 }
+
 main {
   display: flex;
   flex-direction: column;
   flex-grow: 1;
   flex-wrap: nowrap;
+  align-items: stretch;
   gap: var(--app-spacing-big);
+  overflow-y: scroll
+}
 
-  > div {
-    margin: var(--app-spacing-big)
-  }
+main > div {
+  width: calc(100vw - var(--expanded-menu-width)*1.2);
+  margin: 0 auto;
 }

@@ -8,10 +8,17 @@
   --app-color-green: #16B858;
   --app-color-red: #f00;
 
+  --app-font-size-gigantic: 25px;
+  --app-font-size-normal: 16px;
+  --app-font-size-small: 13px;
+
+  --app-spacing-xxsmall: 5px;
   --app-spacing-xsmall: 10px;
   --app-spacing-small: 15px;
   --app-spacing-medium: 20px;
   --app-spacing-big: 25px;
+
+  --app-margin-left-to-sidebar: 90px;
 
   --app-transition-time-medium: 0.3s;
 }
@@ -19,7 +26,7 @@
 * {
   margin: 0;
   padding: 0;
-  font-size: 16px;
+  font-size: var(--app-font-size-normal);
 }
 
 body {

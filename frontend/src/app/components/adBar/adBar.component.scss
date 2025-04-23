@@ -1,0 +1,53 @@
+:host {
+  height: 150px;
+  width: 100%;
+  position: relative;
+  display: block;
+}
+
+@keyframes slide {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-100%);
+  }
+}
+
+.logos {
+  overflow: hidden;
+  white-space: nowrap;
+  position: relative;
+  height: 100%;
+}
+
+.logos:before,
+.logos:after {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  content: "";
+}
+
+.logos:hover .logos-slide {
+  animation-play-state: paused;
+}
+
+.logos-slide {
+  display: inline-block;
+  animation: 20s slide infinite linear;
+  height: 100%;
+}
+
+.logos-slide img {
+  height: 100%;
+  margin-right: 50px;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  background: linear-gradient(90deg, var(--app-color-background-primary) 0%, rgba(0,0,0,0) 5%, rgba(0,0,0,0) 95%, var(--app-color-background-primary) 100%);
+}

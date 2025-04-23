@@ -1,4 +1,6 @@
-import { Component, ElementRef, QueryList, ViewChildren, AfterViewInit } from '@angular/core';
+import {Component, ElementRef, QueryList, ViewChildren, AfterViewInit, OnInit} from '@angular/core';
+import {GameMetadataService} from "../../services/game-metadata.service";
+import {Subscription} from "rxjs";
 
 @Component({
     selector: 'app-sidebar',
@@ -6,13 +8,23 @@ import { Component, ElementRef, QueryList, ViewChildren, AfterViewInit } from '@
     templateUrl: './sidebar.component.html',
     styleUrl: './sidebar.component.scss'
 })
-export class SidebarComponent implements AfterViewInit {
+export class SidebarComponent {
   menuIsExpanded: boolean = false;
+  private menuItemsChangesSubscription: Subscription | null = null;
+  dataLoadedSubscription: Subscription | null = null;
+
+  constructor(protected gameMetaDataService: GameMetadataService) {}
 
   @ViewChildren('menuItem') menuItems!: QueryList<ElementRef>;
 
   ngAfterViewInit(): void {
-    this.calculateMaxWidth();
+    this.menuItemsChangesSubscription = this.menuItems.changes.subscribe(() => {
+      setTimeout(() => this.calculateMaxWidth(), 0);
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.menuItemsChangesSubscription?.unsubscribe();
   }
 
   expandMenu(): void {
@@ -23,14 +35,30 @@ export class SidebarComponent implements AfterViewInit {
   private calculateMaxWidth(): void {
     let maxWidth = 0;
 
-    this.menuItems.forEach((menuItem) => {
-      menuItem.nativeElement.classList.add('expanded');
-      const width = menuItem.nativeElement.getBoundingClientRect().width;
-      if (width > maxWidth) maxWidth = width;
-      menuItem.nativeElement.classList.remove('expanded');
+    this.menuItems.forEach((menuItemRef: ElementRef) => {
+      const menuItem = menuItemRef.nativeElement as HTMLElement;
+      const clone = menuItem.cloneNode(true) as HTMLElement;
+      clone.style.visibility = 'hidden';
+      clone.style.position = 'absolute';
+      clone.style.width = 'auto';
+      const span = clone.querySelector('span');
+      if (span) span.style.display = 'inline';
+
+      document.body.appendChild(clone);
+      const width = clone.getBoundingClientRect().width;
+      document.body.removeChild(clone);
+
+      if (width > maxWidth) {
+        maxWidth = width;
+      }
     });
 
-    document.documentElement.style.setProperty('--expanded-menu-width', `${maxWidth}px`);
+    if (maxWidth > 0) {
+      const buffer = 10;
+      document.documentElement.style.setProperty('--expanded-menu-width', `${maxWidth + buffer}px`);
+    } else {
+      document.documentElement.style.setProperty('--expanded-menu-width', `200px`);
+    }
   }
 
   private updateMenuWidth(): void {
