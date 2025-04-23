@@ -1,0 +1,37 @@
+$secondaryColor: #313131;
+
+.header {
+  color: #FFF;
+  font-family: Inter, serif;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  margin-top: 10px;
+  margin-left: 35px;
+  margin-bottom: 30px;
+}
+
+.background {
+  background: $secondaryColor;
+  padding: 10px 10px 10px 15px;
+}
+
+.container{
+  display: flex;
+  justify-content: center;
+  margin-bottom: 30px;
+}
+
+ul {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* Creates three equal columns */
+  list-style: none;
+  gap: 25px;
+}
+
+.active {
+  visibility: visible;
+}
+
+

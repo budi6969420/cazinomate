@@ -1,0 +1,5 @@
+<div class="popup">
+  <p>Wollen sie {{product?.name}} für {{product ? product.priceAmount/100 : 0}}€ kaufen?</p>
+  <button class="yes-btn" (click)="handleYes()">Ja, kaufen</button>
+  <button class="no-btn" (click)="handleNo()">Abbrechen</button>
+</div>
