@@ -3,11 +3,10 @@ import {GameMetadataService} from "../../services/game-metadata.service";
 import {Subscription} from "rxjs";
 
 @Component({
-  selector: 'app-sidebar',
-  standalone: true,
-  imports: [],
-  templateUrl: './sidebar.component.html',
-  styleUrl: './sidebar.component.scss'
+    selector: 'app-sidebar',
+    imports: [],
+    templateUrl: './sidebar.component.html',
+    styleUrl: './sidebar.component.scss'
 })
 export class SidebarComponent {
   menuIsExpanded: boolean = false;

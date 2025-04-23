@@ -6,6 +6,7 @@
   --app-color-text-secondary: #c5c5c5;
   --app-color-text-error: #CD5353;
   --app-color-green: #16B858;
+  --app-color-red: #f00;
 
   --app-font-size-gigantic: 25px;
   --app-font-size-normal: 16px;
@@ -53,4 +54,7 @@ button {
 }
 .green-button {
   background-color: var(--app-color-green);
+}
+.red-button {
+  background-color: var(--app-color-red);
 }

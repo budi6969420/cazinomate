@@ -1,9 +1,19 @@
 <img src="/images/cazinomate-logo.svg" alt="cazinomate logo">
 <ul>
-  <li>
-    <button>Anmelden</button>
-  </li>
-  <li>
-    <button class="green-button">Registrieren</button>
-  </li>
+@if (!keycloakService.isAuthenticated()) {
+    <li>
+      <button (click)="onLogin()">Anmelden</button>
+    </li>
+    <li>
+      <button class="green-button" (click)="onRegister()">Registrieren</button>
+    </li>
+} @else {
+   <li>
+
+   </li>
+    <li>
+      <button class="red-button" (click)="onLogout()">Abmelden</button>
+    </li>
+}
 </ul>
+
