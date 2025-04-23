@@ -11,10 +11,6 @@ import {KeycloakAuthService} from "../../services/keycloak-auth.service";
   ],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.scss'
-    selector: 'app-navbar',
-    imports: [],
-    templateUrl: './navbar.component.html',
-    styleUrl: './navbar.component.scss'
 })
 export class NavbarComponent {
 
