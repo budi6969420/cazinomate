@@ -49,16 +49,40 @@ svg {
 button {
   color: var(--app-color-text-primary);
   padding: var(--app-spacing-small) var(--app-spacing-medium);
-  border: none;
   border-radius: calc(var(--app-spacing-small)/2);
   font-weight: bold;
   font-size: 14px;
   background: none;
   cursor: pointer;
+  transition: var(--app-transition-time-medium);
+  border: 1px solid var(--app-color-background-tertiary);
+  background: var(--app-color-background-primary);
 }
+
 .green-button {
   background-color: var(--app-color-green);
+  border-color: var(--app-color-green);
 }
 .red-button {
   background-color: var(--app-color-red);
+  border-color: var(--app-color-red);
+}
+
+button:hover:enabled {
+  border-color: var(--app-color-background-tertiary);
+  background: var(--app-color-text-primary);
+  color: var(--app-color-background-primary);
+}
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.green-button:hover:enabled {
+  background-color: var(--app-color-background-primary);
+  color: var(--app-color-text-primary);
+}
+.red-button:hover:enabled {
+  background-color: var(--app-color-background-primary);
+  color: var(--app-color-text-primary);
 }

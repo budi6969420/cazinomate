@@ -1,6 +1,5 @@
 // settings.component.ts
 import { Component, ElementRef, ViewChild, OnInit, ChangeDetectorRef } from '@angular/core';
-import { PseudoTextInputComponent } from "../../atoms/pseudo-text-input/pseudo-text-input.component";
 import { NewPassword } from "../../models/NewPassword";
 import { UserService } from "../../services/user.service";
 import { NewUsername } from "../../models/NewUsername";
@@ -12,7 +11,6 @@ import { CommonModule } from '@angular/common';
   selector: 'app-settings',
   standalone: true,
   imports: [
-    PseudoTextInputComponent,
     FormsModule,
     CommonModule
   ],
@@ -44,7 +42,7 @@ export class SettingsComponent implements OnInit {
   }
 
   showPasswordBox(): void {
-    this.passwordBox.nativeElement.style.display = "block";
+    this.passwordBox.nativeElement.style.display = "flex";
     this.resetPasswordFields();
   }
 
@@ -73,7 +71,7 @@ export class SettingsComponent implements OnInit {
 
   showUsernameBox(): void {
     if (this.user) {
-      this.usernameBox.nativeElement.style.display = "block";
+      this.usernameBox.nativeElement.style.display = "flex";
       this.resetUsernameFields();
     } else {
       console.warn("Cannot show username box: user data not loaded yet.");

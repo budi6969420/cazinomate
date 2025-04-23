@@ -15,9 +15,15 @@ main {
   padding: var(--app-spacing-big);
   border-radius: var(--app-spacing-xxsmall);
   width: 100%;
+  position: relative;
 }
 h1{
   font-size: var(--app-font-size-gigantic);
+
+  > span {
+    font-size: inherit;
+    opacity: 0.75;
+  }
 }
 .overview {
   display: flex;
@@ -62,9 +68,8 @@ h1{
     color: var(--app-color-text-primary)
   }
 }
+
 button {
-  border: 1px solid var(--app-color-background-tertiary);
-  background: var(--app-color-background-primary);
   padding: var(--app-spacing-xsmall) var(--app-spacing-small);
 }
 
@@ -74,7 +79,8 @@ button {
 .settings_box {
   position: absolute;
   top: 0;
-  background: var(--app-color-background-secondary);
+  left: 0;
+  background: #00000085;
   width: 100%;
   height: 100%;
   display: none;
@@ -83,35 +89,60 @@ button {
   flex-direction: column;
   gap: var(--app-spacing-xsmall);
 
-  > span {
+  .content {
+    background: var(--app-color-background-secondary);
+    padding: var(--app-spacing-big);
+    border-radius: var(--app-spacing-medium);
     display: flex;
     flex-direction: column;
-    width: 100%;
-    > {
-      label {
-        font-weight: bold;
-        padding-bottom: var(--app-spacing-xsmall);
-        display: block;
-      }
-      input {
-        height: var(--app-spacing-medium);
-        gap: var(--app-spacing-xsmall);
-        padding: var(--app-spacing-xsmall);
-        background: var(--app-color-text-primary);
-        color: var(--app-color-text-secondary);
-        border-radius: var(--app-spacing-xxsmall);
-        border: none;
-        flex: 1;
+    gap: var(--app-spacing-big);
+    min-width: 40%;
+
+    > hr {
+      border: none;
+      border-top: 1px solid var(--app-color-background-tertiary);
+    }
+    > span {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+
+      > {
+        label {
+          font-weight: bold;
+          padding-bottom: var(--app-spacing-xsmall);
+          display: block;
+        }
+
+        input {
+          height: var(--app-spacing-medium);
+          gap: var(--app-spacing-xsmall);
+          padding: var(--app-spacing-xsmall);
+          background: var(--app-color-text-primary);
+          color: var(--app-color-text-secondary);
+          border-radius: var(--app-spacing-xxsmall);
+          border: none;
+          flex: 1;
+        }
+        input::placeholder {
+          color: var(--app-color-text-secondary);
+        }
+        input:disabled {
+          background: var(--app-color-text-secondary);
+          color: var(--cc-cookie-category-block-hover-border);
+        }
       }
     }
-  }
-  > .buttons {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-    gap: var(--app-spacing-xsmall);
-    > button {
-      width: 50%;
+
+    > .buttons {
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+      gap: var(--app-spacing-xsmall);
+
+      > button {
+        width: 50%;
+      }
     }
   }
 }
