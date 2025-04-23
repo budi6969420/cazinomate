@@ -14,7 +14,7 @@
   <ul>
     <h3>Casino</h3>
     @for (gameMetadata of gameMetaDataService.gameMetadatas; track gameMetadata.id) {
-      <li>{{gameMetadata.title}}</li>
+      <li class="clickable">{{gameMetadata.title}}</li>
     }
   </ul>
   <ul>
@@ -28,8 +28,8 @@
   </ul>
   <ul>
     <h3>Über uns</h3>
-    <li>Datenschutz</li>
-    <li>Nutzungsbedingungen</li>
+    <li class="clickable">Datenschutz</li>
+    <li class="clickable">Nutzungsbedingungen</li>
   </ul>
 </div>
 <hr>
