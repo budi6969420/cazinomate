@@ -17,3 +17,38 @@ main {
   background-color: var(--app-color-background-secondary);
   border-radius: var(--app-spacing-big)
 }
+
+.description {
+  overflow: hidden;
+
+  img {
+    float: left;
+    width: 300px;
+  }
+  h1 {
+    margin-top: 0;
+    font-size: 2em;
+    text-transform: uppercase;
+    margin-bottom: 15px;
+  }
+
+  h2 {
+    font-size: 1.5em;
+    margin-top: 0;
+    margin-bottom: 10px;
+  }
+
+  h3 {
+    font-size: 1.1em;
+    color: #aaaaaa;
+    margin-top: 0;
+    margin-bottom: 5px;
+    font-weight: normal;
+  }
+
+  p {
+    margin-top: 0;
+    margin-bottom: 1em;
+    text-align: justify; /* Justify the paragraph text */
+  }
+}
