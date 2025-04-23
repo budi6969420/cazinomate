@@ -1,24 +1,30 @@
-import {Component, EventEmitter, inject, Input, Output} from '@angular/core';
+import {Component, EventEmitter, inject, Input, OnInit, Output} from '@angular/core';
 import {Package} from "../../models/package";
-import {BuyConfirmationModalComponent} from "../buy-confirmation-modal/buy-confirmation-modal.component";
-import {NgClass, NgIf, NgStyle} from "@angular/common";
+import {NgClass, NgForOf} from "@angular/common";
 
 @Component({
   selector: 'app-package',
   standalone: true,
   imports: [
-    NgIf,
-    NgStyle,
-    NgClass
+    NgClass,
+    NgForOf
   ],
   templateUrl: './package.component.html',
   styleUrl: './package.component.scss'
 })
-export class PackageComponent {
+export class PackageComponent implements OnInit {
   @Input() package!: Package;
   @Output() packageClicked = new EventEmitter<Package>();
 
   ShowConfirmationModal() {
     this.packageClicked.emit(this.package);
+  }
+
+  tiles: any[] = [];
+
+  ngOnInit() {
+    const cols = 16;
+    const rows = Math.ceil(window.innerHeight / (window.innerWidth / cols));
+    this.tiles = new Array(cols * rows);
   }
 }
