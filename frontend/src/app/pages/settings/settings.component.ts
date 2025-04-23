@@ -1,8 +1,8 @@
 // settings.component.ts
 import { Component, ElementRef, ViewChild, OnInit, ChangeDetectorRef } from '@angular/core';
-import { NewPassword } from "../../models/NewPassword";
+import { NewPassword } from "../../models/newPassword";
 import { UserService } from "../../services/user.service";
-import { NewUsername } from "../../models/NewUsername";
+import { NewUsername } from "../../models/newUsername";
 import { User } from "../../models/user";
 import { FormsModule } from "@angular/forms";
 import { CommonModule } from '@angular/common';

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {NewPassword} from "../models/NewPassword";
-import {NewUsername} from "../models/NewUsername";
+import {NewPassword} from "../models/newPassword";
+import {NewUsername} from "../models/newUsername";
 import {User} from "../models/user";
 import {Observable} from "rxjs";
 import {KeycloakService} from "keycloak-angular";
