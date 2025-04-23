@@ -9,8 +9,6 @@ import { Subscription } from 'rxjs';
   selector: 'app-game-overview',
   standalone: true,
   imports: [
-    NgForOf,
-    NgIf,
     RouterLink
   ],
   templateUrl: './game-overview.component.html',

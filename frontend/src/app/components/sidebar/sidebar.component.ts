@@ -1,12 +1,16 @@
-import {Component, ElementRef, QueryList, ViewChildren, AfterViewInit, OnInit} from '@angular/core';
+import { Component, ElementRef, QueryList, ViewChildren, AfterViewInit } from '@angular/core';
+import {RouterLink} from "@angular/router";
 import {GameMetadataService} from "../../services/game-metadata.service";
 import {Subscription} from "rxjs";
 
 @Component({
-    selector: 'app-sidebar',
-    imports: [],
-    templateUrl: './sidebar.component.html',
-    styleUrl: './sidebar.component.scss'
+  selector: 'app-sidebar',
+  standalone: true,
+  imports: [
+    RouterLink
+  ],
+  templateUrl: './sidebar.component.html',
+  styleUrl: './sidebar.component.scss'
 })
 export class SidebarComponent {
   menuIsExpanded: boolean = false;

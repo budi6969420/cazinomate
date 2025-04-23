@@ -1,44 +1,29 @@
-import {APP_INITIALIZER, ApplicationConfig} from '@angular/core';
+import { APP_INITIALIZER, ApplicationConfig } from '@angular/core';
 import { provideRouter } from '@angular/router';
-
 import { routes } from './app.routes';
-import {KeycloakAngularModule, KeycloakBearerInterceptor, KeycloakService} from "keycloak-angular";
-import {HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi} from "@angular/common/http";
-import {KeycloakAuthService} from "./services/keycloak-auth.service";
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from "@angular/common/http";
+import { KeycloakAuthService } from "./services/keycloak-auth.service";
+import { AuthInterceptor } from './auth.interceptor';
 
-export const initializeKeycloak = (keycloak: KeycloakService) => async () =>
-  keycloak.init({
-    config: {
-      url: 'http://localhost:9090',
-      realm: 'LF12',
-      clientId: 'lf12',
-    },
-    loadUserProfileAtStartUp: true,
-    initOptions: {
-      onLoad: 'check-sso',
-      silentCheckSsoRedirectUri:
-        window.location.origin + '/silent-check-sso.html',
-      checkLoginIframe: false,
-      redirectUri: window.location.origin,
-    },
-  });
-
-
-function initializeApp(keycloak: KeycloakService): () => Promise<boolean> {
-  return () => initializeKeycloak(keycloak)();
+export function initializeKeycloakCustom(keycloakAuthService: KeycloakAuthService) {
+  return () => keycloakAuthService.init();
 }
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes),
+    provideHttpClient(withInterceptorsFromDi()),
     KeycloakAuthService,
     {
       provide: APP_INITIALIZER,
-      useFactory: initializeKeycloak,
+      useFactory: initializeKeycloakCustom,
       multi: true,
       deps: [KeycloakAuthService],
     },
-    provideHttpClient(withInterceptorsFromDi()),
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true
+    },
   ],
 };
-
