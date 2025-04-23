@@ -1,0 +1,16 @@
+<div [ngClass]=" package.isRecommended == 'true' ? 'card-recommended' : 'card'" (click)="ShowConfirmationModal()">
+    <label class="title">{{package.name}}</label>
+  @if (package.isRecommended == "true") {
+    <div class="recommended-rectangle">
+      <label class="recommended-label">Empfohlen</label>
+    </div>
+  }
+    <div class="container">
+      <img src="favicon.ico" class="image">
+      <label class="amount">{{package.amount}}</label>
+      <label style="cursor: inherit">Mate Coins</label>
+    </div>
+    <div class="container-price">
+      <label class="price">{{package.priceAmount/100}}€</label>
+    </div>
+</div>
