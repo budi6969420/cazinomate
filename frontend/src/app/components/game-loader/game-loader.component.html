@@ -1,0 +1,18 @@
+@if(isLoading){
+  <div class="loading-screen">
+
+    <div class="game-tile">
+      <img [src]="gameMetadata.previewImageUrl">
+      <div style="--preview-bg-color: {{gameMetadata.previewHexColor}};"></div>
+    </div>
+
+    <h4 style="--color: {{gameMetadata.previewHexColor}};">Loading Game</h4>
+    <app-progress-bar [game]="gameMetadata" style="--bg-color: {{gameMetadata.previewHexColor}};--percentage: {{progress + '%'}}"></app-progress-bar>
+
+  </div>
+}
+@else{
+  <ng-container
+    *ngComponentOutlet="gameMetadataService.gameComponentRegistry.get(gameMetadata.id)!">
+  </ng-container>
+}
