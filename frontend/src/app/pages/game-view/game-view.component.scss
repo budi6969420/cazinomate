@@ -19,36 +19,28 @@ main {
 }
 
 .description {
-  overflow: hidden;
+  padding: var(--app-spacing-huge);
+  background: var(--app-color-background-secondary);
+  border-radius: var(--app-font-size-small);
 
   img {
     float: left;
-    width: 300px;
+    max-height: 241px;
+    max-width: 100%;
+    padding-right: var(--app-spacing-huge);
+    padding-bottom: var(--app-spacing-huge);
   }
+
   h1 {
-    margin-top: 0;
-    font-size: 2em;
-    text-transform: uppercase;
-    margin-bottom: 15px;
+    margin-bottom: var(--app-spacing-medium);
   }
 
-  h2 {
-    font-size: 1.5em;
-    margin-top: 0;
-    margin-bottom: 10px;
-  }
-
-  h3 {
-    font-size: 1.1em;
-    color: #aaaaaa;
-    margin-top: 0;
-    margin-bottom: 5px;
-    font-weight: normal;
+  h4 {
+    margin-bottom: var(--app-spacing-small);
   }
 
   p {
     margin-top: 0;
     margin-bottom: 1em;
-    text-align: justify; /* Justify the paragraph text */
   }
 }
