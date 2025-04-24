@@ -3,5 +3,6 @@ export interface GameMetadata {
   title: string;
   description: string;
   previewImageUrl: string;
+  loadingIconUrl: string;
   previewHexColor: string;
 }

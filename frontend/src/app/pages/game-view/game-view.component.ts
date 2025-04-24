@@ -3,11 +3,13 @@ import {ActivatedRoute, Router} from '@angular/router'
 import {SponsorshipsComponent} from "../../components/adBar/sponsorships.component";
 import {GameMetadataService} from "../../services/game-metadata.service";
 import {GameMetadata} from "../../models/gameMetadata";
+import {GameLoaderComponent} from "../../components/game-loader/game-loader.component";
 
 @Component({
   selector: 'app-game-view',
   imports: [
-    SponsorshipsComponent
+    SponsorshipsComponent,
+    GameLoaderComponent
   ],
   templateUrl: './game-view.component.html',
   styleUrl: './game-view.component.scss'

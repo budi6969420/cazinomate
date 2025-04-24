@@ -12,5 +12,6 @@ public class GameMetadata {
     private String title;
     private String description;
     private String previewImageUrl;
+    private String loadingIconUrl;
     private String previewHexColor;
 }
