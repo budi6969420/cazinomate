@@ -4,11 +4,14 @@
     <app-buy-confirmation-modal [product]="selectedPackage" (confirmationClosed)="handleModalClose()">></app-buy-confirmation-modal>
   }
     <div class="container">
-    <ul>
-      @for (item of packageService.packages; track item.productId)
-      {
-        <li><app-package [package]="item" (packageClicked)="handlePackageClick($event)"></app-package></li>
+      @if (packageService.packages.length == 0) {
+        <div class="loader"></div>
       }
-    </ul>
+      <ul>
+        @for (item of packageService.packages; track item.productId)
+        {
+          <li><app-package [package]="item" (packageClicked)="handlePackageClick($event)"></app-package></li>
+        }
+      </ul>
   </div>
 </div>
