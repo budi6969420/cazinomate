@@ -24,8 +24,8 @@ export class PackageComponent implements OnInit {
   tiles: any[] = [];
 
   ngOnInit() {
-    const cols = 16;
-    const rows = 18;
+    const cols = 8;
+    const rows = 14;
     this.tiles = new Array(cols * rows);
   }
 }
