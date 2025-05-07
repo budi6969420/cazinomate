@@ -22,7 +22,7 @@ export class BuyConfirmationModalComponent {
     if (!this.product) return;
     this.confirmationClosed.emit();
     let paymentLinkOptions = new PaymentLinkCreationOptionsModel();
-    paymentLinkOptions.successUrl = location.origin + "/shop";
+    paymentLinkOptions.successUrl = location.origin + "/order-confirmation";
     paymentLinkOptions.cancelUrl = location.origin + "/shop";
 
     this.packageService.getPaymentLink(this.product.productId, paymentLinkOptions).subscribe((data) => {
