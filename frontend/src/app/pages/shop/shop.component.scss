@@ -1,20 +1,21 @@
-$secondaryColor: #313131;
-
 .header {
   color: #FFF;
   font-family: Inter, serif;
   font-size: 24px;
   font-style: normal;
-  font-weight: 400;
+  font-weight: bold;
   line-height: normal;
-  margin-top: 10px;
-  margin-left: 35px;
   margin-bottom: 30px;
+  text-align: center;
 }
 
 .background {
-  background: $secondaryColor;
   padding: 10px 10px 10px 15px;
+  height: 700px;
+}
+
+.background.warning{
+  height: 760px;
 }
 
 .container{
@@ -27,7 +28,7 @@ ul {
   display: grid;
   grid-template-columns: repeat(3, 1fr); /* Creates three equal columns */
   list-style: none;
-  gap: 25px;
+  gap: 30px;
 }
 
 .active {
@@ -46,6 +47,25 @@ ul {
 @keyframes spin {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
+}
+
+.warning-box {
+  background-color: #ffcc00; /* bright orange-yellow */
+  color: #4d2c00; /* dark brown for contrast */
+  border: 1px solid #e6b800;
+  padding: 16px 20px;
+  border-radius: 6px;
+  font-size: 15px;
+  font-family: sans-serif;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  max-width: 500px;
+  margin: auto;
+  margin-bottom: 30px;
+  z-index: 999;
+}
+
+.warning-box strong {
+  margin-right: 5px;
 }
 
 

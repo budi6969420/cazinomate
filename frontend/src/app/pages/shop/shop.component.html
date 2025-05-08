@@ -1,5 +1,10 @@
-<div class="background">
+<div [class]="user == null ? 'background warning' : 'background'">
   <h1 class="header">Wähle dein Mate Coin Paket aus</h1>
+  @if (user == null) {
+    <div class="warning-box">
+      <strong>Warnung:</strong> Um etwas zu kaufen müssen Sie angemeldet sein.
+    </div>
+  }
   @if (selectedPackage) {
     <app-buy-confirmation-modal [product]="selectedPackage" (confirmationClosed)="handleModalClose()">></app-buy-confirmation-modal>
   }
@@ -10,7 +15,7 @@
       <ul>
         @for (item of packageService.packages; track item.productId)
         {
-          <li><app-package [package]="item" (packageClicked)="handlePackageClick($event)"></app-package></li>
+          <li><app-package [package]="item" [user]="user" (packageClicked)="handlePackageClick($event)"></app-package></li>
         }
       </ul>
   </div>

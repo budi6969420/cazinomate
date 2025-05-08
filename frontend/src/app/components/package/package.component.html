@@ -1,24 +1,24 @@
-<div
-  [ngClass]="package.recommended ? 'card-recommended' : 'card'"
-  (click)="ShowConfirmationModal()">
+  <div
+    [ngClass]="getCardClass()"
+    (click)="ShowConfirmationModal()">
 
-  <div class="background-grid">
-    <div class="grid-tile" *ngFor="let tile of tiles"></div>
-  </div>
+    <div class="background-grid">
+      <div class="grid-tile" *ngFor="let tile of tiles"></div>
+    </div>
 
-  <label class="title">{{ package.name }}</label>
+    <label class="title">{{ package.name }}</label>
 
-  <div [class]="package.recommended ? 'recommended-rectangle active' : 'recommended-rectangle'">
-    <label class="recommended-label">Empfohlen</label>
-  </div>
+    <div [class]="package.recommended ? 'recommended-rectangle active' : 'recommended-rectangle'">
+      <label class="recommended-label">Empfohlen</label>
+    </div>
 
-  <div class="container">
+    <div class="container">
       <img src="{{package.imageUrl}}" class="image" />
-    <label class="amount">{{ package.amount | number:'1.0-0' }}</label>
+      <label class="amount">{{ package.amount | number:'1.0-0' }}</label>
       <label class="mateCoin-label">Mate Coins</label>
-  </div>
+    </div>
 
-  <div class="container-price">
-    <label class="price">{{ package.priceAmount / 100 }}€</label>
+    <div class="container-price">
+      <label class="price">{{ package.priceAmount / 100 }}€</label>
+    </div>
   </div>
-</div>
