@@ -1,8 +1,10 @@
 package de.szut.lf8_starter.payout;
 
+import de.szut.lf8_starter.payout.coupons.ICouponCodeGenerator;
 import de.szut.lf8_starter.services.KeycloakService;
 import de.szut.lf8_starter.transaction.TransactionService;
 import de.szut.lf8_starter.user.JwtService;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,12 +17,14 @@ public class PayoutController {
     private final JwtService jwtService;
     private final TransactionService transactionService;
     private final KeycloakService keycloakService;
+    private final ICouponCodeGenerator couponCodeGenerator;
 
-    public PayoutController(PayoutItemService payoutItemService, JwtService jwtService, TransactionService transactionService, KeycloakService keycloakService) {
+    public PayoutController(PayoutItemService payoutItemService, JwtService jwtService, TransactionService transactionService, KeycloakService keycloakService, @Qualifier("mock") ICouponCodeGenerator couponCodeGenerator) {
         this.payoutItemService = payoutItemService;
         this.jwtService = jwtService;
         this.transactionService = transactionService;
         this.keycloakService = keycloakService;
+        this.couponCodeGenerator = couponCodeGenerator;
     }
 
     @GetMapping()
@@ -30,7 +34,7 @@ public class PayoutController {
     }
 
     @PostMapping()
-    public ResponseEntity<?> purchasePayoutItem(@RequestHeader(value = "Authorization", required = false) String authorizationHeader,@RequestBody PurchasePayoutItemDto purchasePayoutItemDto) throws Exception {
+    public ResponseEntity<PayoutSuccessfulResponseDto> purchasePayoutItem(@RequestHeader(value = "Authorization", required = false) String authorizationHeader,@RequestBody PurchasePayoutItemDto purchasePayoutItemDto) throws Exception {
         var user = keycloakService.getUserData(jwtService.decodeId(authorizationHeader));
         var item = payoutItemService.getPayoutItemMetadataById(purchasePayoutItemDto.getId());
 
@@ -40,8 +44,9 @@ public class PayoutController {
             return ResponseEntity.badRequest().build();
         }
 
-        // send email
+        var code = couponCodeGenerator.generate();
+        var response = new PayoutSuccessfulResponseDto(code, item.getId());
 
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(response);
     }
 }
