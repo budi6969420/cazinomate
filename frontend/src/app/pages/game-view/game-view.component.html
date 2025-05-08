@@ -1,0 +1,13 @@
+<main>
+  <app-game-loader [gameMetadata]="gameMetadata" class="game-view"></app-game-loader>
+  <app-adBar/>
+
+  <div class="description">
+    <img [src]="gameMetadata.previewImageUrl">
+
+    <h1>{{gameMetadata.title}}</h1>
+    <h4>Regeln</h4>
+    <p>{{gameMetadata.description}}</p>
+  </div>
+
+</main>

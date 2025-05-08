@@ -1,0 +1,47 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+main {
+  display: flex;
+  flex-direction: column;
+  gap: 80px;
+  max-width: 100%;
+  width: calc(75svh/10*15); //Hängt direkt mit aspect-ratio in game-view zusammen
+}
+.game-view {
+  width: 100%;
+  aspect-ratio: 15/10;
+  background-color: var(--app-color-background-secondary);
+  border-radius: var(--app-spacing-big);
+  overflow: hidden;
+}
+
+.description {
+  padding: var(--app-spacing-huge);
+  background: var(--app-color-background-secondary);
+  border-radius: var(--app-font-size-small);
+
+  img {
+    float: left;
+    max-height: 241px;
+    max-width: 100%;
+    padding-right: var(--app-spacing-huge);
+    padding-bottom: var(--app-spacing-huge);
+  }
+
+  h1 {
+    margin-bottom: var(--app-spacing-medium);
+  }
+
+  h4 {
+    margin-bottom: var(--app-spacing-small);
+  }
+
+  p {
+    margin-top: 0;
+    margin-bottom: 1em;
+  }
+}

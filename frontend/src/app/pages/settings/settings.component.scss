@@ -17,14 +17,7 @@ main {
   width: 100%;
   position: relative;
 }
-h1{
-  font-size: var(--app-font-size-gigantic);
 
-  > span {
-    font-size: inherit;
-    opacity: 0.75;
-  }
-}
 .overview {
   display: flex;
   flex-direction: column;
