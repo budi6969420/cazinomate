@@ -69,6 +69,9 @@ class KeycloakSecurityConfig {
                         .requestMatchers(HttpMethod.DELETE, "/api/sponsor/**").hasRole("admin")
                         .requestMatchers(HttpMethod.GET, "/api/sponsor").permitAll()
 
+                        .requestMatchers(HttpMethod.GET, "/api/payout").permitAll()
+
+
                         .requestMatchers("/swagger", "/swagger-ui/**", "/v3/api-docs/**").permitAll()
                         .anyRequest().authenticated()
                 )

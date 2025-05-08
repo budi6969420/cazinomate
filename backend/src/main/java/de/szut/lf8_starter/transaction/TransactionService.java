@@ -10,8 +10,12 @@ public class TransactionService {
         this.transactionRepository = transactionRepository;
     }
 
-    public void AddTransaction(String userId, int amount) {
+    public Boolean TryAddTransaction(String userId, int amount) {
+        if (GetUserBalance(userId) - amount < 0) {
+            return false;
+        }
         transactionRepository.save(new TransactionModel(userId, amount));
+        return true;
     }
 
     public int GetUserBalance(String userId) {

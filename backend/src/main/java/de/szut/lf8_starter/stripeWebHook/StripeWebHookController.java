@@ -61,6 +61,6 @@ public class StripeWebHookController {
         String userId = session.getMetadata().get("userId");
 
         var product = stripeService.getProductById(productId);
-        transactionService.AddTransaction(userId, product.getAmount());
+        transactionService.TryAddTransaction(userId, product.getAmount());
     }
 }
