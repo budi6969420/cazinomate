@@ -1,0 +1,24 @@
+<div [class]="!keycloakService.isAuthenticated() ? 'background warning' : 'background'">
+  <h1 class="header">Wähle deine Alkohol Auszahlung aus</h1>
+    @if (!keycloakService.isAuthenticated()) {
+      <div class="warning-box">
+        <strong>Warnung:</strong> Um etwas auszuzahlen müssen Sie angemeldet sein.
+      </div>
+    }
+    @if (payoutItem) {
+      <app-payout-confirmation-modal [payoutItem]="payoutItem" (confirmationClosed)="handleModalClose()"/>
+    }
+    <div class="container">
+      @if (payoutItemService.items.length == 0) {
+        <div class="loader"></div>
+      }
+      <ul>
+        @for (item of payoutItemService.items; track item.id)
+        {
+          <li>
+            <app-payoutItem [payoutItem]="item" [isAuthenticated]="keycloakService.isAuthenticated()" (payoutItemClicked)="handlePackageClick($event)"/>
+          </li>
+        }
+      </ul>
+  </div>
+</div>

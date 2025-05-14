@@ -1,0 +1,14 @@
+@if (payoutItemResponse == null){
+  <div class="popup">
+    <p>Wollen sie {{payoutItem?.name}} für {{payoutItem ? payoutItem.cost : 0}}€ kaufen?</p>
+    <button class="yes-btn" (click)="handleYes()">Ja, kaufen</button>
+    <button class="no-btn" (click)="handleNo()">Abbrechen</button>
+  </div>
+} @else {
+  <div>
+    <h2>{{payoutItem?.name}} wurde erfolgreich gekauft für {{payoutItem?.cost}} MateCoins</h2>
+    <img src="{{payoutItem?.imageUrl}}">
+    <p>Code:</p>
+    <p>{{payoutItemResponse.code}}</p>
+  </div>
+}
