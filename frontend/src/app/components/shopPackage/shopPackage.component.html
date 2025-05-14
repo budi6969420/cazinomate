@@ -3,7 +3,9 @@
     (click)="ShowConfirmationModal()">
 
     <div class="background-grid">
-      <div class="grid-tile" *ngFor="let tile of tiles"></div>
+      @for (tile of tiles; track tiles.indexOf(tile)) {
+        <div class="grid-tile"></div>
+      }
     </div>
 
     <label class="title">{{ package.name }}</label>

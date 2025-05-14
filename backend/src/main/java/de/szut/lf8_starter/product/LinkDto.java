@@ -5,6 +5,6 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class LinkModel {
+public class LinkDto {
     public String url;
 }

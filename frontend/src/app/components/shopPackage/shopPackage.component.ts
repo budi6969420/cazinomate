@@ -1,23 +1,22 @@
 import {Component, EventEmitter, inject, Input, OnInit, Output} from '@angular/core';
-import {Package} from "../../models/package";
+import {ShopPackage} from "../../models/shopPackage";
 import {DecimalPipe, NgClass, NgForOf} from "@angular/common";
 import { User } from '../../models/user';
 
 @Component({
-  selector: 'app-package',
+  selector: 'app-shopPackage',
   standalone: true,
   imports: [
-    NgForOf,
     DecimalPipe,
     NgClass
   ],
-  templateUrl: './package.component.html',
-  styleUrl: './package.component.scss'
+  templateUrl: './shopPackage.component.html',
+  styleUrl: './shopPackage.component.scss'
 })
-export class PackageComponent implements OnInit {
-  @Input() package!: Package;
-  @Input() user: User | null = null;
-  @Output() packageClicked = new EventEmitter<Package>();
+export class ShopPackageComponent implements OnInit {
+  @Input() package!: ShopPackage;
+  @Input() isAuthenticated: boolean = false;
+  @Output() packageClicked = new EventEmitter<ShopPackage>();
 
   ShowConfirmationModal() {
     this.packageClicked.emit(this.package);
@@ -34,14 +33,14 @@ export class PackageComponent implements OnInit {
   getCardClass() : string {
     if (this.package.recommended)
     {
-      if (this.user == null) {
+      if (!this.isAuthenticated) {
         return 'card-recommended';
       }
 
       return 'card-recommended active';
     }
 
-    if (this.user == null) {
+    if (!this.isAuthenticated) {
       return 'card';
     }
 

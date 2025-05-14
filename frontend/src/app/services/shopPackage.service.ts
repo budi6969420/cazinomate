@@ -1,6 +1,6 @@
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Injectable} from "@angular/core";
-import { Package } from "../models/package";
+import { ShopPackage } from "../models/shopPackage";
 import {PaymentLinkCreationOptionsModel} from "../models/PaymentLinkCreationOptions";
 import {UrlModel} from "../models/UrlModel";
 import {Observable} from "rxjs";
@@ -8,16 +8,16 @@ import {Observable} from "rxjs";
 @Injectable({
   providedIn: 'root'
 })
-export class PackageService {
+export class ShopPackageService {
 
-  public packages: Package[] = [];
-  private placeholderPackages: Package[] = [];
+  public packages: ShopPackage[] = [];
+  private placeholderPackages: ShopPackage[] = [];
 
 
   private apiUrl: string = "http://localhost:8080/api/product";
 
   constructor(private http: HttpClient) {
-    this.getPackages().subscribe({next: (data: Package[]) => {
+    this.getPackages().subscribe({next: (data: ShopPackage[]) => {
         this.packages = data.sort((a, b) => a.priceAmount - b.priceAmount);
         if (this.packages.length === 0) {
           this.packages = this.placeholderPackages.sort((a, b) => a.priceAmount - b.priceAmount)
@@ -28,7 +28,7 @@ export class PackageService {
   }
 
   private getPackages() {
-    return this.http.get<Package[]>(`${this.apiUrl}`);
+    return this.http.get<ShopPackage[]>(`${this.apiUrl}`);
   }
 
   public  getPaymentLink(productId: string, options: PaymentLinkCreationOptionsModel) {

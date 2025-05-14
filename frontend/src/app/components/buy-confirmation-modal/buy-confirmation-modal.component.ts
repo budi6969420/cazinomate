@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {PaymentLinkCreationOptionsModel} from "../../models/PaymentLinkCreationOptions";
-import {PackageService} from "../../services/package.service";
-import {Package} from "../../models/package";
+import {ShopPackageService} from "../../services/shopPackage.service";
+import {ShopPackage} from "../../models/shopPackage";
 
 @Component({
   selector: 'app-buy-confirmation-modal',
@@ -12,10 +12,10 @@ import {Package} from "../../models/package";
 })
 export class BuyConfirmationModalComponent {
 
-  @Input() product: Package | null = null;
+  @Input() product: ShopPackage | null = null;
   @Output() confirmationClosed = new EventEmitter();
 
-  constructor(private packageService: PackageService) {
+  constructor(private packageService: ShopPackageService) {
   }
 
   public handleYes() {

@@ -12,16 +12,14 @@ export class OrderConfirmationComponent implements OnInit {
   constructor(private router: Router) {
   }
 
-  public timeUntilRedirecting: number = 5;
+  public secondsUntilRedirect: number = 5;
 
   ngOnInit(): void {
     setInterval(this.updateCountdown.bind(this), 1000);
   }
 
   updateCountdown() {
-    this.timeUntilRedirecting--;
-
-    if (this.timeUntilRedirecting == 0) {
+    if (--this.secondsUntilRedirect <= 0) {
       this.router.navigateByUrl('/shop');
     }
   }

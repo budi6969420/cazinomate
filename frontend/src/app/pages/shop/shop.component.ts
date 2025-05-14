@@ -1,35 +1,32 @@
 import {Component, OnInit} from '@angular/core';
-import {PackageComponent} from "../../components/package/package.component";
-import {PackageService} from "../../services/package.service";
+import {ShopPackageComponent} from "../../components/shopPackage/shopPackage.component";
+import {ShopPackageService} from "../../services/shopPackage.service";
 import {BuyConfirmationModalComponent} from "../../components/buy-confirmation-modal/buy-confirmation-modal.component";
-import {Package} from "../../models/package";
-import {UserService} from "../../services/user.service";
-import {User} from "../../models/user";
+import {ShopPackage} from "../../models/shopPackage";
+import {KeycloakAuthService} from "../../services/keycloak-auth.service";
 
 @Component({
   selector: 'app-shop',
   standalone: true,
   imports: [
-    PackageComponent,
+    ShopPackageComponent,
     BuyConfirmationModalComponent,
   ],
   templateUrl: './shop.component.html',
   styleUrl: './shop.component.scss',
 })
 export class ShopComponent implements OnInit {
-  protected selectedPackage: Package | null = null;
-  public user: User | null = null;
+  protected selectedPackage: ShopPackage | null = null;
+  public isAuthenticated: boolean = false;
 
-  constructor(protected packageService: PackageService, private userService: UserService) {
+  constructor(protected packageService: ShopPackageService, private keycloakService: KeycloakAuthService,) {
   }
 
   ngOnInit(): void {
-    this.userService.getUserInfo().subscribe((userData) => {
-      this.user = userData;
-    });
+    this.isAuthenticated = this.keycloakService.isAuthenticated();
     }
 
-  handlePackageClick($event: Package) {
+  handlePackageClick($event: ShopPackage) {
     this.selectedPackage = $event;
   }
 

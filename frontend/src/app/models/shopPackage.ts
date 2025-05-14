@@ -1,4 +1,4 @@
-export interface Package {
+export interface ShopPackage {
   productId: string;
   name: string;
   priceId: string;
