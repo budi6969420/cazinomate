@@ -1,0 +1,50 @@
+.popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #272727;
+  padding: 20px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+  text-align: center;
+  width: 300px;
+  height: 80px;
+  min-height: 80px;
+  transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+  z-index: 999;
+}
+.popup button {
+  margin: 10px;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  font-size: 16px;
+  transition: background 0.2s ease-in-out;
+}
+
+.yes-btn {
+  background: green;
+  color: white;
+}
+
+.yes-btn:hover {
+  background: darkgreen;
+}
+
+.no-btn {
+  background: red;
+  color: white;
+}
+
+.no-btn:hover {
+  background: darkred;
+}
+
+.popup p {
+  font-size: 16px;
+  color: white;
+  margin-bottom: 10px;
+}
+
