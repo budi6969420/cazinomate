@@ -2,6 +2,7 @@ package de.szut.lf8_starter.payout;
 
 import de.szut.lf8_starter.payout.coupons.ICouponCodeGenerator;
 import de.szut.lf8_starter.services.KeycloakService;
+import de.szut.lf8_starter.transaction.TransactionCategory;
 import de.szut.lf8_starter.transaction.TransactionService;
 import de.szut.lf8_starter.user.JwtService;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -40,11 +41,12 @@ public class PayoutController {
 
         if (item == null) return ResponseEntity.notFound().build();
 
-        if (!transactionService.TryAddTransaction(user.getId(), item.getCost())) {
+        var code = couponCodeGenerator.generate();
+
+        if (!transactionService.TryAddTransaction(user.getId(), item.getCost(), TransactionCategory.Payment, "1x ".concat(item.getName()).concat(": ").concat(code))) {
             return ResponseEntity.badRequest().build();
         }
 
-        var code = couponCodeGenerator.generate();
         var response = new PayoutSuccessfulResponseDto(code, item.getId());
 
         return ResponseEntity.ok(response);

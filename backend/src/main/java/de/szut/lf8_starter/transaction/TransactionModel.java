@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
+
 @Entity
 @Data
 @NoArgsConstructor
@@ -14,9 +16,16 @@ public class TransactionModel {
     private Long id;
     private String userId;
     private int amount;
+    @Enumerated(EnumType.STRING)
+    private TransactionCategory category;
+    private String description;
+    private Date date;
 
-    public TransactionModel(String userId, int amount) {
+    public TransactionModel(String userId, int amount, TransactionCategory category, String description, Date date) {
         this.userId = userId;
         this.amount = amount;
+        this.category = category;
+        this.description = description;
+        this.date = date;
     }
 }
