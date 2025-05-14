@@ -47,7 +47,7 @@ public class PayoutController {
             return ResponseEntity.badRequest().build();
         }
 
-        var response = new PayoutSuccessfulResponseDto(code, item.getId());
+        var response = new PayoutSuccessfulResponseDto(code);
 
         return ResponseEntity.ok(response);
     }
