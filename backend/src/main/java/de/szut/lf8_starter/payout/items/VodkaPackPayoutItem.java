@@ -16,7 +16,7 @@ public class BeerPayoutItem extends BasePayoutItem {
 
     @Override
     public int getCost() {
-        return 2000;
+        return 500;
     }
 
     @Override
