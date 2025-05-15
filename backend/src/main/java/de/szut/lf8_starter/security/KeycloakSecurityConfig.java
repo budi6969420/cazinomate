@@ -57,15 +57,11 @@ class KeycloakSecurityConfig {
                 .cors(Customizer.withDefaults())
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/stripe-webhook").permitAll()
-
-                        .requestMatchers(HttpMethod.POST, "/api/sponsor").hasRole("admin")
-                        .requestMatchers(HttpMethod.PUT, "/api/sponsor").hasRole("admin")
-                        .requestMatchers(HttpMethod.DELETE, "/api/sponsor/**").hasRole("admin")
+                                       
                         .requestMatchers(HttpMethod.GET, "/api/sponsor").permitAll()
-
                         .requestMatchers(HttpMethod.GET, "/api/product").permitAll()
-
                         .requestMatchers(HttpMethod.GET, "/api/game").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/payout").permitAll()
 
                         .requestMatchers("/swagger", "/swagger-ui/**", "/v3/api-docs/**").permitAll()
                         .anyRequest().authenticated()

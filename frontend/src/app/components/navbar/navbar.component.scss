@@ -26,3 +26,20 @@ li {
 }
 
 
+.balance-container {
+  display: flex;
+  align-items: center;
+  margin-right: 5px;
+}
+
+.balance-amount {
+  margin: 0;
+  font-size: var(--app-font-size-large);
+}
+
+.balance-icon {
+  width: 35px;
+  height: 35px;
+  margin-left: 5px;
+}
+

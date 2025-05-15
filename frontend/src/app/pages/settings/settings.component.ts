@@ -3,7 +3,7 @@ import { Component, ElementRef, ViewChild, OnInit, ChangeDetectorRef } from '@an
 import { NewPassword } from "../../models/newPassword";
 import { UserService } from "../../services/user.service";
 import { NewUsername } from "../../models/newUsername";
-import { User } from "../../models/user";
+import { user } from "../../models/user";
 import { FormsModule } from "@angular/forms";
 import { CommonModule } from '@angular/common';
 
@@ -27,7 +27,7 @@ export class SettingsComponent implements OnInit {
   newUsername!: string;
   currentPasswordforChangingUsername!: string;
 
-  user: User | null = null;
+  user: user | null = null;
 
   constructor(
       private userService: UserService,
@@ -35,7 +35,7 @@ export class SettingsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.userService.getUserInfo().subscribe((userData) => {
+    this.userService.updateSelfUserInfo().subscribe((userData) => {
       this.user = userData;
       this.cdr.markForCheck();
     });
