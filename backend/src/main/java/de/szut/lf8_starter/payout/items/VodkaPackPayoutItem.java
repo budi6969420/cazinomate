@@ -11,7 +11,7 @@ public class VodkaPackPayoutItem extends BasePayoutItem {
 
     @Override
     public String getName() {
-        return "Vodka Packet";
+        return "Vodka Paket";
     }
 
     @Override

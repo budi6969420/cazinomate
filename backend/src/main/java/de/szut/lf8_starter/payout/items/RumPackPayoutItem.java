@@ -10,7 +10,7 @@ public class RumPackPayoutItem extends BasePayoutItem {
 
     @Override
     public String getName() {
-        return "Rum Packet";
+        return "Rum Paket";
     }
 
     @Override

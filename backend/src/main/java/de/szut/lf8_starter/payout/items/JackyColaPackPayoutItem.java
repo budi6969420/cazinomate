@@ -10,7 +10,7 @@ public class JackyColaPackPayoutItem extends BasePayoutItem {
 
     @Override
     public String getName() {
-        return "Jacky Cola Packet";
+        return "Jacky Cola Paket";
     }
 
     @Override
