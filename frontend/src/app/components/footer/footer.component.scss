@@ -12,6 +12,14 @@ ul {
   list-style: none;
 }
 
+.social-media-link li a img{
+  transition: transform 0.3s ease;
+}
+
+.social-media-link li a img:hover {
+  transform: scale(1.05);
+}
+
 #topWrapper {
   display: flex;
   flex-direction: row;
@@ -64,5 +72,10 @@ ul {
 
   img {
     width: 200px;
+    transition: transform 0.3s ease;
+  }
+
+  img:hover {
+    transform: scale(1.02);
   }
 }
