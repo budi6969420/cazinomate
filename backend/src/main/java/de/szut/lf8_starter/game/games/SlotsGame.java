@@ -18,7 +18,7 @@ public class SlotsGame extends BaseGame {
 
     @Override
     public String getPreviewImageUrl() {
-        return "https://cdn.vectorstock.com/i/500p/28/62/casino-slot-machine-777-jackpot-winning-game-vector-23732862.jpg";
+        return "https://cdn.budidev.de/c57e5";
     }
 
     @Override
