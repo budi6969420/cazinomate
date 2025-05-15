@@ -14,8 +14,16 @@ public class CrossyRoadBangBangGame extends BaseGame {
     }
 
     @Override
+    public String getDescription() { return "TBA"; }
+
+    @Override
     public String getPreviewImageUrl() {
         return "https://static.wikia.nocookie.net/crossyroad/images/7/73/CrossyRoad_Chicken_x_AmongUs_RedCrewmate.png/revision/latest?cb=20240924183713";
+    }
+
+    @Override
+    public String getLoadingIconUrl() {
+        return "/images/cazinomate-logo.svg";
     }
 
     @Override

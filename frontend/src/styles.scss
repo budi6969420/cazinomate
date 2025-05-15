@@ -7,8 +7,11 @@
   --app-color-red: #CD5353;
   --app-color-green: #16B858;
   --app-color-red: #f00;
+  --app-color-black: #1E1E1E;
+  --app-color-gray: #D9D9D9;
 
   --app-font-size-gigantic: 25px;
+  --app-font-size-big: 20px;
   --app-font-size-large: 20px;
   --app-font-size-normal: 16px;
   --app-font-size-small: 13px;
@@ -20,6 +23,7 @@
   --app-spacing-small: 15px;
   --app-spacing-medium: 20px;
   --app-spacing-big: 25px;
+  --app-spacing-huge: 35px;
 
   --app-margin-left-to-sidebar: 90px;
 
@@ -46,6 +50,29 @@ body {
 svg {
   height: 100%;
   fill: var(--app-color-text-primary)
+}
+
+h1{
+  font-size: var(--app-font-size-gigantic);
+
+  > span {
+    font-size: inherit;
+    opacity: 0.75;
+  }
+}
+
+h2 {
+  font-size: var(--app-font-size-big);
+}
+
+h4 {
+  font-size: var(--app-font-size-normal);
+  font-weight: bold;
+}
+
+p {
+  text-align: justify;
+  line-height: var(--app-font-size-normal);
 }
 
 button {
