@@ -1,37 +1,22 @@
-package de.szut.lf8_starter.sponsors;
+package de.szut.lf8_starter.sponsor;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import de.szut.lf8_starter.sponsor.sponsors.GoenergySponsor;
+import de.szut.lf8_starter.sponsor.sponsors.OnlyFansSponsor;
+import de.szut.lf8_starter.sponsor.sponsors.PrimeSponsor;
+import de.szut.lf8_starter.sponsor.sponsors.ProdBrnsSponsor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 public class SponsorService {
-    private final ISponsorRepository sponsorRepository;
+    private List<ISponsor> sponsors = List.of(
+            new GoenergySponsor(),
+            new PrimeSponsor(),
+            new OnlyFansSponsor(),
+            new ProdBrnsSponsor());
 
-    public SponsorService(ISponsorRepository sponsorRepository) {
-        this.sponsorRepository = sponsorRepository;
+    public List<SponsorMetadata> getAllSponsorMetadata() {
+        return sponsors.stream().map(ISponsor::getMetadata).toList();
     }
-
-    public SponsorModel getSponsorById(Long id) {
-        var optional = sponsorRepository.findById(id);
-        return optional.orElse(null);
-    }
-
-    public List<SponsorModel> getAllSponsors() {
-        return sponsorRepository.findAll();
-    }
-
-    public SponsorModel createSponsor(SponsorModel sponsor) {
-        return sponsorRepository.save(sponsor);
-    }
-
-    public SponsorModel updateSponsor(SponsorModel sponsor) {
-        return sponsorRepository.save(sponsor);
-    }
-
-    public void deleteSponsor(Long id) {
-        sponsorRepository.deleteById(id);
-    }
-
 }
