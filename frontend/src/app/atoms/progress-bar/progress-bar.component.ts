@@ -8,5 +8,5 @@ import {GameMetadata} from "../../models/gameMetadata";
   styleUrl: './progress-bar.component.scss'
 })
 export class ProgressBarComponent {
-  @Input() game!: GameMetadata
+  @Input() gameMetaData!: GameMetadata
 }

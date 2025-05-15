@@ -9,5 +9,5 @@ import {GameMetadata} from "../../models/gameMetadata";
   styleUrl: './game-tile.component.scss'
 })
 export class GameTileComponent {
-  @Input() game!: GameMetadata;
+  @Input() gameMetadata!: GameMetadata;
 }

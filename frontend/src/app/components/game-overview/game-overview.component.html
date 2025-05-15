@@ -10,6 +10,6 @@
 
 <div class="gameTiles">
   @for (game of filteredGames; track game.id){
-    <app-game-tile [routerLink]="['/game', game.id]" [game]="game"></app-game-tile>
+    <app-game-tile [routerLink]="['/game', game.id]" [gameMetadata]="game"></app-game-tile>
   }
 </div>
