@@ -1,0 +1,26 @@
+  <div
+    [ngClass]="getCardClass()"
+    (click)="ShowConfirmationModal()">
+
+    <div class="background-grid">
+      @for (tile of tiles; track tiles.indexOf(tile)) {
+        <div class="grid-tile"></div>
+      }
+    </div>
+
+    <label class="title">{{ package.name }}</label>
+
+    <div [class]="package.recommended ? 'recommended-rectangle active' : 'recommended-rectangle'">
+      <label class="recommended-label">Empfohlen</label>
+    </div>
+
+    <div class="container">
+      <img src="{{package.imageUrl}}" class="image" />
+      <label class="amount">{{ package.amount | number:'1.0-0' }}</label>
+      <label class="mateCoin-label">Mate Coins</label>
+    </div>
+
+    <div class="container-price">
+      <label class="price">{{ package.priceAmount / 100 }}€</label>
+    </div>
+  </div>

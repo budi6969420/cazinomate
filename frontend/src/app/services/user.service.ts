@@ -4,7 +4,6 @@ import {NewPassword} from "../models/newPassword";
 import {NewUsername} from "../models/newUsername";
 import {User} from "../models/user";
 import {Observable} from "rxjs";
-import {KeycloakService} from "keycloak-angular";
 
 @Injectable({
   providedIn: 'root'
