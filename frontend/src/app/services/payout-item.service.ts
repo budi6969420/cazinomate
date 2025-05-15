@@ -23,6 +23,7 @@ export class PayoutItemService {
   }
 
   public getPaymentLink(payoutItemId: string) {
-    return this.http.post<PayoutSuccessfulResponseModel>(`${this.apiUrl}/${payoutItemId}`, null);
+    return this.http.post<PayoutSuccessfulResponseModel>(this.apiUrl, { id: payoutItemId });
+
   }
 }

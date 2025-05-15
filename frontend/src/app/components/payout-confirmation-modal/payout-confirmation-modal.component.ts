@@ -5,6 +5,7 @@ import {ShopPackage} from "../../models/shopPackage";
 import {PayoutItemService} from "../../services/payout-item.service";
 import {PayoutItemModel} from "../../models/payoutItemModel";
 import {PayoutSuccessfulResponseModel} from "../../models/payoutSuccessfulResponseModel";
+import {UserService} from "../../services/user.service";
 
 @Component({
   selector: 'app-payout-confirmation-modal',
@@ -20,7 +21,7 @@ export class PayoutConfirmationModalComponent {
 
   public payoutItemResponse: PayoutSuccessfulResponseModel | null = null;
 
-  constructor(private payoutItemService: PayoutItemService) {
+  constructor(private payoutItemService: PayoutItemService, private userService: UserService,) {
   }
 
   public handleYes() {
@@ -28,6 +29,7 @@ export class PayoutConfirmationModalComponent {
 
     this.payoutItemService.getPaymentLink(this.payoutItem.id).subscribe((data) => {
       this.payoutItemResponse = data;
+      this.userService.updateSelfBalance().subscribe();
     });
   }
 

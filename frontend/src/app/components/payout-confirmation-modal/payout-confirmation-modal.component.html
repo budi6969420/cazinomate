@@ -1,14 +1,18 @@
+
+<div class="modal-backdrop"></div>
+
 @if (payoutItemResponse == null){
   <div class="popup">
-    <p>Wollen Sie 1x {{payoutItem?.name}} für {{payoutItem ? payoutItem.cost : 0}}<img src="/images/coin.png"> kaufen?</p>
+  <p>Wollen Sie 1x {{payoutItem?.name}} für {{payoutItem ? payoutItem.cost : 0}}<img src="/images/coin.png"> kaufen?</p>
     <button class="yes-btn" (click)="handleYes()">Ja, kaufen</button>
     <button class="no-btn" (click)="handleNo()">Abbrechen</button>
   </div>
 } @else {
-  <div>
+  <div class=" popup popup-end">
     <h2>{{payoutItem?.name}} wurde erfolgreich gekauft für {{payoutItem?.cost}} MateCoins</h2>
     <img src="{{payoutItem?.imageUrl}}">
-    <p>Code:</p>
+    <p>Rewe 100% Coupon Code:</p>
     <p>{{payoutItemResponse.code}}</p>
+    <button class="yes-btn" (click)="handleNo()">OK</button>
   </div>
 }
