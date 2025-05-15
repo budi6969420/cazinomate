@@ -65,6 +65,9 @@ class KeycloakSecurityConfig {
 
                         .requestMatchers(HttpMethod.GET, "/api/product").permitAll()
 
+                        .requestMatchers(HttpMethod.GET, "/api/payout").permitAll()
+
+
                         .requestMatchers("/swagger", "/swagger-ui/**", "/v3/api-docs/**").permitAll()
                         .anyRequest().authenticated()
                 )

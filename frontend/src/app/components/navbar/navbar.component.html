@@ -9,7 +9,10 @@
     </li>
 } @else {
    <li>
-
+     <div class="balance-container">
+       <p class="balance-amount">{{ userService.myBalance | number:'1.0-0' }}</p>
+       <img class="balance-icon" src="/images/coin.png" alt="Coin">
+     </div>
    </li>
     <li>
       <button class="red-button" (click)="onLogout()">Abmelden</button>

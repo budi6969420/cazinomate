@@ -1,7 +1,7 @@
 import {Component, EventEmitter, inject, Input, OnInit, Output} from '@angular/core';
 import {ShopPackage} from "../../models/shopPackage";
 import {DecimalPipe, NgClass, NgForOf} from "@angular/common";
-import { User } from '../../models/user';
+import { user } from '../../models/user';
 
 @Component({
   selector: 'app-shopPackage',
