@@ -1,7 +1,7 @@
 <div class="logos">
   <div class="logos-slide">
     @for (sponsor of service.sponsors; track sponsor.id) {
-      <a href="{{sponsor.url}}">
+      <a href="{{sponsor.url}}" target="_blank" rel="noopener noreferrer">
         <img class="logo" [src]="(sponsor.imageUrl)">
       </a>
     }
@@ -9,7 +9,7 @@
 
   <div class="logos-slide">
     @for (sponsor of service.sponsors; track sponsor.id) {
-      <a href="{{sponsor.url}}">
+      <a href="{{sponsor.url}}" target="_blank" rel="noopener noreferrer">
         <img class="logo" [src]="(sponsor.imageUrl)" [alt]="sponsor.name">
       </a>
 
