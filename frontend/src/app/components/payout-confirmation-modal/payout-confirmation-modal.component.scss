@@ -46,5 +46,12 @@
   font-size: 16px;
   color: white;
   margin-bottom: 10px;
+  display: flex;
+  img {
+    width: 20px;
+    height: 20px;
+    margin-left: 5px;
+    margin-right: 5px;
+  }
 }
 

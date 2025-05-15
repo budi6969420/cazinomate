@@ -1,6 +1,6 @@
 @if (payoutItemResponse == null){
   <div class="popup">
-    <p>Wollen sie {{payoutItem?.name}} für {{payoutItem ? payoutItem.cost : 0}}€ kaufen?</p>
+    <p>Wollen Sie 1x {{payoutItem?.name}} für {{payoutItem ? payoutItem.cost : 0}}<img src="/images/coin.png"> kaufen?</p>
     <button class="yes-btn" (click)="handleYes()">Ja, kaufen</button>
     <button class="no-btn" (click)="handleNo()">Abbrechen</button>
   </div>

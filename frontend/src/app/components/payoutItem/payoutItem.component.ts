@@ -1,6 +1,7 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {DecimalPipe, NgClass} from "@angular/common";
 import {PayoutItemModel} from "../../models/payoutItemModel";
+import {UserService} from "../../services/user.service";
 
 @Component({
   selector: 'app-payoutItem',
@@ -16,11 +17,32 @@ export class PayoutItemComponent implements OnInit {
   @Input() isAuthenticated: boolean = false;
   @Output() payoutItemClicked = new EventEmitter<PayoutItemModel>();
 
+  constructor(private userService: UserService) {
+  }
+
   ShowConfirmationModal() {
+    if (!this.canAfford()) {
+      this.shakeCard();
+      return;
+    }
     this.payoutItemClicked.emit(this.payoutItem);
   }
 
   tiles: any[] = [];
+
+  isShaking = false;
+
+  canAfford(): boolean {
+    return this.userService.myBalance >= this.payoutItem.cost;
+  }
+
+  shakeCard() {
+    this.isShaking = true;
+    setTimeout(() => {
+      this.isShaking = false;
+    }, 500); // Duration of shake animation
+  }
+
 
   ngOnInit() {
     const cols = 8;
@@ -28,10 +50,12 @@ export class PayoutItemComponent implements OnInit {
     this.tiles = new Array(cols * rows);
   }
 
-  getCardClass() : string {
-    if (!this.isAuthenticated) {
-      return 'card';
-    }
-    return 'card active';
+  getCardClass() : any {
+    return {
+      'card': true,
+      'active': this.isAuthenticated && this.canAfford(),
+      'unaffordable': this.isAuthenticated && !this.canAfford(),
+      'shake': this.isShaking
+    };
   }
 }

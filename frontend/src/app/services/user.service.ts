@@ -12,7 +12,7 @@ export class UserService {
 
   private apiUrl = 'http://localhost:8080/api/user';
   public myUser: user | null = null;
-  public myBalance: number = 0;
+  public myBalance: number = 5000;
 
   constructor(private http: HttpClient) {}
 
