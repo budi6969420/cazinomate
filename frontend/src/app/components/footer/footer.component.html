@@ -34,7 +34,10 @@
 </div>
 <hr>
 <div id="bottomWrapper">
-  @for (sponsor of sponsorService.getVipSponsors(); track sponsor.id) {
-    <img [src]="sponsor.imageUrl" [alt]="sponsor.name">
+  @for (sponsor of sponsorService.sponsors; track sponsor.id) {
+    <a href="{{sponsor.url}}">
+      <img [src]="sponsor.imageUrl" [alt]="sponsor.name">
+    </a>
+
   }
 </div>

@@ -1,5 +1,5 @@
 :host {
-  height: 150px;
+  height: 100px;
   width: 100%;
   position: relative;
   display: block;
@@ -29,25 +29,26 @@
   content: "";
 }
 
-.logos:hover .logos-slide {
-  animation-play-state: paused;
-}
+  .logos-slide {
+    display: inline-block;
+    animation: 20s slide infinite linear;
+    height: 100%;
+  }
 
-.logos-slide {
-  display: inline-block;
-  animation: 20s slide infinite linear;
-  height: 100%;
-}
+  .logos-slide a {
+    z-index: 100;
+    cursor: pointer;
+  }
 
-.logos-slide img {
-  height: 100%;
-  margin-right: 50px;
-}
+  .logos-slide img {
+    height: 80%;
+    margin-right: 50px;
+    z-index: 90;
+    transition: transform 0.3s ease;
+  }
 
-.overlay {
-  position: absolute;
-  top: 0;
-  height: 100%;
-  width: 100%;
-  background: linear-gradient(90deg, var(--app-color-background-primary) 0%, rgba(0,0,0,0) 5%, rgba(0,0,0,0) 95%, var(--app-color-background-primary) 100%);
-}
+  .logos-slide img:hover {
+    transform: scale(1.02);
+  }
+
+
