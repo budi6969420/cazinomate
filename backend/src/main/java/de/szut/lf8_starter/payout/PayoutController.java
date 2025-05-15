@@ -43,7 +43,7 @@ public class PayoutController {
 
         var code = couponCodeGenerator.generate();
 
-        if (!transactionService.TryAddTransaction(user.getId(), item.getCost(), TransactionCategory.Payment, "1x ".concat(item.getName()).concat(": ").concat(code))) {
+        if (!transactionService.TryAddTransaction(user.getId(), -item.getCost(), TransactionCategory.Payment, "1x ".concat(item.getName()).concat(": ").concat(code))) {
             return ResponseEntity.badRequest().build();
         }
 

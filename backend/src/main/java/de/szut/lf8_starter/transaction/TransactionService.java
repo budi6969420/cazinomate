@@ -14,7 +14,7 @@ public class TransactionService {
     }
 
     public Boolean TryAddTransaction(String userId, int amount, TransactionCategory category, String description) {
-        if (GetUserBalance(userId) - amount < 0) {
+        if (GetUserBalance(userId) +  amount < 0) {
             return false;
         }
         transactionRepository.save(new TransactionModel(userId, amount, category, description, new Date()));
