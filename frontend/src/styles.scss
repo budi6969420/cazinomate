@@ -11,7 +11,7 @@
   --app-color-gray: #D9D9D9;
 
   --app-font-size-gigantic: 25px;
-  --app-font-size-big: 20px;
+  --app-font-size-large: 20px;
   --app-font-size-normal: 16px;
   --app-font-size-small: 13px;
   --app-font-size-xsmall: 10px;
@@ -61,7 +61,7 @@ h1{
 }
 
 h2 {
-  font-size: var(--app-font-size-big);
+  font-size: var(--app-font-size-large);
 }
 
 h4 {

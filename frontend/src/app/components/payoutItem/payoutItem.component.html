@@ -1,0 +1,27 @@
+  <div
+    [ngClass]="getCardClass()"
+    (click)="ShowConfirmationModal()"
+    [title]="!canAfford() ? 'Du kannst dir das nicht leisten' : ''">
+
+    <div class="background-grid">
+      @for (tile of tiles; track tiles.indexOf(tile)) {
+        <div class="grid-tile"></div>
+      }
+    </div>
+
+    <label class="title">{{ payoutItem.name }}</label>
+
+<!--keeping this so that the format is the same as by the shop-->
+    <div class="recommended-rectangle">
+      <label class="recommended-label">Empfohlen</label>
+    </div>
+
+    <div class="container">
+      <img src="{{payoutItem.imageUrl}}" class="image" />
+    </div>
+
+    <div class="container-price">
+      <label class="price">{{ payoutItem.cost }}</label>
+      <img src="/images/coin.png">
+    </div>
+  </div>
