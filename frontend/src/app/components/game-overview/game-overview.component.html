@@ -10,11 +10,6 @@
 
 <div class="gameTiles">
   @for (game of filteredGames; track game.id){
-    <a routerLink="/game/{{game.id}}">
-      <img [src]="game.previewImageUrl">
-      <div style="--preview-bg-color: {{game.previewHexColor}};">
-        <h1>{{game.title}}</h1>
-      </div>
-    </a>
+    <app-game-tile [routerLink]="['/game', game.id]" [gameMetadata]="game"></app-game-tile>
   }
 </div>
