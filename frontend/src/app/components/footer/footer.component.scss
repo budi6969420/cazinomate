@@ -69,6 +69,27 @@ ul {
   align-items: center;
   justify-content: space-between;
   padding: 0 25px;
+  flex-wrap: wrap;
+  gap: 25px;
+
+  img {
+    width: 200px;
+    transition: transform 0.3s ease;
+  }
+
+  img:hover {
+    transform: scale(1.02);
+  }
+}
+
+#paymentProvidersWrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  padding: 0 25px;
+  flex-wrap: wrap;
+  gap: 35px;
 
   img {
     width: 200px;
