@@ -11,4 +11,4 @@
 
   </div>
 }
-<app-game (loadingProgressUpdate)="handleProgressUpdate($event)"></app-game>
+<app-game [gameMetaData]="gameMetadata" (loadingProgressUpdate)="handleProgressUpdate($event)"></app-game>

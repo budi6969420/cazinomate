@@ -1,6 +1,15 @@
-import { Component, OnInit, ElementRef, OnDestroy, Input, Output, EventEmitter, AfterViewInit } from '@angular/core';
-import { GameAsset } from "../models/gameAsset"; // Assuming GameAsset has { alias: string, src: string }
-import * as PIXI from 'pixi.js';
+import { Component, OnInit, ElementRef, OnDestroy, Input, Output, EventEmitter } from '@angular/core';
+import { Assets, Application, Container, Sprite } from 'pixi.js';
+import { GameManifest, GameManifestBundle, GameManifestBundleAsset } from '../models/game/gameManifest'; // Ensure GameManifestBundleAsset defines 'name: string' if you extract names
+import { GameMetadata } from "../models/gameMetadata";
+import { IGameLogic } from "./game-logic/iGameLogic";
+import { CrossyRoadGameLogic } from "./game-logic/crossy-road/crossyRoadGameLogic";
+
+// Define known game IDs as constants for type safety and readability
+const KnownGameIds = {
+  CROSSY_ROAD: "92ed9e52-afd8-49a5-8b09-d7a049783725",
+  // ANOTHER_GAME: "some-other-uuid",
+} as const; // Use 'as const' for string literal types
 
 @Component({
   selector: 'app-game',
@@ -11,62 +20,218 @@ import * as PIXI from 'pixi.js';
 })
 export class GameComponent implements OnInit, OnDestroy {
 
-  @Input() assetsToLoad: GameAsset[] = [];
-  @Output() loadingProgressUpdate = new EventEmitter<number>();
-  @Output() gameReady = new EventEmitter<PIXI.Application>();
+  @Input() gameMetaData!: GameMetadata;
 
-  private app: PIXI.Application | undefined;
-  private readonly APP_LOGICAL_WIDTH = 1500;
+  @Output() loadingProgressUpdate = new EventEmitter<number>();
+  @Output() gameReady = new EventEmitter<Application>();
+
+  private gameLogic!: IGameLogic;
+
+  private app?: Application;
+  private stageContainer!: Container<any>;
+  private resizeHandler?: () => void;
+
+  private loadedManifest?: GameManifest;
+  private assetIdentifiers: string[] = [];
+
+  private readonly APP_LOGICAL_WIDTH = 1385;
   private readonly APP_LOGICAL_HEIGHT = 1000;
 
-  private stageContainer!: PIXI.Container<any>;
-  private resizeHandler!: () => void;
+  private readonly GAME_ASSETS_ROOT_PATH = "/game-assets/";
+  private currentGameSpecificAssetPath!: string;
+  private currentManifestUrl!: string;
 
   constructor(private elementRef: ElementRef<HTMLElement>) { }
 
-  async ngOnInit() {
-    this.app = new PIXI.Application();
+  async ngOnInit(): Promise<void> {
+    if (!this.gameMetaData) {
+      console.error("Game metadata is not available. Cannot initialize game.");
+      return;
+    }
+
+    try {
+      this.gameLogic = this.createGameLogic(this.gameMetaData.id);
+      this.configurePaths();
+
+      await this.fetchAndProcessManifest();
+
+      if (!this.loadedManifest) {
+        console.error("Manifest is not available. Cannot initialize PIXI.Assets.");
+        return;
+      }
+
+      await this.initializePixiAssets();
+      await this.initializePixiApplication();
+      this.setupStageAndResizeHandling();
+      await this.loadAssetsFromManifest();
+
+    } catch (error) {
+      console.error('Critical error during GameComponent initialization:', error);
+      this.loadingProgressUpdate.emit(100);
+    }
+  }
+
+  private createGameLogic(gameId: string): IGameLogic {
+    switch (gameId) {
+      case KnownGameIds.CROSSY_ROAD:
+        return new CrossyRoadGameLogic();
+      default:
+        throw new Error(`Unsupported game ID: ${gameId}. Cannot create game logic.`);
+    }
+  }
+
+  private configurePaths(): void {
+    if (!this.gameLogic) {
+      throw new Error("Game logic must be initialized before configuring paths.");
+    }
+    const gameName = this.gameLogic.getName(); // Assumes IGameLogic has getName()
+    this.currentGameSpecificAssetPath = `${this.GAME_ASSETS_ROOT_PATH}${gameName}/`;
+    this.currentManifestUrl = `${this.currentGameSpecificAssetPath}manifest.json`;
+  }
+
+  private async fetchAndProcessManifest(): Promise<void> {
+    try {
+      const response = await fetch(this.currentManifestUrl);
+      if (!response.ok) {
+        throw new Error(`Failed to fetch manifest from ${this.currentManifestUrl}: ${response.status} ${response.statusText}`);
+      }
+      this.loadedManifest = await response.json() as GameManifest;
+      console.log('Manifest loaded successfully from:', this.currentManifestUrl, this.loadedManifest);
+      this.extractAssetIdentifiersFromLoadedManifest();
+    } catch (error) {
+      console.error(`Error loading or processing manifest from ${this.currentManifestUrl}:`, error);
+      this.loadedManifest = undefined;
+      throw error;
+    }
+  }
+
+  private extractAssetIdentifiersFromLoadedManifest(): void {
+    if (!this.loadedManifest?.bundles) {
+      this.assetIdentifiers = [];
+      return;
+    }
+
+    this.assetIdentifiers = this.loadedManifest.bundles.flatMap(
+        bundle => bundle.assets?.map(asset => asset['alias']).filter(Boolean) as string[] || []
+    );
+  }
+
+  private async initializePixiAssets(): Promise<void> {
+    if (!this.loadedManifest) {
+      throw new Error("Cannot initialize PIXI.Assets: Manifest not loaded.");
+    }
+    await Assets.init({
+      manifest: this.loadedManifest,
+      basePath: this.currentGameSpecificAssetPath
+    });
+    console.log('PIXI.Assets initialized. Base path:', this.currentGameSpecificAssetPath);
+  }
+
+  private async initializePixiApplication(): Promise<void> {
+    this.app = new Application();
     await this.app.init({
       background: '#1099bb',
       resizeTo: this.elementRef.nativeElement,
-      autoDensity: true
+      autoDensity: true,
     });
-
     this.elementRef.nativeElement.appendChild(this.app.canvas);
-    this.stageContainer = new PIXI.Container();
+    console.log('PIXI.Application initialized and canvas appended.');
+  }
+
+  private setupStageAndResizeHandling(): void {
+    if (!this.app) {
+      console.error("PIXI Application not initialized. Cannot setup stage.");
+      return;
+    }
+    this.stageContainer = new Container();
     this.app.stage.addChild(this.stageContainer);
 
-    this.resizeHandler = this.resizeAndPositionStage.bind(this);
-    //@ts-ignore
+    this.resizeHandler = () => this.resizeAndPositionStage();
     this.app.renderer.on('resize', this.resizeHandler);
     this.resizeAndPositionStage();
+  }
 
-    let asset: GameAsset = new GameAsset(
-      "test",
-      "/images/game-assets/crossy-road/SampleJPGImage_1mbmb.jpg"
-    );
-    let asset2: GameAsset = new GameAsset(
-      "test2",
-      "/images/game-assets/crossy-road/SampleJPGImage_2mbmb.jpg"
-    );
-    let asset3: GameAsset = new GameAsset(
-      "test3",
-      "/images/game-assets/crossy-road/SampleJPGImage_5mbmb.jpg"
-    );
-    let asset4: GameAsset = new GameAsset(
-      "test4",
-      "/images/game-assets/crossy-road/Sample-jpg-image-10mb.jpg"
-    );
+  private async loadAssetsFromManifest(): Promise<void> {
+    if (!this.loadedManifest || !this.app) {
+      console.warn('Manifest or PIXI App not ready for loading assets. Skipping.');
+      this.loadingProgressUpdate.emit(100);
+      if (this.app) this.gameReady.emit(this.app);
+      return;
+    }
 
-    this.assetsToLoad.push(asset, asset2, asset3, asset4);
-    await this.loadAssets();
+    try {
+      const bundles = this.loadedManifest.bundles;
+      if (!bundles || bundles.length === 0) {
+        console.log('No bundles found in the manifest to load.');
+        this.loadingProgressUpdate.emit(100);
+        this.gameReady.emit(this.app);
+        this.setupGameScene();
+        return;
+      }
+
+      const bundleNamesToLoad = bundles.map(bundle => bundle.name);
+      if (bundleNamesToLoad.length === 0) {
+        console.log('No valid bundle names found in the manifest to load.');
+        this.loadingProgressUpdate.emit(100);
+        this.gameReady.emit(this.app);
+        this.setupGameScene();
+        return;
+      }
+
+      console.log(`Starting to load bundles: ${bundleNamesToLoad.join(', ')}...`);
+      this.loadingProgressUpdate.emit(0);
+
+      await Assets.loadBundle(bundleNamesToLoad, (progress) => {
+        const percentage = Math.round(progress * 100);
+        this.loadingProgressUpdate.emit(percentage);
+      });
+
+      console.log(`Bundles '${bundleNamesToLoad.join(', ')}' loaded successfully!`);
+      this.loadingProgressUpdate.emit(100);
+      this.setupGameScene();
+      this.gameReady.emit(this.app);
+
+    } catch (error) {
+      console.error('Error loading assets from manifest:', error);
+      this.loadingProgressUpdate.emit(100);
+      if (this.app) this.gameReady.emit(this.app);
+    }
+  }
+
+  private setupGameScene(): void {
+    if (!this.stageContainer || !this.app) {
+      console.warn('Stage container or PIXI App not ready for scene setup. Skipping.');
+      return;
+    }
+
+    console.log("Setting up game scene...");
+    //this.gameLogic.setupScene(this.stageContainer, this.assetIdentifiers);
+
+    //PLACEHOLDER
+    const testAssetId = "test"; // Use a constant
+    console.log(this.assetIdentifiers);
+    if (this.assetIdentifiers.includes(testAssetId)) {
+      try {
+        const testSprite = Sprite.from(testAssetId);
+        testSprite.width = 150;
+        testSprite.height = 100;
+        testSprite.position.set(50, 50);
+        this.stageContainer.addChild(testSprite);
+        console.log(`Test sprite ('${testAssetId}') added to stageContainer.`);
+      } catch (error) {
+        console.error(`Error creating sprite for '${testAssetId}'. Is the asset loaded correctly and identifier correct?`, error);
+      }
+    } else {
+      console.log(`Asset with identifier '${testAssetId}' not found in manifest, skipping test sprite.`);
+    }
   }
 
   private resizeAndPositionStage(): void {
-    if (!this.app || !this.stageContainer) return;
+    if (!this.app || !this.stageContainer || !this.app.renderer) return;
 
     const screenWidth = this.app.screen.width;
     const screenHeight = this.app.screen.height;
+
     const scale = Math.min(screenWidth / this.APP_LOGICAL_WIDTH, screenHeight / this.APP_LOGICAL_HEIGHT);
 
     this.stageContainer.scale.set(scale);
@@ -74,73 +239,24 @@ export class GameComponent implements OnInit, OnDestroy {
     this.stageContainer.y = (screenHeight - (this.APP_LOGICAL_HEIGHT * scale)) / 2;
   }
 
-  private async loadAssets(): Promise<void> {
-    if (this.assetsToLoad.length > 0) {
-      try {
-        for (const asset of this.assetsToLoad) {
-          PIXI.Assets.add(asset);
-        }
-
-        const loadedAssets = await PIXI.Assets.load(
-          this.assetsToLoad.map(a => a.alias),
-          (progress) => {
-            const percentage = Math.round(progress * 100);
-            this.loadingProgressUpdate.emit(percentage);
-          }
-        );
-
-        console.log('Assets loaded successfully.');
-        if (this.app) {
-          this.gameReady.emit(this.app);
-          this.setupGameScene();
-        }
-
-      } catch (error) {
-        console.error("Error loading assets:", error);
-      }
-    } else {
-      console.log('No assets to load.');
-      this.loadingProgressUpdate.emit(100);
-      if (this.app) {
-        this.gameReady.emit(this.app);
-        this.setupGameScene();
-      }
-    }
-  }
-
-  private setupGameScene(): void {
-    if (!this.stageContainer || !this.app) return;
-
-    // Example: Add a sprite to the scaled stageContainer
-    // Its dimensions and position are relative to LOGICAL_WIDTH and LOGICAL_HEIGHT
-    try {
-      const testSprite = PIXI.Sprite.from("test");
-      testSprite.width = 150;
-      testSprite.height = 100;
-
-      testSprite.x = 0;
-      testSprite.y = 0;
-
-      this.stageContainer.addChild(testSprite);
-      console.log("Test sprite added to stageContainer.");
-
-    } catch (error) {
-      console.error("Error creating sprite from 'test'. Is the asset loaded correctly?", error);
-    }
-  }
-
-  ngOnDestroy() {
-    console.log("GameComponent ngOnDestroy: Cleaning up PIXI.");
+  ngOnDestroy(): void {
+    console.log("GameComponent ngOnDestroy: Cleaning up PIXI resources.");
 
     if (this.app && this.resizeHandler) {
-      //@ts-ignore
       this.app.renderer.off('resize', this.resizeHandler);
+      this.resizeHandler = undefined;
     }
 
-    if (this.assetsToLoad.length > 0) {
-      PIXI.Assets.unload(this.assetsToLoad.map(a => a.alias))
-        .then(() => console.log("Assets unloaded."))
-        .catch(err => console.warn("Error during asset unload:", err));
+    // Unload assets identified by their names/aliases
+    if (this.assetIdentifiers.length > 0) {
+      Assets.unload(this.assetIdentifiers)
+          .then(() => console.log("Assets unloaded based on collected identifiers:", this.assetIdentifiers))
+          .catch(err => console.warn("Error during asset unload:", err));
+    }
+    this.assetIdentifiers = [];
+
+    if (this.loadedManifest) {
+      this.loadedManifest = undefined;
     }
 
     if (this.app) {
@@ -148,7 +264,5 @@ export class GameComponent implements OnInit, OnDestroy {
       this.app = undefined;
       console.log("PIXI Application destroyed.");
     }
-
-    this.assetsToLoad = [];
   }
 }
