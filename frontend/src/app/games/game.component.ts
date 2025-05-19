@@ -1,15 +1,14 @@
 import { Component, OnInit, ElementRef, OnDestroy, Input, Output, EventEmitter } from '@angular/core';
 import { Assets, Application, Container, Sprite } from 'pixi.js';
+import { BaseTexture, MIPMAP_MODES } from '@pixi/core';
 import { GameManifest, GameManifestBundle, GameManifestBundleAsset } from '../models/game/gameManifest'; // Ensure GameManifestBundleAsset defines 'name: string' if you extract names
 import { GameMetadata } from "../models/gameMetadata";
 import { IGameLogic } from "./game-logic/iGameLogic";
 import { CrossyRoadGameLogic } from "./game-logic/crossy-road/crossyRoadGameLogic";
 
-// Define known game IDs as constants for type safety and readability
 const KnownGameIds = {
-  CROSSY_ROAD: "92ed9e52-afd8-49a5-8b09-d7a049783725",
-  // ANOTHER_GAME: "some-other-uuid",
-} as const; // Use 'as const' for string literal types
+  CROSSY_ROAD: "92ed9e52-afd8-49a5-8b09-d7a049783725"
+} as const;
 
 @Component({
   selector: 'app-game',
@@ -29,13 +28,12 @@ export class GameComponent implements OnInit, OnDestroy {
 
   private app?: Application;
   private stageContainer!: Container<any>;
-  private resizeHandler?: () => void;
 
   private loadedManifest?: GameManifest;
   private assetIdentifiers: string[] = [];
 
-  private readonly APP_LOGICAL_WIDTH = 1385;
-  private readonly APP_LOGICAL_HEIGHT = 1000;
+  private readonly APP_LOGICAL_WIDTH = 2770;
+  private readonly APP_LOGICAL_HEIGHT = 2000;
 
   private readonly GAME_ASSETS_ROOT_PATH = "/game-assets/";
   private currentGameSpecificAssetPath!: string;
@@ -62,7 +60,7 @@ export class GameComponent implements OnInit, OnDestroy {
 
       await this.initializePixiAssets();
       await this.initializePixiApplication();
-      this.setupStageAndResizeHandling();
+      this.setupStage();
       await this.loadAssetsFromManifest();
 
     } catch (error) {
@@ -131,24 +129,26 @@ export class GameComponent implements OnInit, OnDestroy {
     this.app = new Application();
     await this.app.init({
       background: '#1099bb',
-      resizeTo: this.elementRef.nativeElement,
+      width: this.APP_LOGICAL_WIDTH,
+      height: this.APP_LOGICAL_HEIGHT,
+      antialias: true,
       autoDensity: true,
     });
+
+    this.app.canvas.style.width = '100%';
+    this.app.canvas.style.height = '100%';
+
     this.elementRef.nativeElement.appendChild(this.app.canvas);
     console.log('PIXI.Application initialized and canvas appended.');
   }
 
-  private setupStageAndResizeHandling(): void {
+  private setupStage(): void {
     if (!this.app) {
       console.error("PIXI Application not initialized. Cannot setup stage.");
       return;
     }
     this.stageContainer = new Container();
     this.app.stage.addChild(this.stageContainer);
-
-    this.resizeHandler = () => this.resizeAndPositionStage();
-    this.app.renderer.on('resize', this.resizeHandler);
-    this.resizeAndPositionStage();
   }
 
   private async loadAssetsFromManifest(): Promise<void> {
@@ -208,44 +208,21 @@ export class GameComponent implements OnInit, OnDestroy {
     //this.gameLogic.setupScene(this.stageContainer, this.assetIdentifiers);
 
     //PLACEHOLDER
-    const testAssetId = "test"; // Use a constant
-    console.log(this.assetIdentifiers);
+    const testAssetId = "chicken_standing"; // Use a constant
     if (this.assetIdentifiers.includes(testAssetId)) {
-      try {
         const testSprite = Sprite.from(testAssetId);
-        testSprite.width = 150;
-        testSprite.height = 100;
-        testSprite.position.set(50, 50);
+        testSprite.width = 276;
+        testSprite.height = 382;
+        testSprite.position.set(100, 100);
         this.stageContainer.addChild(testSprite);
-        console.log(`Test sprite ('${testAssetId}') added to stageContainer.`);
-      } catch (error) {
-        console.error(`Error creating sprite for '${testAssetId}'. Is the asset loaded correctly and identifier correct?`, error);
-      }
     } else {
       console.log(`Asset with identifier '${testAssetId}' not found in manifest, skipping test sprite.`);
     }
   }
 
-  private resizeAndPositionStage(): void {
-    if (!this.app || !this.stageContainer || !this.app.renderer) return;
-
-    const screenWidth = this.app.screen.width;
-    const screenHeight = this.app.screen.height;
-
-    const scale = Math.min(screenWidth / this.APP_LOGICAL_WIDTH, screenHeight / this.APP_LOGICAL_HEIGHT);
-
-    this.stageContainer.scale.set(scale);
-    this.stageContainer.x = (screenWidth - (this.APP_LOGICAL_WIDTH * scale)) / 2;
-    this.stageContainer.y = (screenHeight - (this.APP_LOGICAL_HEIGHT * scale)) / 2;
-  }
 
   ngOnDestroy(): void {
     console.log("GameComponent ngOnDestroy: Cleaning up PIXI resources.");
-
-    if (this.app && this.resizeHandler) {
-      this.app.renderer.off('resize', this.resizeHandler);
-      this.resizeHandler = undefined;
-    }
 
     // Unload assets identified by their names/aliases
     if (this.assetIdentifiers.length > 0) {

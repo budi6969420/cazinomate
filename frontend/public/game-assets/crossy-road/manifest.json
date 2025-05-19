@@ -1,14 +1,14 @@
 {
   "bundles":[{
-    "name":"load-screen",
+    "name":"chicken",
     "assets":[
       {
-        "alias": "test",
-        "src": "./images/SampleJPGImage_2mbmb.jpg"
+        "alias": "chicken_standing",
+        "src": "./images/chicken_standing.png"
       },
       {
-        "alias": "test2",
-        "src": "./images/Sample-jpg-image-10mb.jpg"
+        "alias": "chicken_walking",
+        "src": "./images/chicken_walking.png"
       }
     ]
   }]
