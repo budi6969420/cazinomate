@@ -1,6 +1,5 @@
 import { Component, OnInit, ElementRef, OnDestroy, Input, Output, EventEmitter } from '@angular/core';
 import { Assets, Application, Container, Sprite } from 'pixi.js';
-import { BaseTexture, MIPMAP_MODES } from '@pixi/core';
 import { GameManifest, GameManifestBundle, GameManifestBundleAsset } from '../models/game/gameManifest'; // Ensure GameManifestBundleAsset defines 'name: string' if you extract names
 import { GameMetadata } from "../models/gameMetadata";
 import { IGameLogic } from "./game-logic/iGameLogic";

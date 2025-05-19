@@ -17,8 +17,12 @@
       "name":"backgrounds",
       "assets":[
         {
-          "alias": "background_street",
-          "src": "./images/background_street.png"
+          "alias": "roadtrack_left",
+          "src": "./images/roadtrack_left.png"
+        },
+        {
+          "alias": "roadtrack_right",
+          "src": "./images/roadtrack_right.png"
         },
         {
           "alias": "background_finish",

@@ -1,6 +1,8 @@
 import {Container, Sprite} from "pixi.js";
-import {Street} from "./street";
+import {Road} from "./road";
 import {Chicken} from "./chicken";
+import {CrossyRoadGameVariables} from "../crossyRoadGameVariables";
+import {gsap} from "gsap";
 
 export class Playground extends Container<any> {
   chicken: Chicken;
@@ -11,18 +13,18 @@ export class Playground extends Container<any> {
 
     const startBackground = Sprite.from("background_start");
     startBackground.width = 824;
-    startBackground.height = 1758;
+    startBackground.height = CrossyRoadGameVariables.GAME_SCREEN_HEIGHT;
     startBackground.position.set(0, 0);
     this.addChild(startBackground);
 
-    let street = new Street();
-    street.position.set(startBackground.width, 0);
-    this.addChild(street);
+    let road = new Road();
+    road.position.set(startBackground.width, 0);
+    this.addChild(road);
 
     const finishBackground = Sprite.from("background_finish");
     finishBackground.width = 824;
-    finishBackground.height = 1758;
-    finishBackground.position.set(startBackground.width + street.width, 0);
+    finishBackground.height = CrossyRoadGameVariables.GAME_SCREEN_HEIGHT;
+    finishBackground.position.set(startBackground.width + road.width, 0);
     this.addChild(finishBackground);
 
     this.chicken = new Chicken(this);
@@ -30,17 +32,27 @@ export class Playground extends Container<any> {
 
     const controlDown = (event: KeyboardEvent) => {
       if(event.code !== 'Enter') return;
-      this.chicken.goOneField();
-      this.centerView()
-      //let posX: string | null = prompt("PosX", String(this.chicken.position.x));
-      //this.chicken.position.x = Number(posX);
+      this.chicken.moveForward();
+      this.alignView()
+      //let posY: string | null = prompt("PosY", String(this.chicken.position.y));
+      //this.chicken.position.y = Number(posY);
     };
     window.addEventListener('keydown', controlDown);
   }
 
-  centerView() {
-    let newPosition = this.chicken.position.x*-1 ;
-    newPosition <= this.maxScrollX ? this.position.x = this.maxScrollX : this.position.x = newPosition+340;
+  alignView() {
+    let chickenPosition = this.chicken.position.x*-1 ;
+    let newPosition = this.maxScrollX
+
+    if(chickenPosition > this.maxScrollX) {
+      newPosition = chickenPosition + CrossyRoadGameVariables.CHICKEN_PADDING_LEFT
+    }
+
+    gsap.to(this.position, {
+      x: newPosition,
+      duration: 2,
+      ease: "power2.out"
+    });
   }
 
   setMaxScrollX(GAME_WIDTH: number) {

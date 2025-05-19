@@ -13,12 +13,19 @@ export class CrossyRoadGameLogic implements IGameLogic{
   constructor(GAME_HEIGHT: number,GAME_WIDTH: number) {
     this.GAME_HEIGHT = GAME_HEIGHT;
     this.GAME_WIDTH = GAME_WIDTH;
+
+    const restart = (event: KeyboardEvent) => {
+      if(event.code !== 'KeyR') return;
+      this.start();
+    };
+    window.addEventListener('keydown', restart);
   }
 
   start(){
+    if (this.playgroundScreen) this.stage.removeChild(this.playgroundScreen);
+
     this.playgroundScreen = new Playground();
     this.playgroundScreen.setMaxScrollX(this.GAME_WIDTH);
-
     this.stage.addChild(this.playgroundScreen)
   }
 
