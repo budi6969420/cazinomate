@@ -7,7 +7,7 @@ import { IGameLogic } from "./game-logic/iGameLogic";
 import { CrossyRoadGameLogic } from "./game-logic/crossy-road/crossyRoadGameLogic";
 
 const KnownGameIds = {
-  CROSSY_ROAD: "92ed9e52-afd8-49a5-8b09-d7a049783725"
+  CROSSY_ROAD: "39c63177-b7ad-478b-a009-69b8fa043e6f"
 } as const;
 
 @Component({
@@ -32,8 +32,8 @@ export class GameComponent implements OnInit, OnDestroy {
   private loadedManifest?: GameManifest;
   private assetIdentifiers: string[] = [];
 
-  private readonly APP_LOGICAL_WIDTH = 2770;
-  private readonly APP_LOGICAL_HEIGHT = 2000;
+  private readonly APP_LOGICAL_WIDTH: number = 2770;
+  private readonly APP_LOGICAL_HEIGHT: number = 2000;
 
   private readonly GAME_ASSETS_ROOT_PATH = "/game-assets/";
   private currentGameSpecificAssetPath!: string;
@@ -72,7 +72,7 @@ export class GameComponent implements OnInit, OnDestroy {
   private createGameLogic(gameId: string): IGameLogic {
     switch (gameId) {
       case KnownGameIds.CROSSY_ROAD:
-        return new CrossyRoadGameLogic();
+        return new CrossyRoadGameLogic(this.APP_LOGICAL_HEIGHT, this.APP_LOGICAL_WIDTH);
       default:
         throw new Error(`Unsupported game ID: ${gameId}. Cannot create game logic.`);
     }
@@ -148,6 +148,8 @@ export class GameComponent implements OnInit, OnDestroy {
       return;
     }
     this.stageContainer = new Container();
+
+    this.gameLogic.setStage(this.stageContainer);
     this.app.stage.addChild(this.stageContainer);
   }
 
@@ -165,7 +167,7 @@ export class GameComponent implements OnInit, OnDestroy {
         console.log('No bundles found in the manifest to load.');
         this.loadingProgressUpdate.emit(100);
         this.gameReady.emit(this.app);
-        this.setupGameScene();
+        this.gameLogic.start();
         return;
       }
 
@@ -174,7 +176,7 @@ export class GameComponent implements OnInit, OnDestroy {
         console.log('No valid bundle names found in the manifest to load.');
         this.loadingProgressUpdate.emit(100);
         this.gameReady.emit(this.app);
-        this.setupGameScene();
+        this.gameLogic.start();
         return;
       }
 
@@ -188,35 +190,13 @@ export class GameComponent implements OnInit, OnDestroy {
 
       console.log(`Bundles '${bundleNamesToLoad.join(', ')}' loaded successfully!`);
       this.loadingProgressUpdate.emit(100);
-      this.setupGameScene();
+      this.gameLogic.start();
       this.gameReady.emit(this.app);
 
     } catch (error) {
       console.error('Error loading assets from manifest:', error);
       this.loadingProgressUpdate.emit(100);
       if (this.app) this.gameReady.emit(this.app);
-    }
-  }
-
-  private setupGameScene(): void {
-    if (!this.stageContainer || !this.app) {
-      console.warn('Stage container or PIXI App not ready for scene setup. Skipping.');
-      return;
-    }
-
-    console.log("Setting up game scene...");
-    //this.gameLogic.setupScene(this.stageContainer, this.assetIdentifiers);
-
-    //PLACEHOLDER
-    const testAssetId = "chicken_standing"; // Use a constant
-    if (this.assetIdentifiers.includes(testAssetId)) {
-        const testSprite = Sprite.from(testAssetId);
-        testSprite.width = 276;
-        testSprite.height = 382;
-        testSprite.position.set(100, 100);
-        this.stageContainer.addChild(testSprite);
-    } else {
-      console.log(`Asset with identifier '${testAssetId}' not found in manifest, skipping test sprite.`);
     }
   }
 

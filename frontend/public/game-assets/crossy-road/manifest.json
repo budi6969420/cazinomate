@@ -1,15 +1,33 @@
 {
-  "bundles":[{
-    "name":"chicken",
-    "assets":[
-      {
-        "alias": "chicken_standing",
-        "src": "./images/chicken_standing.png"
-      },
-      {
-        "alias": "chicken_walking",
-        "src": "./images/chicken_walking.png"
-      }
-    ]
-  }]
+  "bundles":[
+    {
+      "name":"chicken",
+      "assets":[
+        {
+          "alias": "chicken_standing",
+          "src": "./images/chicken_standing.png"
+        },
+        {
+          "alias": "chicken_walking",
+          "src": "./images/chicken_walking.png"
+        }
+      ]
+    },
+    {
+      "name":"backgrounds",
+      "assets":[
+        {
+          "alias": "background_street",
+          "src": "./images/background_street.png"
+        },
+        {
+          "alias": "background_finish",
+          "src": "./images/background_finish.png"
+        },
+        {
+          "alias": "background_start",
+          "src": "./images/background_start.png"
+        }
+      ]
+    }]
 }
