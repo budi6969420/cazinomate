@@ -1,4 +1,4 @@
-import {Container, Sprite} from "pixi.js";
+import {Container, Sprite, Ticker} from "pixi.js";
 import {Road} from "./road";
 import {Chicken} from "./chicken";
 import {CrossyRoadGameVariables} from "../crossyRoadGameVariables";
@@ -6,8 +6,11 @@ import {gsap} from "gsap";
 
 export class Playground extends Container<any> {
   chicken: Chicken;
+  road: Road;
   isScrolling: boolean = false;
   maxScrollX!: number;
+
+  private activeWaitForRoadTrackFn: (() => void) | null = null;
 
   constructor() {
     super();
@@ -21,6 +24,7 @@ export class Playground extends Container<any> {
     let road = new Road();
     road.position.set(startBackground.width, 0);
     this.addChild(road);
+    this.road = road;
 
     const finishBackground = Sprite.from("texture_background_finish");
     finishBackground.width = 824;
@@ -32,8 +36,39 @@ export class Playground extends Container<any> {
     this.addChild(this.chicken);
   }
 
+  moveChicken(){
+    if (this.isScrolling || !this.chicken.getIsEffectivelyAlive()) return;
+
+    const currentRoadTrackIndex = this.chicken.roadTrackIndex;
+    const currentRoadTrack = this.road.getTrack(currentRoadTrackIndex);
+    const nextRoadTrack = this.road.getTrack(currentRoadTrackIndex + 1);
+
+    if (!nextRoadTrack) {
+      this.chicken.walk();
+      this.alignView();
+      return;
+    }
+
+    nextRoadTrack.setIsBlocked(true);
+
+    const waitForRoadTrackToBeEmpty = () => {
+
+      if(!nextRoadTrack.car.isDriving && nextRoadTrack.getIsBlocked()){
+        Ticker.shared.remove(waitForRoadTrackToBeEmpty, this);
+        this.activeWaitForRoadTrackFn = null;
+
+        this.chicken.walk();
+        this.alignView();
+        currentRoadTrack.setIsBlocked(false);
+      }
+    }
+
+    this.activeWaitForRoadTrackFn = waitForRoadTrackToBeEmpty;
+    Ticker.shared.add(this.activeWaitForRoadTrackFn, this);
+  }
+
   alignView() {
-    let chickenPosition = this.chicken.position.x*-1 ;
+    let chickenPosition = this.chicken.position.x * -1 ;
     let newPosition = this.maxScrollX
 
     if(chickenPosition > this.maxScrollX) {

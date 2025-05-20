@@ -11,9 +11,10 @@ enum ChickenState {
 }
 
 export class Chicken extends AnimatedSprite {
-  public currentState: ChickenState;
   private playground: Playground;
-  private roadTrackIndex = -1;
+
+  public currentState: ChickenState;
+  public roadTrackIndex = -1;
 
   private idleFrames: Texture[];
   private walkFrames: Texture[];

@@ -18,7 +18,9 @@ export class Road extends Container{
 
       offset += roadTrack.width;
     }
-
   }
 
+  getTrack(index: number){
+    return this.roadTracks[index];
+  }
 }

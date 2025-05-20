@@ -2,6 +2,7 @@ import {IGameLogic} from "../iGameLogic";
 import {Container, Sprite} from "pixi.js";
 import {Playground} from "./models/playground";
 import {CrossyRoadGameVariables} from "./crossyRoadGameVariables";
+import {EventEmitter} from "@angular/core";
 
 export class CrossyRoadGameLogic implements IGameLogic{
   name: string = "crossy-road";
@@ -34,9 +35,7 @@ export class CrossyRoadGameLogic implements IGameLogic{
 
     switch (commandCode) {
       case CrossyRoadGameVariables.COMMAND_MOVE_CHICKEN_FORWARD:
-        if (this.playgroundScreen.isScrolling || !this.playgroundScreen.chicken.getIsEffectivelyAlive()) break;
-        this.playgroundScreen.chicken.walk();
-        this.playgroundScreen.alignView();
+        this.playgroundScreen.moveChicken();
         break;
 
       case CrossyRoadGameVariables.COMMAND_START_GAME:
