@@ -13,33 +13,35 @@ enum ChickenState {
 export class Chicken extends AnimatedSprite {
   public currentState: ChickenState;
   private playground: Playground;
-  private activeMovementTween?: gsap.core.Tween;
+  private roadTrackIndex = -1;
 
   private idleFrames: Texture[];
   private walkFrames: Texture[];
-  private dieOnceFrames: Texture[];
+  private dieFrame: Texture[];
   private deadFrame: Texture[];
+
+  private activeMovementTween?: gsap.core.Tween;
 
   constructor(playground: Playground) {
     const standTexture = Texture.from("chicken_standing");
     const walkTexture = Texture.from("chicken_walking");
     const dyingTexture = Texture.from("chicken_dying");
-    const deadStaticTexture = Texture.from("chicken_dead");
+    const deadTexture = Texture.from("chicken_dead");
 
     super([standTexture]);
 
     this.idleFrames = [standTexture];
     this.walkFrames = [standTexture, walkTexture];
-    this.dieOnceFrames = [dyingTexture, deadStaticTexture];
-    this.deadFrame = [deadStaticTexture];
+    this.dieFrame = [dyingTexture];
+    this.deadFrame = [deadTexture];
 
     this.playground = playground;
-    this.anchor.set(0.5);
+    this.anchor.set(0.5, 1.0);
     this.width = 276;
     this.height = 382;
     this.position.set(
       CrossyRoadGameVariables.CHICKEN_PADDING_LEFT + this.width / 2,
-      CrossyRoadGameVariables.CHICKEN_PADDING_TOP + this.height / 2
+      CrossyRoadGameVariables.CHICKEN_PADDING_TOP + this.height
     );
 
     this.animationSpeed = 0.1;
@@ -48,17 +50,17 @@ export class Chicken extends AnimatedSprite {
     this.play();
   }
 
-  public get isEffectivelyAlive(): boolean {
+  public getIsEffectivelyAlive(): boolean {
     return this.currentState !== ChickenState.DEAD && this.currentState !== ChickenState.DYING;
   }
 
   public setState(newState: ChickenState): void {
-    if (this.currentState === newState && newState !== ChickenState.DYING) {
+    if (this.currentState === newState) {
       return;
     }
 
     this.currentState = newState;
-    this.loop = true;
+    this.loop = false;
     this.onComplete = undefined;
 
     switch (newState) {
@@ -68,20 +70,15 @@ export class Chicken extends AnimatedSprite {
         break;
       case ChickenState.WALKING:
         this.textures = this.walkFrames;
+        this.loop = true;
         this.animationSpeed = 0.15;
         break;
       case ChickenState.DYING:
-        this.textures = this.dieOnceFrames;
-        this.loop = false;
-        this.animationSpeed = 0.1;
+        this.textures = this.dieFrame;
         this.gotoAndPlay(0);
-        this.onComplete = () => {
-          this.setState(ChickenState.DEAD);
-        };
         break;
       case ChickenState.DEAD:
         this.textures = this.deadFrame;
-        this.loop = false;
         this.gotoAndStop(0);
         break;
     }
@@ -91,8 +88,8 @@ export class Chicken extends AnimatedSprite {
     }
   }
 
-  moveForward() {
-    if (!this.isEffectivelyAlive || (this.activeMovementTween && this.activeMovementTween.isActive())) {
+  walk() {
+    if (!this.getIsEffectivelyAlive() || (this.activeMovementTween && this.activeMovementTween.isActive())) {
       return;
     }
 
@@ -119,19 +116,49 @@ export class Chicken extends AnimatedSprite {
         if (this.currentState === ChickenState.WALKING) {
           this.setState(ChickenState.IDLE);
         }
+        if(this.roadTrackIndex+1 <= CrossyRoadGameVariables.ROAD_TRACK_AMOUNT) {
+          this.roadTrackIndex++;
+        }
+
         this.activeMovementTween = undefined;
       }
     });
   }
 
   die() {
-    if (!this.isEffectivelyAlive) return;
+    gsap.killTweensOf(this);
+    gsap.killTweensOf(this.scale);
 
-    if (this.activeMovementTween && this.activeMovementTween.isActive()) {
-      this.activeMovementTween.kill();
-      this.activeMovementTween = undefined;
-    }
-    this.setState(ChickenState.DYING);
+    const tl = gsap.timeline();
+    const targetScaleUpDying = 1.2;
+    const targetScaleUpDead = 1.1;
+    const targetScaleDown = 1.0;
+
+    tl
+      .from(this.scale, {
+        x: targetScaleUpDying,
+        y: targetScaleUpDying,
+        ease: "power1.out",
+        duration: 0.1,
+        onStart: () => {
+          this.setState(ChickenState.DYING);
+        }
+      })
+      .from(this.scale, {
+        x: targetScaleUpDead,
+        y: targetScaleUpDead,
+        duration: 0.0001,
+        ease: "power1.out",
+        onStart: () => {
+          this.setState(ChickenState.DEAD);
+        }
+      })
+      .to(this.scale, {
+        x: targetScaleDown,
+        y: targetScaleDown,
+        duration: 0.25,
+        ease: "power1.out"
+      })
   }
 
   resetStateAndPosition() {

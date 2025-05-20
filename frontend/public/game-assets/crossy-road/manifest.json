@@ -10,6 +10,14 @@
         {
           "alias": "chicken_walking",
           "src": "./images/chicken_walking.png"
+        },
+        {
+          "alias": "chicken_dying",
+          "src": "./images/chicken_dying.png"
+        },
+        {
+          "alias": "chicken_dead",
+          "src": "./images/chicken_dead.png"
         }
       ]
     },

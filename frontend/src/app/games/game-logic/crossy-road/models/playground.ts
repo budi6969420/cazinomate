@@ -6,6 +6,7 @@ import {gsap} from "gsap";
 
 export class Playground extends Container<any> {
   chicken: Chicken;
+  isScrolling: boolean = false;
   maxScrollX!: number;
 
   constructor() {
@@ -29,15 +30,6 @@ export class Playground extends Container<any> {
 
     this.chicken = new Chicken(this);
     this.addChild(this.chicken);
-
-    const controlDown = (event: KeyboardEvent) => {
-      if(event.code !== 'Enter') return;
-      this.chicken.moveForward();
-      this.alignView()
-      //let posY: string | null = prompt("PosY", String(this.chicken.position.y));
-      //this.chicken.position.y = Number(posY);
-    };
-    window.addEventListener('keydown', controlDown);
   }
 
   alignView() {
@@ -51,7 +43,13 @@ export class Playground extends Container<any> {
     gsap.to(this.position, {
       x: newPosition,
       duration: 2,
-      ease: "power2.out"
+      ease: "power5.out",
+      onStart: () => {
+        this.isScrolling = true;
+      },
+      onComplete: () => {
+        this.isScrolling = false;
+      }
     });
   }
 
