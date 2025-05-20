@@ -23,10 +23,10 @@ export class Chicken extends AnimatedSprite {
   private activeMovementTween?: gsap.core.Tween;
 
   constructor(playground: Playground) {
-    const standTexture = Texture.from("chicken_standing");
-    const walkTexture = Texture.from("chicken_walking");
-    const dyingTexture = Texture.from("chicken_dying");
-    const deadTexture = Texture.from("chicken_dead");
+    const standTexture = Texture.from("texture_chicken_standing");
+    const walkTexture = Texture.from("texture_chicken_walking");
+    const dyingTexture = Texture.from("texture_chicken_dying");
+    const deadTexture = Texture.from("texture_chicken_dead");
 
     super([standTexture]);
 

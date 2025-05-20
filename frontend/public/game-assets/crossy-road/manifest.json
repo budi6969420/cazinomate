@@ -4,19 +4,19 @@
       "name":"chicken",
       "assets":[
         {
-          "alias": "chicken_standing",
+          "alias": "texture_chicken_standing",
           "src": "./images/chicken_standing.png"
         },
         {
-          "alias": "chicken_walking",
+          "alias": "texture_chicken_walking",
           "src": "./images/chicken_walking.png"
         },
         {
-          "alias": "chicken_dying",
+          "alias": "texture_chicken_dying",
           "src": "./images/chicken_dying.png"
         },
         {
-          "alias": "chicken_dead",
+          "alias": "texture_chicken_dead",
           "src": "./images/chicken_dead.png"
         }
       ]
@@ -25,20 +25,37 @@
       "name":"backgrounds",
       "assets":[
         {
-          "alias": "roadtrack_left",
+          "alias": "texture_roadtrack_left",
           "src": "./images/roadtrack_left.png"
         },
         {
-          "alias": "roadtrack_right",
+          "alias": "texture_roadtrack_right",
           "src": "./images/roadtrack_right.png"
         },
         {
-          "alias": "background_finish",
+          "alias": "texture_background_finish",
           "src": "./images/background_finish.png"
         },
         {
-          "alias": "background_start",
+          "alias": "texture_background_start",
           "src": "./images/background_start.png"
+        }
+      ]
+    },
+    {
+      "name":"cars",
+      "assets":[
+        {
+          "alias": "texture_car_blue",
+          "src": "./images/car_blue.png"
+        },
+        {
+          "alias": "texture_car_red",
+          "src": "./images/car_red.png"
+        },
+        {
+          "alias": "texture_car_truck",
+          "src": "./images/car_truck.png"
         }
       ]
     }]

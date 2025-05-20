@@ -12,7 +12,7 @@ export class Playground extends Container<any> {
   constructor() {
     super();
 
-    const startBackground = Sprite.from("background_start");
+    const startBackground = Sprite.from("texture_background_start");
     startBackground.width = 824;
     startBackground.height = CrossyRoadGameVariables.GAME_SCREEN_HEIGHT;
     startBackground.position.set(0, 0);
@@ -22,7 +22,7 @@ export class Playground extends Container<any> {
     road.position.set(startBackground.width, 0);
     this.addChild(road);
 
-    const finishBackground = Sprite.from("background_finish");
+    const finishBackground = Sprite.from("texture_background_finish");
     finishBackground.width = 824;
     finishBackground.height = CrossyRoadGameVariables.GAME_SCREEN_HEIGHT;
     finishBackground.position.set(startBackground.width + road.width, 0);
