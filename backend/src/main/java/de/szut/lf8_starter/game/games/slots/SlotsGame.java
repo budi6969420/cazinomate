@@ -1,4 +1,4 @@
-package de.szut.lf8_starter.game.games;
+package de.szut.lf8_starter.game.games.slots;
 
 import de.szut.lf8_starter.game.BaseGame;
 
