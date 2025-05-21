@@ -2,11 +2,14 @@ import {Container, Sprite, Ticker} from "pixi.js";
 import {CrossyRoadGameVariables} from "../crossyRoadGameVariables";
 import {Car} from "./car";
 import {gsap} from "gsap";
+import {Brick} from "./brick";
 
 export class RoadTrack extends Container {
-  public car: Car;
-  public isBlocked: boolean = false;
-  public isPaused: boolean = false;
+  private car: Car;
+  private brick: Brick;
+  private isBlocked: boolean = false;
+  private isPaused: boolean = false;
+  private chickenIsSafe: boolean = false;
 
   private TEXTURE_LEFT: string = "texture_roadtrack_left";
   private TEXTURE_RIGHT: string = "texture_roadtrack_right";
@@ -25,6 +28,10 @@ export class RoadTrack extends Container {
     this.addChild(car);
     this.car = car;
 
+    const brick = new Brick();
+    this.addChild(brick);
+    this.brick = brick;
+
     this.isPaused = this.randomBiasedBoolean();
 
     Ticker.shared.add(this.driveLoop, this);
@@ -42,10 +49,17 @@ export class RoadTrack extends Container {
   private randomBiasedBoolean() {
     return Math.random() < 0.8;
   }
+
   private driveLoop(): void {
+    if (this.car.isDriving) return;
+
+    if (this.chickenIsSafe) {
+      this.brick.fall();
+      return;
+    }
+
     if (this.isBlocked) return;
     if (this.isPaused) return;
-    if (this.car.isDriving) return;
 
     this.car.drive();
   }
@@ -64,6 +78,18 @@ export class RoadTrack extends Container {
 
   public getIsPaused(): boolean {
     return this.isPaused;
+  }
+
+  public getIsCarDriving(): boolean {
+    return this.car.isDriving;
+  }
+
+  public setChickenIsSafe(chickenIsSafe: boolean){
+    this.chickenIsSafe = chickenIsSafe;
+  }
+
+  public killChicken(){
+    return this.car.killChicken();
   }
 
 }

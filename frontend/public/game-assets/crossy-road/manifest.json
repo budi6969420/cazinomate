@@ -58,5 +58,18 @@
           "src": "./images/car_truck.png"
         }
       ]
+    },
+    {
+      "name":"bricks",
+      "assets":[
+        {
+          "alias": "texture_brick_falling",
+          "src": "./images/brick_falling.png"
+        },
+        {
+          "alias": "texture_brick_landed",
+          "src": "./images/brick_landed.png"
+        }
+      ]
     }]
 }
