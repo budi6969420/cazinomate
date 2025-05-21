@@ -5,7 +5,7 @@ import de.szut.lf8_starter.game.games.crossyRoadGangBang.CrossyRoadGangBangSessi
 import org.springframework.stereotype.Component;
 
 @Component
-public class GameSessionDTOMapper {
+public class GameSessionDtoMapper {
     public BaseSessionDto mapToDto(GameSessionAggregate<?> aggregate) {
         return switch (aggregate.getExtension()) {
             case CrossyRoadGangBangSessionExtension ext -> new CrossyRoadGangBangSessionDto(aggregate.getBase(), ext);

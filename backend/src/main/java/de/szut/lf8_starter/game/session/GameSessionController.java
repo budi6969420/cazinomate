@@ -13,11 +13,11 @@ import org.springframework.web.bind.annotation.*;
 public class GameSessionController {
 
     private final GameSessionDispatcher dispatcher;
-    private final GameSessionDTOMapper dtoMapper;
+    private final GameSessionDtoMapper dtoMapper;
     private final KeycloakService keycloakService;
     private final JwtService jwtService;
 
-    public GameSessionController(GameSessionDispatcher dispatcher, GameSessionDTOMapper dtoMapper, KeycloakService keycloakService, JwtService jwtService) {
+    public GameSessionController(GameSessionDispatcher dispatcher, GameSessionDtoMapper dtoMapper, KeycloakService keycloakService, JwtService jwtService) {
         this.dispatcher = dispatcher;
         this.dtoMapper = dtoMapper;
         this.keycloakService = keycloakService;
