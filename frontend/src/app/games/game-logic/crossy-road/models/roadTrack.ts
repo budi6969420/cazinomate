@@ -3,8 +3,10 @@ import {CrossyRoadGameVariables} from "../crossyRoadGameVariables";
 import {Car} from "./car";
 import {gsap} from "gsap";
 import {Brick} from "./brick";
+import {CoinField} from "./coinField";
 
 export class RoadTrack extends Container {
+  private coinField: CoinField;
   private car: Car;
   private brick: Brick;
   private isBlocked: boolean = false;
@@ -23,6 +25,10 @@ export class RoadTrack extends Container {
     streetBackground.height = CrossyRoadGameVariables.GAME_SCREEN_HEIGHT;
 
     this.addChild(streetBackground)
+
+    const coinField = new CoinField("PENIS");
+    this.addChild(coinField);
+    this.coinField = coinField;
 
     const car = new Car();
     this.addChild(car);
@@ -90,6 +96,11 @@ export class RoadTrack extends Container {
 
   public killChicken(){
     return this.car.killChicken();
+  }
+
+  public setToVisited(){
+    this.coinField.setToVisited();
+    this.setIsBlocked(false);
   }
 
 }

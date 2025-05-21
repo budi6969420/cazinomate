@@ -48,6 +48,7 @@ export class Playground extends Container<any> {
     if (!nextRoadTrack) {
       this.chicken.walkToFinishLine();
       this.alignView();
+      currentRoadTrack.setToVisited();
       return;
     }
 
@@ -64,14 +65,13 @@ export class Playground extends Container<any> {
         if(this.chicken.isAboutToDie) return;
         this.chicken.walk();
         this.alignView();
+        currentRoadTrack.setToVisited();
 
         if (chickenIsGoingToDie) {
           this.chicken.isAboutToDie = chickenIsGoingToDie;
           await nextRoadTrack.killChicken();
           this.chicken.die();
         }
-
-        currentRoadTrack.setIsBlocked(false);
       }
     }
 

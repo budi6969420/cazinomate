@@ -71,5 +71,22 @@
           "src": "./images/brick_landed.png"
         }
       ]
+    },
+    {
+      "name":"coin_field",
+      "assets":[
+        {
+          "alias": "texture_coin_field_default",
+          "src": "./images/coin_field_default.png"
+        },
+        {
+          "alias": "texture_coin_field_visited",
+          "src": "./images/coin_field_visited.png"
+        },
+        {
+          "alias": "texture_coin_field_death",
+          "src": "./images/coin_field_death.png"
+        }
+      ]
     }]
 }

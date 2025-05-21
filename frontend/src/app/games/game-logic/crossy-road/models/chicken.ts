@@ -93,7 +93,7 @@ export class Chicken extends AnimatedSprite {
   walkToFinishLine(){
     this.activeMovementTween = gsap.to(this.position, {
       x: this.playground.width - CrossyRoadGameVariables.CHICKEN_PADDING_LEFT,
-      y: this.playground.height / 4,
+      y: (this.playground.height / 4) + this.height,
       duration: 1,
       ease: "power1.out",
       onStart: () => {
