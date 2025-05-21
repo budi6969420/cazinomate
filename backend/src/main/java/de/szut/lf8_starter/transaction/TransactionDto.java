@@ -1,11 +1,12 @@
 package de.szut.lf8_starter.transaction;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
 @Data
+@NoArgsConstructor
 public class TransactionDto {
     private Long id;
     private int amount;

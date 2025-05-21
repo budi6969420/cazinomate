@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 
-@RequestMapping(value = "stripe-webhook")
+@RequestMapping(value = "/api/stripe-webhook")
 @RestController
 public class StripeWebHookController {
 
@@ -68,7 +68,7 @@ public class StripeWebHookController {
         var user = this.userService.getUserData(userId);
 
         var product = stripeService.getProductById(productId);
-        transactionService.TryAddTransaction(userId, product.getAmount(), TransactionCategory.Payment, "1x ".concat(product.getName()).concat(" was purchased for ").concat(String.valueOf(product.getPriceAmount() / 100)).concat("€"));
+        transactionService.tryAddTransaction(userId, product.getAmount(), TransactionCategory.Payment, "1x ".concat(product.getName()).concat(" was purchased for ").concat(String.valueOf(product.getPriceAmount() / 100)).concat("€"));
         this.productPurchasedReceiptEmailSendingService.sendEmail(product, user, "Kaufbestätigung");
     }
 }

@@ -4,13 +4,14 @@ package de.szut.lf8_starter.product;
 import com.stripe.exception.StripeException;
 import de.szut.lf8_starter.user.JwtService;
 import de.szut.lf8_starter.transaction.StripeProductService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "product")
+@RequestMapping(value = "/product")
 public class ProductController {
 
     private final StripeProductService stripeService;
