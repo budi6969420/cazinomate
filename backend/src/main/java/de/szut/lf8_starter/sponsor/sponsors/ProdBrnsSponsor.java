@@ -5,12 +5,12 @@ import de.szut.lf8_starter.sponsor.BaseSponsor;
 public class ProdBrnsSponsor extends BaseSponsor {
     @Override
     public String getId() {
-        return "b5f14116-ff6c-4b62-8b8a-e4b7c52f298a";
+        return "3c849a5b-fec0-41a4-80b2-788a6937ae8f";
     }
 
     @Override
     public String getName() {
-        return "prodBrns";
+        return "ProdBrns";
     }
 
     @Override

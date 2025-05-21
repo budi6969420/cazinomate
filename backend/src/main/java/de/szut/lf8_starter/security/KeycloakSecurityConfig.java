@@ -59,6 +59,7 @@ class KeycloakSecurityConfig {
                         .requestMatchers("/api/stripe-webhook").permitAll()
                                        
                         .requestMatchers(HttpMethod.GET, "/api/sponsor").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/payment-provider").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/product").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/game").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/payout").permitAll()
