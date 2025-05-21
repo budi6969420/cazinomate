@@ -12,18 +12,15 @@ import {GameComponent} from "../../games/game.component";
   templateUrl: './game-wrapper.component.html',
   styleUrl: './game-wrapper.component.scss'
 })
-export class GameWrapperComponent implements OnInit {
+export class GameWrapperComponent {
   @Input() gameMetadata!: GameMetadata;
 
-  progress: number = 10;
+  progress: number = 0;
   isLoading: boolean = true;
 
-  ngOnInit(): void {
-
-  }
   handleProgressUpdate(percentage: number){
     setTimeout(() => {
-      if(percentage > 10) this.progress = percentage;
+      this.progress = percentage;
       setTimeout(() => {
         if(percentage >= 100)  this.isLoading = false;
       }, 1000);
