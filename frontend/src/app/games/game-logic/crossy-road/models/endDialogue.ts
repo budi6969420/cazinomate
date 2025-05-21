@@ -54,7 +54,7 @@ export class EndDialogue extends Container{
     }
   }
 
-  setPlayerLost(){
+  public setPlayerLost(){
     this.background.texture = Texture.from("texture_background_dialogue_game_lost")
 
     for(let i=0; i<this.floatingSprites.length; i++){
@@ -62,7 +62,7 @@ export class EndDialogue extends Container{
     }
   }
 
-  setPlayerWon(){
+  public setPlayerWon(){
     this.background.texture = Texture.from("texture_background_dialogue_game_won")
 
     for(let i=0; i<this.floatingSprites.length; i++){
