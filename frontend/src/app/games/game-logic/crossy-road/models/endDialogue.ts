@@ -1,26 +1,31 @@
-import {Container, Sprite, Texture} from "pixi.js";
+import {Container, Sprite, Texture, Text, TextStyle} from "pixi.js";
 import {CrossyRoadGameVariables} from "../crossyRoadGameVariables";
 import {gsap} from "gsap";
 
 export class EndDialogue extends Container{
   background: Sprite;
   floatingSprites: Sprite[] = [];
+  textHeadline: Text = new Text();
+  textAmount: Text = new Text();
 
   AMOUNT_OF_FLOATING_SPRITES = 30;
 
-  constructor(playerHasWon: boolean) {
+  constructor() {
     super();
+
+    this.visible = false;
 
     this.background = new Sprite();
     this.background.height = CrossyRoadGameVariables.GAME_SCREEN_HEIGHT;
     this.background.width = CrossyRoadGameVariables.GAME_SCREEN_WIDTH;
-    this.addChild(this.background);
 
+    this.addChild(this.background);
     this.generateAndPositionFloatingSprites();
-    playerHasWon ? this.setPlayerWon() : this.setPlayerLost();
+    this.addChild(this.textHeadline);
+    this.addChild(this.textAmount);
   }
 
-  generateAndPositionFloatingSprites(){
+  private generateAndPositionFloatingSprites(){
     let xPosition = 0;
 
     for(let i=0; i < this.AMOUNT_OF_FLOATING_SPRITES; i++){
@@ -32,7 +37,7 @@ export class EndDialogue extends Container{
       if(xPosition > this.background.width*1.5) xPosition = 0;
       xPosition += floatingSprite.width + Math.floor(Math.random() * 50);
 
-      floatingSprite.position.y = floatingSprite.height *-0.5;
+      floatingSprite.position.y = floatingSprite.height *-1;
       floatingSprite.position.x = (this.background.width*-0.5) + xPosition;
 
       gsap.to(floatingSprite, {
@@ -54,19 +59,62 @@ export class EndDialogue extends Container{
     }
   }
 
-  public setPlayerLost(){
+  public showPlayerLost(){
     this.background.texture = Texture.from("texture_background_dialogue_game_lost")
 
     for(let i=0; i<this.floatingSprites.length; i++){
       this.floatingSprites[i].texture = Texture.from("texture_dialogue_floating_sprite_lost")
     }
+
+    this.textHeadline.text = String();
+    this.textAmount.text = String();
+
+    this.visible = true;
   }
 
-  public setPlayerWon(){
+  public showPlayerWon(){
     this.background.texture = Texture.from("texture_background_dialogue_game_won")
 
     for(let i=0; i<this.floatingSprites.length; i++){
       this.floatingSprites[i].texture = Texture.from("texture_dialogue_floating_sprite_won")
     }
+
+    let textHeadlineStyle: TextStyle = new TextStyle({
+      fontFamily: 'Arial',
+      fill: '#ffffff',
+      fontSize: 225,
+      fontWeight: 'bold',
+      stroke: "#171a39",
+      //@ts-ignore
+      strokeThickness: 40
+    });
+
+    let textAmountStyle: TextStyle = new TextStyle({
+      fontFamily: 'Arial',
+      fill: '#ffffff',
+      fontSize: 400,
+      fontWeight: 'bold',
+      stroke: "#171a39",
+      //@ts-ignore
+      strokeThickness: 60
+    });
+
+    this.textHeadline.text = "Winner Winner,\nChicken Dinner"
+    this.textHeadline.style = textHeadlineStyle;
+    this.textHeadline.anchor = 0.5
+    this.textHeadline.position.x = CrossyRoadGameVariables.GAME_SCREEN_WIDTH / 2;
+    this.textHeadline.position.y = CrossyRoadGameVariables.GAME_SCREEN_HEIGHT / 3;
+
+    this.textAmount.text = CrossyRoadGameVariables.CURRENT_GAINS;
+    this.textAmount.style = textAmountStyle;
+    this.textAmount.anchor = 0.5
+    this.textAmount.position.x = CrossyRoadGameVariables.GAME_SCREEN_WIDTH / 2;
+    this.textAmount.position.y = CrossyRoadGameVariables.GAME_SCREEN_HEIGHT / 1.5;
+
+    this.visible = true;
+  }
+
+  public hide(){
+    this.visible = false;
   }
 }

@@ -1,7 +1,7 @@
-import { AnimatedSprite, Texture, Assets } from "pixi.js";
-import { gsap } from "gsap";
-import { Playground } from "./playground";
-import { CrossyRoadGameVariables } from "../crossyRoadGameVariables";
+import {AnimatedSprite, Texture} from "pixi.js";
+import {gsap} from "gsap";
+import {Playground} from "./playground";
+import {CrossyRoadGameVariables, GameState} from "../crossyRoadGameVariables";
 
 enum ChickenState {
   IDLE,
@@ -39,6 +39,7 @@ export class Chicken extends AnimatedSprite {
 
     this.playground = playground;
     this.anchor.set(0.5, 1.0);
+    this.scale = 1;
     this.width = 276;
     this.height = 382;
     this.position.set(
@@ -100,12 +101,12 @@ export class Chicken extends AnimatedSprite {
         this.setState(ChickenState.WALKING);
       },
       onComplete: () => {
-        if (this.currentState === ChickenState.WALKING) {
-          this.setState(ChickenState.IDLE);
-        }
-        if(this.roadTrackIndex+1 <= CrossyRoadGameVariables.ROAD_TRACK_AMOUNT) {
-          this.roadTrackIndex++;
-        }
+        if (this.currentState === ChickenState.WALKING) this.setState(ChickenState.IDLE);
+        if (this.roadTrackIndex+1 <= CrossyRoadGameVariables.ROAD_TRACK_AMOUNT) this.roadTrackIndex++;
+
+        setTimeout(() => {
+          CrossyRoadGameVariables.GAME_STATE = GameState.WON;
+        }, 1000)
 
         this.activeMovementTween = undefined;
       }
@@ -181,7 +182,12 @@ export class Chicken extends AnimatedSprite {
         x: targetScaleDown,
         y: targetScaleDown,
         duration: 0.25,
-        ease: "power1.out"
+        ease: "power1.out",
+        onComplete: () => {
+          setTimeout(() => {
+            CrossyRoadGameVariables.GAME_STATE = GameState.LOST;
+          }, 1000)
+        }
       })
   }
 

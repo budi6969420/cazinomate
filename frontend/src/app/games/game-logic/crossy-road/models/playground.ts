@@ -1,7 +1,7 @@
 import {Container, Sprite, Ticker} from "pixi.js";
 import {Road} from "./road";
 import {Chicken} from "./chicken";
-import {CrossyRoadGameVariables} from "../crossyRoadGameVariables";
+import {CrossyRoadGameVariables, GameState} from "../crossyRoadGameVariables";
 import {gsap} from "gsap";
 
 export class Playground extends Container<any> {
@@ -52,7 +52,7 @@ export class Playground extends Container<any> {
       return;
     }
 
-    let chickenIsGoingToDie = Math.random() < 0.9;
+    let chickenIsGoingToDie = Math.random() < 0.1;
     nextRoadTrack.setChickenIsSafe(!chickenIsGoingToDie);
     nextRoadTrack.setIsBlocked(true);
 
@@ -72,7 +72,7 @@ export class Playground extends Container<any> {
           this.chicken.die();
         }
 
-        currentRoadTrack.setToVisited();
+        if (currentRoadTrackIndex >= 0) currentRoadTrack.setToVisited();
       }
     }
 
@@ -87,6 +87,7 @@ export class Playground extends Container<any> {
     if(chickenPosition > this.maxScrollX) {
       newPosition = chickenPosition + CrossyRoadGameVariables.CHICKEN_PADDING_LEFT
     }
+
 
     gsap.to(this.position, {
       x: newPosition,

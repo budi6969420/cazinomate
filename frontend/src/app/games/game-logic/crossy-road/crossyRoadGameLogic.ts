@@ -1,15 +1,17 @@
 import {IGameLogic} from "../iGameLogic";
-import {Container, Sprite} from "pixi.js";
+import {Container, Ticker} from "pixi.js";
 import {Playground} from "./models/playground";
-import {CrossyRoadGameVariables} from "./crossyRoadGameVariables";
-import {EventEmitter} from "@angular/core";
+import {CrossyRoadGameVariables, GameState} from "./crossyRoadGameVariables";
 import {EndDialogue} from "./models/endDialogue";
+import {ControlBar} from "./models/controlBar";
 
 export class CrossyRoadGameLogic implements IGameLogic{
   name: string = "crossy-road";
+  gameWasInitialised: boolean = false;
   stage!: Container<any>
   playgroundScreen!: Playground;
   endDialogueScreen!: EndDialogue;
+  controlBar!: ControlBar;
 
   GAME_HEIGHT: number;
   GAME_WIDTH: number;
@@ -26,22 +28,44 @@ export class CrossyRoadGameLogic implements IGameLogic{
   start(){
     if (this.playgroundScreen){
       this.stage.removeChild(this.playgroundScreen);
-      this.playgroundScreen.destroy();
-
       this.stage.removeChild(this.endDialogueScreen);
-      this.endDialogueScreen.destroy();
+      this.stage.removeChild(this.controlBar);
+
+      this.playgroundScreen.destroy();
     }
 
     this.playgroundScreen = new Playground();
     this.playgroundScreen.setMaxScrollX(this.GAME_WIDTH);
 
-    this.endDialogueScreen = new EndDialogue(false);
+    if(!this.gameWasInitialised){
+      this.endDialogueScreen = new EndDialogue();
+      this.controlBar = new ControlBar();
 
-    this.stage.addChild(this.playgroundScreen)
-    this.stage.addChild(this.endDialogueScreen)
+      Ticker.shared.add(this.gameStateCheckingLoop, this);
+      this.gameWasInitialised = true;
+    }
+
+    this.stage.addChild(this.playgroundScreen);
+    this.stage.addChild(this.endDialogueScreen);
+    this.stage.addChild(this.controlBar);
+
+    CrossyRoadGameVariables.GAME_STATE = GameState.RUNNING;
   }
 
-  public controller(eventOrCommand: KeyboardEvent | string): void {
+  private gameStateCheckingLoop(){
+    switch(CrossyRoadGameVariables.GAME_STATE){
+      case GameState.LOST:
+        this.endDialogueScreen.showPlayerLost()
+        break;
+      case GameState.WON:
+        this.endDialogueScreen.showPlayerWon()
+        break;
+      case GameState.RUNNING:
+        this.endDialogueScreen.hide();
+    }
+  }
+
+  controller(eventOrCommand: KeyboardEvent | string): void {
     let commandCode: string;
     typeof eventOrCommand === 'string' ? commandCode = eventOrCommand : commandCode = eventOrCommand.code;
 
@@ -51,7 +75,7 @@ export class CrossyRoadGameLogic implements IGameLogic{
         break;
 
       case CrossyRoadGameVariables.COMMAND_START_GAME:
-        this.start();
+        if(CrossyRoadGameVariables.GAME_STATE != GameState.RUNNING) this.start();
         break;
 
       default:

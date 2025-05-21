@@ -48,19 +48,24 @@ export class Car extends Sprite {
     let delay = 1.5;
     let timeline = gsap.timeline();
     timeline
-      .to(this.position, {
+      .to(this, {
         y: CrossyRoadGameVariables.CHICKEN_PADDING_TOP + 180,
         delay: delay,
         duration: duration,
-        ease: "power2.in",
-        onComplete: () => {}
+        ease: "power1.in"
       })
-      .to(this.position, {
-      y: CrossyRoadGameVariables.CHICKEN_PADDING_TOP + 160,
-      duration: 0.2,
-      ease: "power2.out",
-      onComplete: () => {}
-    });
+      .to(this, {
+        width: this.width*1.05,
+        height: this.height*1.05,
+        duration: 0.001
+      })
+      .to(this, {
+        y: CrossyRoadGameVariables.CHICKEN_PADDING_TOP + 160,
+        width: this.width,
+        height: this.height,
+        duration: 0.2,
+        ease: "power5.out"
+      });
 
     return await new Promise<void>((resolve) => {
       setTimeout(() => {
