@@ -36,29 +36,41 @@ export class Playground extends Container<any> {
     this.addChild(this.chicken);
   }
 
-  moveChicken(){
-    if (this.isScrolling || !this.chicken.getIsEffectivelyAlive()) return;
+  actionTrigger(){
+    if (this.isScrolling) return;
+    if (!this.chicken.getIsEffectivelyAlive()) return;
+    if (this.activeWaitForRoadTrackFn != null) return;
 
     const currentRoadTrackIndex = this.chicken.roadTrackIndex;
     const currentRoadTrack = this.road.getTrack(currentRoadTrackIndex);
     const nextRoadTrack = this.road.getTrack(currentRoadTrackIndex + 1);
 
     if (!nextRoadTrack) {
-      this.chicken.walk();
+      this.chicken.walkToFinishLine();
       this.alignView();
       return;
     }
 
+    let chickenIsGoingToDie = Math.random() < 0.1;
+    nextRoadTrack.setChickenIsSafe(!chickenIsGoingToDie);
     nextRoadTrack.setIsBlocked(true);
 
-    const waitForRoadTrackToBeEmpty = () => {
+    const waitForRoadTrackToBeEmpty = async () => {
 
-      if(!nextRoadTrack.car.isDriving && nextRoadTrack.getIsBlocked()){
+      if (!nextRoadTrack.getIsCarDriving() && nextRoadTrack.getIsBlocked()) {
         Ticker.shared.remove(waitForRoadTrackToBeEmpty, this);
         this.activeWaitForRoadTrackFn = null;
 
+        if(this.chicken.isAboutToDie) return;
         this.chicken.walk();
         this.alignView();
+
+        if (chickenIsGoingToDie) {
+          this.chicken.isAboutToDie = chickenIsGoingToDie;
+          await nextRoadTrack.killChicken();
+          this.chicken.die();
+        }
+
         currentRoadTrack.setIsBlocked(false);
       }
     }
@@ -77,7 +89,7 @@ export class Playground extends Container<any> {
 
     gsap.to(this.position, {
       x: newPosition,
-      duration: 2,
+      duration: 1.5,
       ease: "power5.out",
       onStart: () => {
         this.isScrolling = true;

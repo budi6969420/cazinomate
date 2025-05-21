@@ -14,7 +14,8 @@ export class Chicken extends AnimatedSprite {
   private playground: Playground;
 
   public currentState: ChickenState;
-  public roadTrackIndex = -1;
+  public roadTrackIndex: number = -1;
+  public isAboutToDie: boolean = false;
 
   private idleFrames: Texture[];
   private walkFrames: Texture[];
@@ -41,7 +42,7 @@ export class Chicken extends AnimatedSprite {
     this.width = 276;
     this.height = 382;
     this.position.set(
-      CrossyRoadGameVariables.CHICKEN_PADDING_LEFT + this.width / 2,
+      CrossyRoadGameVariables.CHICKEN_PADDING_LEFT + this.width * this.anchor.x,
       CrossyRoadGameVariables.CHICKEN_PADDING_TOP + this.height
     );
 
@@ -52,7 +53,7 @@ export class Chicken extends AnimatedSprite {
   }
 
   public getIsEffectivelyAlive(): boolean {
-    return this.currentState !== ChickenState.DEAD && this.currentState !== ChickenState.DYING;
+    return (this.currentState !== ChickenState.DEAD && this.currentState !== ChickenState.DYING) && !this.isAboutToDie;
   }
 
   public setState(newState: ChickenState): void {
@@ -87,6 +88,28 @@ export class Chicken extends AnimatedSprite {
     if (newState === ChickenState.IDLE || newState === ChickenState.WALKING) {
       this.play();
     }
+  }
+
+  walkToFinishLine(){
+    this.activeMovementTween = gsap.to(this.position, {
+      x: this.playground.width - CrossyRoadGameVariables.CHICKEN_PADDING_LEFT,
+      y: this.playground.height / 4,
+      duration: 1,
+      ease: "power1.out",
+      onStart: () => {
+        this.setState(ChickenState.WALKING);
+      },
+      onComplete: () => {
+        if (this.currentState === ChickenState.WALKING) {
+          this.setState(ChickenState.IDLE);
+        }
+        if(this.roadTrackIndex+1 <= CrossyRoadGameVariables.ROAD_TRACK_AMOUNT) {
+          this.roadTrackIndex++;
+        }
+
+        this.activeMovementTween = undefined;
+      }
+    });
   }
 
   walk() {

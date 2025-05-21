@@ -22,7 +22,10 @@ export class CrossyRoadGameLogic implements IGameLogic{
   }
 
   start(){
-    if (this.playgroundScreen) this.stage.removeChild(this.playgroundScreen);
+    if (this.playgroundScreen){
+      this.stage.removeChild(this.playgroundScreen);
+      this.playgroundScreen.destroy();
+    }
 
     this.playgroundScreen = new Playground();
     this.playgroundScreen.setMaxScrollX(this.GAME_WIDTH);
@@ -35,7 +38,7 @@ export class CrossyRoadGameLogic implements IGameLogic{
 
     switch (commandCode) {
       case CrossyRoadGameVariables.COMMAND_MOVE_CHICKEN_FORWARD:
-        this.playgroundScreen.moveChicken();
+        this.playgroundScreen.actionTrigger();
         break;
 
       case CrossyRoadGameVariables.COMMAND_START_GAME:
