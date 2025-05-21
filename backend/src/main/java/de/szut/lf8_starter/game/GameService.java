@@ -5,7 +5,6 @@ import de.szut.lf8_starter.game.games.SlotsGame;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class GameService {

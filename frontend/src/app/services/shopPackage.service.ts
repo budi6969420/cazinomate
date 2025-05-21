@@ -31,7 +31,7 @@ export class ShopPackageService {
     return this.http.get<ShopPackage[]>(`${this.apiUrl}`);
   }
 
-  public  getPaymentLink(productId: string, options: PaymentLinkCreationOptionsModel) {
+  public getPaymentLink(productId: string, options: PaymentLinkCreationOptionsModel) {
     return this.http.post<UrlModel>(`${this.apiUrl}/${productId}`, options);
   }
 }

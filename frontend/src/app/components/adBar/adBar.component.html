@@ -1,13 +1,18 @@
 <div class="logos">
   <div class="logos-slide">
     @for (sponsor of service.sponsors; track sponsor.id) {
-      <img [src]="(sponsor.imageUrl)">
+      <a href="{{sponsor.url}}" target="_blank" rel="noopener noreferrer">
+        <img class="logo" [src]="(sponsor.imageUrl)">
+      </a>
     }
   </div>
 
   <div class="logos-slide">
     @for (sponsor of service.sponsors; track sponsor.id) {
-      <img [src]="(sponsor.imageUrl)" [alt]="sponsor.name">
+      <a href="{{sponsor.url}}" target="_blank" rel="noopener noreferrer">
+        <img class="logo" [src]="(sponsor.imageUrl)" [alt]="sponsor.name">
+      </a>
+
     }
   </div>
 </div>
