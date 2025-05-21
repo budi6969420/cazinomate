@@ -8,7 +8,7 @@ import {PaymentProvider} from "../models/paymentProvider";
 })
 export class PaymentProviderService {
 
-  private apiUrl = 'http://localhost:8080/api/paymentProvider';
+  private apiUrl = 'http://localhost:8080/api/payment-provider';
 
   public paymentProviders: PaymentProvider[] = [];
 
