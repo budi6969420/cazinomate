@@ -3,11 +3,13 @@ import {Container, Sprite} from "pixi.js";
 import {Playground} from "./models/playground";
 import {CrossyRoadGameVariables} from "./crossyRoadGameVariables";
 import {EventEmitter} from "@angular/core";
+import {EndDialogue} from "./models/endDialogue";
 
 export class CrossyRoadGameLogic implements IGameLogic{
   name: string = "crossy-road";
   stage!: Container<any>
   playgroundScreen!: Playground;
+  endDialogueScreen!: EndDialogue;
 
   GAME_HEIGHT: number;
   GAME_WIDTH: number;
@@ -25,11 +27,18 @@ export class CrossyRoadGameLogic implements IGameLogic{
     if (this.playgroundScreen){
       this.stage.removeChild(this.playgroundScreen);
       this.playgroundScreen.destroy();
+
+      this.stage.removeChild(this.endDialogueScreen);
+      this.endDialogueScreen.destroy();
     }
 
     this.playgroundScreen = new Playground();
     this.playgroundScreen.setMaxScrollX(this.GAME_WIDTH);
+
+    this.endDialogueScreen = new EndDialogue(false);
+
     this.stage.addChild(this.playgroundScreen)
+    this.stage.addChild(this.endDialogueScreen)
   }
 
   public controller(eventOrCommand: KeyboardEvent | string): void {

@@ -52,7 +52,7 @@ export class Playground extends Container<any> {
       return;
     }
 
-    let chickenIsGoingToDie = Math.random() < 0.1;
+    let chickenIsGoingToDie = Math.random() < 0.9;
     nextRoadTrack.setChickenIsSafe(!chickenIsGoingToDie);
     nextRoadTrack.setIsBlocked(true);
 
@@ -65,13 +65,14 @@ export class Playground extends Container<any> {
         if(this.chicken.isAboutToDie) return;
         this.chicken.walk();
         this.alignView();
-        currentRoadTrack.setToVisited();
 
         if (chickenIsGoingToDie) {
           this.chicken.isAboutToDie = chickenIsGoingToDie;
           await nextRoadTrack.killChicken();
           this.chicken.die();
         }
+
+        currentRoadTrack.setToVisited();
       }
     }
 
