@@ -1,0 +1,11 @@
+<div class="age-check-backdrop" *ngIf="showModal">
+  <div class="age-check-modal">
+    <img src="/images/cazinomate-logo.svg">
+    <h1>Willkomen auf CazinoMate</h1>
+    <p>Um dich auf dieser Seite registrieren und spielen zu können, musst die mindestens 18 Jahre alt sein. </p>
+    <p>Glücksspiel kann süchtig machen, spiele mit Verantwortung.</p>
+    <p><strong>Bist du mindestens 18 Jahre alt?</strong></p>
+    <button (click)="confirmAge(true)">Ich bin 18+</button>
+    <button (click)="confirmAge(false)">Ich bin unter 18</button>
+  </div>
+</div>

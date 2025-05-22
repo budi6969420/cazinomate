@@ -6,11 +6,12 @@ import {SidebarComponent} from "./components/sidebar/sidebar.component";
 import {NavbarComponent} from "./components/navbar/navbar.component";
 import {CookieConsentComponent} from "./components/cookie-consent/cookie-consent.component";
 import {FooterComponent} from "./components/footer/footer.component";
+import {AgeCheckModalComponent} from "./components/age-check-modal/age-check-modal.component";
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, RouterOutlet, KeycloakAngularModule, SidebarComponent, NavbarComponent, CookieConsentComponent, FooterComponent],
+  imports: [CommonModule, RouterOutlet, KeycloakAngularModule, SidebarComponent, NavbarComponent, CookieConsentComponent, FooterComponent, AgeCheckModalComponent],
   providers: [ ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
