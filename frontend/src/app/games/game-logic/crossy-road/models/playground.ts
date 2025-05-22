@@ -3,6 +3,8 @@ import {Road} from "./road";
 import {Chicken} from "./chicken";
 import {CrossyRoadGameVariables, GameState} from "../crossyRoadGameVariables";
 import {gsap} from "gsap";
+import {CrossyRoadGameSession} from "../crossyRoadGameSession";
+import {CrossyRoadGameInteractionRequest} from "../crossyRoadGameInteractionRequest";
 
 export class Playground extends Container<any> {
   chicken: Chicken;
@@ -45,12 +47,29 @@ export class Playground extends Container<any> {
     }
   }
 
-  actionTrigger(){
+
+  async actionTrigger() {
     if (CrossyRoadGameVariables.GAME_STATE != GameState.ACTIVE) return;
     if (this.isScrolling) return;
     if (!this.chicken.getIsEffectivelyAlive()) return;
     if (this.activeWaitForRoadTrackFn != null) return;
 
+    let interactionRequest = new CrossyRoadGameInteractionRequest(
+      CrossyRoadGameVariables.GAME_ID,
+      CrossyRoadGameVariables.GAME_SESSION_ID,
+      "move"
+    );
+
+    let response = await fetch("http://localhost:8080/api/game/session/action", {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        authorization: "Bearer " + CrossyRoadGameVariables.API_TOKEN
+      },
+      body: JSON.stringify(interactionRequest)
+    });
+
+    const gameSession = await response.json() as CrossyRoadGameSession;
     const currentRoadTrackIndex = this.chicken.roadTrackIndex;
     const currentRoadTrack = this.road.getTrack(currentRoadTrackIndex);
     const nextRoadTrack = this.road.getTrack(currentRoadTrackIndex + 1);
@@ -62,7 +81,7 @@ export class Playground extends Container<any> {
       return;
     }
 
-    let chickenIsGoingToDie = Math.random() < 0.1;
+    let chickenIsGoingToDie = gameSession.gameState != GameState[GameState.ACTIVE];
     nextRoadTrack.setChickenIsSafe(!chickenIsGoingToDie);
     nextRoadTrack.setIsBlocked(true);
 
@@ -72,12 +91,12 @@ export class Playground extends Container<any> {
         Ticker.shared.remove(waitForRoadTrackToBeEmpty, this);
         this.activeWaitForRoadTrackFn = null;
 
-        if(this.chicken.isAboutToDie) return;
+        if (this.chicken.chickenIsGoingToDie) return;
         this.chicken.walk();
         this.alignView();
 
         if (chickenIsGoingToDie) {
-          this.chicken.isAboutToDie = chickenIsGoingToDie;
+          this.chicken.chickenIsGoingToDie = chickenIsGoingToDie;
           await nextRoadTrack.killChicken();
           this.chicken.die();
         }

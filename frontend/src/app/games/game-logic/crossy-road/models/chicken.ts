@@ -15,7 +15,7 @@ export class Chicken extends AnimatedSprite {
 
   public currentState: ChickenState;
   public roadTrackIndex: number = -1;
-  public isAboutToDie: boolean = false;
+  public chickenIsGoingToDie: boolean = false;
 
   private idleFrames: Texture[];
   private walkFrames: Texture[];
@@ -55,7 +55,7 @@ export class Chicken extends AnimatedSprite {
   }
 
   public getIsEffectivelyAlive(): boolean {
-    return (this.currentState !== ChickenState.DEAD && this.currentState !== ChickenState.DYING) && !this.isAboutToDie;
+    return (this.currentState !== ChickenState.DEAD && this.currentState !== ChickenState.DYING) && !this.chickenIsGoingToDie;
   }
 
   public setState(newState: ChickenState): void {

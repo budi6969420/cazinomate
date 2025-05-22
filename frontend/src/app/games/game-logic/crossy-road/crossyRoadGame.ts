@@ -7,8 +7,9 @@ import {ControlBar} from "./models/controlBar";
 import {CrossyRoadGameStartSessionRequest} from "./crossyRoadGameStartSessionRequest";
 import {CrossyRoadGameSession} from "./crossyRoadGameSession";
 
-export class CrossyRoadGameLogic implements IGameLogic{
+export class CrossyRoadGame implements IGameLogic{
   name: string = "crossy-road";
+  id: string = "39c63177-b7ad-478b-a009-69b8fa043e6f";
   gameWasInitialised: boolean = false;
   stage!: Container<any>
   playgroundScreen!: Playground;
@@ -89,7 +90,7 @@ export class CrossyRoadGameLogic implements IGameLogic{
     CrossyRoadGameVariables.GAME_STATE = GameState.PREPARING;
 
     let startSessionRequest = new CrossyRoadGameStartSessionRequest(
-      "39c63177-b7ad-478b-a009-69b8fa043e6f",
+      CrossyRoadGameVariables.GAME_ID,
       CrossyRoadGameVariables.GAME_SETTING_DIFFICULTY,
       Number(this.controlBar.betAmountText.text)
     );
@@ -118,6 +119,9 @@ export class CrossyRoadGameLogic implements IGameLogic{
     return this.name;
   }
 
+  getId(): string {
+    return this.id;
+  }
   setStage(stage: Container<any>){
     this.stage = stage;
   }

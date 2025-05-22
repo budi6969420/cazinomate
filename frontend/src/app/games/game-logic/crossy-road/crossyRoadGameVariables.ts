@@ -15,6 +15,7 @@ export enum GameDifficulty {
 
 export class CrossyRoadGameVariables {
 
+  public static readonly GAME_ID: string = "39c63177-b7ad-478b-a009-69b8fa043e6f";
   public static readonly ROAD_TRACK_WIDTH: number = 655;
   public static readonly GAME_SCREEN_HEIGHT: number = 1758;
   public static readonly GAME_SCREEN_WIDTH: number = 2770;

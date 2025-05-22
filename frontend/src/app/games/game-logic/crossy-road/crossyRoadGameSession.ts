@@ -10,7 +10,7 @@ export class CrossyRoadGameSession extends BaseGameSession {
               gameId: string,
               userId: string,
               investedBalance: number,
-              gameState: GameState,
+              gameState: string,
               difficulty: GameDifficulty,
               currentIndex: number,
               balanceDifference: number,
