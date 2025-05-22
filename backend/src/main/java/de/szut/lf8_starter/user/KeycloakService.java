@@ -1,7 +1,5 @@
-package de.szut.lf8_starter.services;
+package de.szut.lf8_starter.user;
 
-import de.szut.lf8_starter.user.TokenResponse;
-import de.szut.lf8_starter.user.User;
 import de.szut.lf8_starter.user.dto.KeycloakUserDto;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;

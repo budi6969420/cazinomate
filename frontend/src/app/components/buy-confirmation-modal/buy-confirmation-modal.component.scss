@@ -42,9 +42,11 @@
   background: darkred;
 }
 
-.popup p {
-  font-size: 16px;
-  color: white;
-  margin-bottom: 10px;
+.popup {
+  p {
+    font-size: 16px;
+    color: white;
+    margin-bottom: 10px;
+    text-align: center;
+  }
 }
-

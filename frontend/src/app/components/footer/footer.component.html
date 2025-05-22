@@ -1,29 +1,32 @@
 <div id="topWrapper">
   <div>
     <h2>CazinoMate</h2>
-    <p>© {{ currentYear }} CazinoMate.de | Alle Rechte vorbehalten</p>
+    <p>© 2025 CazinoMate.de | Alle Rechte vorbehalten</p>
   </div>
-  <ul>
-    <li><a href=""><img src="/images/twitter-logo.svg" alt="twitter icon"></a></li>
-    <li><a href=""><img src="/images/insta-logo.svg" alt="insta icon"></a></li>
-    <li><a href=""><img src="/images/youtube-logo.svg" alt="youtube icon"></a></li>
+  <ul class="social-media-link">
+    <li><a href="https://x.com/gambling_com?ref_src=twsrc%5Egoogle%7Ctwcamp%5Eserp%7Ctwgr%5Eauthor" target="_blank" rel="noopener noreferrer"><img src="/images/twitter-logo.svg"
+                                                                                                                                                   alt="twitter icon"></a></li>
+    <li><a href="https://www.instagram.com/b._.di/" target="_blank" rel="noopener noreferrer"><img src="/images/insta-logo.svg" alt="insta icon"></a></li>
+    <li><a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" target="_blank" rel="noopener noreferrer"><img src="/images/youtube-logo.svg" alt="youtube icon"></a></li>
   </ul>
 </div>
 <hr>
 <div id="midWrapper">
   <ul>
-    <h3>Casino</h3>
+    <h3>Spiele</h3>
     @for (gameMetadata of gameMetaDataService.gameMetadatas; track gameMetadata.id) {
-      <li class="clickable">{{gameMetadata.title}}</li>
+      <li><a href="game/{{gameMetadata.id}}">{{gameMetadata.title}}</a></li>
     }
   </ul>
   <ul>
     <h3>Support</h3>
     <li>
-      <a href="">Hilfezentrum<img src="/images/link-external-icon.svg" alt="Hilfezentrum link"></a>
+      <a href="https://www.sucht.de/">Hilfezentrum<img src="/images/link-external-icon.svg" alt="Hilfezentrum link"></a>
     </li>
     <li>
-      <a href="">Glücksspiel-Beratungsstelle<img src="/images/link-external-icon.svg" alt="Hilfezentrum link"></a>
+      <a
+        href="https://www.bioeg.de/service/infotelefone/gluecksspielsucht/#:~:text=Das%20Bundesinstitut%20f%C3%BCr%20%C3%96ffentliche%20Gesundheit,Rufnummer%200800%20%2D%20137%2027%2000.">Glücksspiel-Beratungsstelle<img
+        src="/images/link-external-icon.svg" alt="Hilfezentrum link"></a>
     </li>
   </ul>
   <ul>
@@ -32,9 +35,23 @@
     <li class="clickable">Nutzungsbedingungen</li>
   </ul>
 </div>
-<hr>
-<div id="bottomWrapper">
-  @for (sponsor of sponsorService.getVipSponsors(); track sponsor.id) {
-    <img [src]="sponsor.imageUrl" [alt]="sponsor.name">
-  }
-</div>
+@if (sponsorService.sponsors.length > 0) {
+  <hr>
+  <div id="bottomWrapper">
+    @for (sponsor of sponsorService.sponsors; track sponsor.id) {
+      <a href="{{sponsor.url}}" target="_blank" rel="noopener noreferrer">
+        <img [src]="sponsor.imageUrl" [alt]="sponsor.name">
+      </a>
+    }
+  </div>
+}
+@if (paymentProviderService.paymentProviders.length > 0) {
+  <hr>
+  <div id="paymentProvidersWrapper">
+    @for (paymentProvider of paymentProviderService.paymentProviders; track paymentProvider.id) {
+      <a href="{{paymentProvider.url}}" target="_blank" rel="noopener noreferrer">
+        <img [src]="paymentProvider.imageUrl" [alt]="paymentProvider.name">
+      </a>
+    }
+  </div>
+}

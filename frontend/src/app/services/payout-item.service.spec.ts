@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { SelfUserService } from './self-user.service';
+import { PayoutItemService } from './payout-item.service';
 
-describe('SelfUserService', () => {
-  let service: SelfUserService;
+describe('PayoutItemService', () => {
+  let service: PayoutItemService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(SelfUserService);
+    service = TestBed.inject(PayoutItemService);
   });
 
   it('should be created', () => {

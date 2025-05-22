@@ -1,4 +1,4 @@
-package de.szut.lf8_starter.services;
+package de.szut.lf8_starter.transaction;
 
 import com.stripe.Stripe;
 import com.stripe.exception.StripeException;

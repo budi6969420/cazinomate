@@ -4,6 +4,7 @@ import { ShopPackage } from "../models/shopPackage";
 import {PaymentLinkCreationOptionsModel} from "../models/PaymentLinkCreationOptions";
 import {UrlModel} from "../models/UrlModel";
 import {Observable} from "rxjs";
+import {environment} from "../../environments/environment";
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +15,7 @@ export class ShopPackageService {
   private placeholderPackages: ShopPackage[] = [];
 
 
-  private apiUrl: string = "http://localhost:8080/api/product";
+  private apiUrl: string = environment.backendApiUrl + "product";
 
   constructor(private http: HttpClient) {
     this.getPackages().subscribe({next: (data: ShopPackage[]) => {
@@ -31,7 +32,7 @@ export class ShopPackageService {
     return this.http.get<ShopPackage[]>(`${this.apiUrl}`);
   }
 
-  public  getPaymentLink(productId: string, options: PaymentLinkCreationOptionsModel) {
+  public getPaymentLink(productId: string, options: PaymentLinkCreationOptionsModel) {
     return this.http.post<UrlModel>(`${this.apiUrl}/${productId}`, options);
   }
 }

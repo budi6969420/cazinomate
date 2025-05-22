@@ -2,25 +2,53 @@ import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {NewPassword} from "../models/newPassword";
 import {NewUsername} from "../models/newUsername";
-import {User} from "../models/user";
-import {Observable} from "rxjs";
+import {user} from "../models/user";
+import {Observable, of, tap} from "rxjs";
+import {catchError} from "rxjs/operators";
+import {environment} from "../../environments/environment";
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
 
-  private apiUrl = 'http://localhost:8080/api/user';
+  private apiUrl = environment.backendApiUrl + 'user';
+  public myUser: user | null = null;
+  public myBalance: number = 0;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {
+    this.updateSelfBalance().subscribe();
+    this.updateSelfUserInfo().subscribe();
+  }
 
-  getUserInfo(): Observable<User>{
-    return this.http.get<User>(this.apiUrl + "/self");
+  updateSelfUserInfo() {
+    return this.http.get<user>(this.apiUrl + "/self").pipe(
+      tap(user => this.myUser = user),
+      catchError(err => {
+        this.myUser = null;
+        return of(null);
+      })
+    );
   }
-  changeUsername(username: NewUsername): Observable<User>{
-    return this.http.put<User>(this.apiUrl + "/username", username);
+  updateSelfBalance() {
+    return this.http.get<any>(`${this.apiUrl}/self/balance`).pipe(
+      tap(balance => {
+        this.myBalance = balance.balance
+      }),
+      catchError(err => {
+        this.myBalance = 0;
+        return of(null);
+      })
+    );
   }
-  changePassword(userPassword: NewPassword): Observable<User>{
-    return this.http.put<User>(this.apiUrl + "/password", userPassword);
+  changeUsername(username: NewUsername): Observable<user>{
+    return this.http.put<user>(this.apiUrl + "/username", username);
+  }
+  changePassword(userPassword: NewPassword): Observable<user>{
+    return this.http.put<user>(this.apiUrl + "/password", userPassword);
+  }
+  onLogout() {
+    this.myUser = null;
+    this.myBalance = 0;
   }
 }
