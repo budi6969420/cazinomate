@@ -1,4 +1,4 @@
-.PHONY: start stop clean logs
+.PHONY: start stop clean logs start-local deploy-server
 
 # Variables
 TIMESTAMP := $(shell date +"%Y%m%d_%H%M%S")
@@ -14,8 +14,9 @@ start-loading:
 	fi
 	@cd loading-next && npm run dev > /dev/null 2>&1 &
 
-start: start-loading
-	@echo "Starting all services..."
+# Local development (default)
+start-local: start-loading
+	@echo "Starting all services for local development..."
 	@cd docker && docker compose up -d
 	@echo "Waiting for services to start..."
 	@sleep 30
@@ -23,9 +24,23 @@ start: start-loading
 	@cd backend && ./gradlew bootRun > /dev/null 2>&1 &
 	@echo "Waiting for backend to initialize..."
 	@sleep 15
-	@echo "Starting frontend..."
+	@echo "Starting frontend in development mode..."
 	@cd frontend && npm start > /dev/null 2>&1 &
-	@echo "All services started successfully!"
+	@echo "All services started successfully in development mode!"
+
+# For backward compatibility
+start: start-local
+
+# Server deployment
+deploy-server:
+	@echo "Deploying application to server..."
+	@echo "Installing and building loading page..."
+	@cd loading-next && npm install && npm run build
+	@echo "Building backend..."
+	@cd backend && ./gradlew bootJar > /dev/null 2>&1 &
+	@echo "Installing and building frontend..."
+	@cd frontend && npm install && ng build --configuration production
+	@echo "Server deployment complete!"
 
 stop:
 	@echo "Stopping Casino application..."
