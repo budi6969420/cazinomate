@@ -1,5 +1,6 @@
 package de.szut.lf8_starter.game;
 
+import de.szut.lf8_starter.game.games.coinFlip.CoinFlipGame;
 import de.szut.lf8_starter.game.games.crossyRoadGangBang.CrossyRoadGangBangGame;
 import de.szut.lf8_starter.game.games.slots.SlotsGame;
 import org.springframework.stereotype.Service;
@@ -11,6 +12,7 @@ public class GameService {
 
     private final List<IGame> games = List.of(
             new CrossyRoadGangBangGame(),
+            new CoinFlipGame(),
             new SlotsGame()
     );
 

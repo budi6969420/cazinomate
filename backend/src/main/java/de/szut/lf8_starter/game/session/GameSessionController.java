@@ -2,8 +2,8 @@ package de.szut.lf8_starter.game.session;
 
 import de.szut.lf8_starter.game.session.requests.SessionActionRequest;
 import de.szut.lf8_starter.game.session.requests.StartSessionRequest;
-import de.szut.lf8_starter.services.KeycloakService;
 import de.szut.lf8_starter.user.JwtService;
+import de.szut.lf8_starter.user.KeycloakService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
