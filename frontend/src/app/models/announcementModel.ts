@@ -5,4 +5,5 @@ export class AnnouncementModel
   imageUrl: string   = "";
   buttonText: string = "";
   navigationUrl: string = "";
+  isGreen: boolean = false;
 }

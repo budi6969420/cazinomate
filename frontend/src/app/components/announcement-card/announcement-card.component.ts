@@ -1,10 +1,12 @@
 import {Component, Input} from '@angular/core';
 import {AnnouncementModel} from "../../models/announcementModel";
 import {Router} from "@angular/router";
+import {NgClass} from "@angular/common";
 
 @Component({
   selector: 'app-announcement-card',
   imports: [
+    NgClass
   ],
   templateUrl: './announcement-card.component.html',
   styleUrl: './announcement-card.component.scss'

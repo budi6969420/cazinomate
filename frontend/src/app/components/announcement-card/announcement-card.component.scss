@@ -8,10 +8,16 @@
   justify-content: space-between;
 }
 
+.green{
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.00) 0%, #0C3C4F 100%);
+}
+
 .header {
   display: inline-flex;
   height: 15px;
   padding: 5px;
+  padding-left: 10px;
+  padding-right: 10px;
   justify-content: center;
   align-items: center;
   margin-top: 10px;
@@ -19,6 +25,7 @@
   border-radius: 4px;
   background: #EFCB3C;
   cursor: inherit;
+  width: fit-content;
 
   label {
     color: #3C3C3C;
