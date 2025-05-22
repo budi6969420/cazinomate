@@ -6,7 +6,7 @@ import com.stripe.exception.StripeException;
 import com.stripe.model.Event;
 import com.stripe.model.checkout.Session;
 import com.stripe.net.Webhook;
-import de.szut.lf8_starter.services.StripeService;
+import de.szut.lf8_starter.transaction.StripeService;
 import de.szut.lf8_starter.transaction.TransactionCategory;
 import de.szut.lf8_starter.transaction.TransactionService;
 import jakarta.annotation.PostConstruct;
@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 
-@RequestMapping(value = "api/stripe-webhook")
+@RequestMapping(value = "stripe-webhook")
 @RestController
 public class StripeWebHookController {
 
