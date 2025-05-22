@@ -56,18 +56,17 @@ class KeycloakSecurityConfig {
         http
                 .cors(Customizer.withDefaults())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/stripe-webhook").permitAll()
-                                       
-                        .requestMatchers(HttpMethod.GET, "/api/sponsor").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/api/product").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/api/game").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/api/payout").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/stripe-webhook").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/sponsor").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/product").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/game").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/payout").permitAll()
 
                         .requestMatchers("/swagger", "/swagger-ui/**", "/v3/api-docs/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .oauth2ResourceServer(oauth2 -> oauth2.jwt(Customizer.withDefaults()))
-                .csrf(csrf -> csrf.ignoringRequestMatchers("/api/stripe-webhook"));
+                .csrf(csrf -> csrf.ignoringRequestMatchers("/stripe-webhook"));
 
         return http.build();
     }
@@ -94,7 +93,7 @@ class KeycloakSecurityConfig {
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("http://localhost:4200"));
+        configuration.setAllowedOrigins(Arrays.asList("http://localhost:4200, https://cazinomate.de"));
         configuration.setAllowedMethods(Arrays.asList("GET","POST","PUT","DELETE","OPTIONS"));
         configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type", "X-Requested-With"));
         configuration.setAllowCredentials(true);
