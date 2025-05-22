@@ -4,6 +4,8 @@ import {Playground} from "./models/playground";
 import {CrossyRoadGameVariables, GameState} from "./crossyRoadGameVariables";
 import {EndDialogue} from "./models/endDialogue";
 import {ControlBar} from "./models/controlBar";
+import {CrossyRoadGameStartSessionRequest} from "./crossyRoadGameStartSessionRequest";
+import {CrossyRoadGameSession} from "./crossyRoadGameSession";
 
 export class CrossyRoadGameLogic implements IGameLogic{
   name: string = "crossy-road";
@@ -34,8 +36,7 @@ export class CrossyRoadGameLogic implements IGameLogic{
       this.playgroundScreen.destroy();
     }
 
-    this.playgroundScreen = new Playground();
-    this.playgroundScreen.setMaxScrollX(this.GAME_WIDTH);
+    this.playgroundScreen = new Playground(this.GAME_WIDTH);
 
     if(!this.gameWasInitialised){
       this.endDialogueScreen = new EndDialogue();
@@ -48,19 +49,20 @@ export class CrossyRoadGameLogic implements IGameLogic{
     this.stage.addChild(this.playgroundScreen);
     this.stage.addChild(this.endDialogueScreen);
     this.stage.addChild(this.controlBar);
-
-    CrossyRoadGameVariables.GAME_STATE = GameState.RUNNING;
   }
 
   private gameStateCheckingLoop(){
     switch(CrossyRoadGameVariables.GAME_STATE){
+      case GameState.TO_BE_PREPARED:
+        this.prepareGameSession();
+        break;
       case GameState.LOST:
         this.endDialogueScreen.showPlayerLost()
         break;
       case GameState.WON:
         this.endDialogueScreen.showPlayerWon()
         break;
-      case GameState.RUNNING:
+      case GameState.ACTIVE:
         this.endDialogueScreen.hide();
     }
   }
@@ -69,18 +71,47 @@ export class CrossyRoadGameLogic implements IGameLogic{
     let commandCode: string;
     typeof eventOrCommand === 'string' ? commandCode = eventOrCommand : commandCode = eventOrCommand.code;
 
-    switch (commandCode) {
-      case CrossyRoadGameVariables.COMMAND_MOVE_CHICKEN_FORWARD:
+    switch (true) {
+      case CrossyRoadGameVariables.GAME_STATE == GameState.PREPARING:
+        break;
+      case this.controlBar.betAmountInputIsHovered && CrossyRoadGameVariables.GAME_STATE != GameState.ACTIVE:
+        this.controlBar.editBetAmount(commandCode);
+        break;
+      case commandCode === CrossyRoadGameVariables.COMMAND_MOVE_CHICKEN_FORWARD:
         this.playgroundScreen.actionTrigger();
         break;
-
-      case CrossyRoadGameVariables.COMMAND_START_GAME:
-        if(CrossyRoadGameVariables.GAME_STATE != GameState.RUNNING) this.start();
-        break;
-
       default:
         break;
     }
+  }
+
+  private async prepareGameSession() {
+    CrossyRoadGameVariables.GAME_STATE = GameState.PREPARING;
+
+    let startSessionRequest = new CrossyRoadGameStartSessionRequest(
+      "39c63177-b7ad-478b-a009-69b8fa043e6f",
+      CrossyRoadGameVariables.GAME_SETTING_DIFFICULTY,
+      Number(this.controlBar.betAmountText.text)
+    );
+
+    let response = await fetch("http://localhost:8080/api/game/session/start", {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        authorization: "Bearer " + CrossyRoadGameVariables.API_TOKEN
+      },
+      body: JSON.stringify(startSessionRequest)
+    });
+
+    const gameSession: CrossyRoadGameSession = await response.json() as CrossyRoadGameSession;
+
+    this.controlBar.betAmountText.text = gameSession.investedBalance;
+    CrossyRoadGameVariables.GAME_SESSION_ID = gameSession.id;
+    CrossyRoadGameVariables.GAME_STATE = GameState.ACTIVE;
+    CrossyRoadGameVariables.GAME_SETTING_ROAD_TRACK_AMOUNT = gameSession.prizeIndexValues.length;
+    CrossyRoadGameVariables.GAME_SETTING_INITIAL_CHICKEN_INDEX = gameSession.currentIndex;
+    CrossyRoadGameVariables.GAME_SETTING_PRIZES_PER_FIELD = gameSession.prizeIndexValues;
+    this.start();
   }
 
   getName(): string {

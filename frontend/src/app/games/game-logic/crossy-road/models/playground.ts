@@ -8,11 +8,11 @@ export class Playground extends Container<any> {
   chicken: Chicken;
   road: Road;
   isScrolling: boolean = false;
-  maxScrollX!: number;
+  maxScrollX: number;
 
   private activeWaitForRoadTrackFn: (() => void) | null = null;
 
-  constructor() {
+  constructor(gameWidth: number) {
     super();
 
     const startBackground = Sprite.from("texture_background_start");
@@ -34,9 +34,19 @@ export class Playground extends Container<any> {
 
     this.chicken = new Chicken(this);
     this.addChild(this.chicken);
+
+    this.maxScrollX = (this.width * -1) + gameWidth;
+
+    for(let i=0; i <= CrossyRoadGameVariables.GAME_SETTING_INITIAL_CHICKEN_INDEX; i++){
+      this.chicken.walk(true);
+      this.alignView();
+      this.road.getTrack(i).setChickenIsSafe(true)
+      this.road.getTrack(i).setToVisited()
+    }
   }
 
   actionTrigger(){
+    if (CrossyRoadGameVariables.GAME_STATE != GameState.ACTIVE) return;
     if (this.isScrolling) return;
     if (!this.chicken.getIsEffectivelyAlive()) return;
     if (this.activeWaitForRoadTrackFn != null) return;
@@ -81,8 +91,8 @@ export class Playground extends Container<any> {
   }
 
   alignView() {
-    let chickenPosition = this.chicken.position.x * -1 ;
-    let newPosition = this.maxScrollX
+    let chickenPosition = this.chicken.position.x * -1;
+    let newPosition = this.maxScrollX;
 
     if(chickenPosition > this.maxScrollX) {
       newPosition = chickenPosition + CrossyRoadGameVariables.CHICKEN_PADDING_LEFT
@@ -100,9 +110,5 @@ export class Playground extends Container<any> {
         this.isScrolling = false;
       }
     });
-  }
-
-  setMaxScrollX(GAME_WIDTH: number) {
-    this.maxScrollX = (this.width * -1) + GAME_WIDTH;
   }
 }
