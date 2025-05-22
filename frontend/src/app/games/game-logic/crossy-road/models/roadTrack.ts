@@ -6,7 +6,7 @@ import {Brick} from "./brick";
 import {CoinField} from "./coinField";
 
 export class RoadTrack extends Container {
-  private coinField: CoinField;
+  private coinField!: CoinField;
   private car: Car;
   private brick: Brick;
   private isBlocked: boolean = false;
@@ -16,7 +16,7 @@ export class RoadTrack extends Container {
   private TEXTURE_LEFT: string = "texture_roadtrack_left";
   private TEXTURE_RIGHT: string = "texture_roadtrack_right";
 
-  constructor(texture: boolean = true) {
+  constructor(texture: boolean = true, coinValue: number) {
     super();
 
     const streetBackground = Sprite.from(texture ? this.TEXTURE_LEFT : this.TEXTURE_RIGHT);
@@ -26,9 +26,11 @@ export class RoadTrack extends Container {
 
     this.addChild(streetBackground)
 
-    const coinField = new CoinField("PENIS");
-    this.addChild(coinField);
-    this.coinField = coinField;
+    if(coinValue){
+      const coinField = new CoinField(String(coinValue));
+      this.addChild(coinField);
+      this.coinField = coinField;
+    }
 
     const car = new Car();
     this.addChild(car);
@@ -102,5 +104,4 @@ export class RoadTrack extends Container {
     this.coinField.setToVisited();
     this.setIsBlocked(false);
   }
-
 }

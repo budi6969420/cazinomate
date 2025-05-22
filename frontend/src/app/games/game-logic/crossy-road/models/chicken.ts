@@ -14,7 +14,7 @@ export class Chicken extends AnimatedSprite {
   private playground: Playground;
 
   public currentState: ChickenState;
-  public roadTrackIndex: number = -1;
+  public roadTrackIndex: number;
   public isAboutToDie: boolean = false;
 
   private idleFrames: Texture[];
@@ -24,7 +24,7 @@ export class Chicken extends AnimatedSprite {
 
   private activeMovementTween?: gsap.core.Tween;
 
-  constructor(playground: Playground) {
+  constructor(playground: Playground, roadTrackIndex: number) {
     const standTexture = Texture.from("texture_chicken_standing");
     const walkTexture = Texture.from("texture_chicken_walking");
     const dyingTexture = Texture.from("texture_chicken_dying");
@@ -38,6 +38,8 @@ export class Chicken extends AnimatedSprite {
     this.deadFrame = [deadTexture];
 
     this.playground = playground;
+    this.roadTrackIndex = roadTrackIndex;
+
     this.anchor.set(0.5, 1.0);
     this.scale = 1;
     this.width = 276;
@@ -102,7 +104,7 @@ export class Chicken extends AnimatedSprite {
       },
       onComplete: () => {
         if (this.currentState === ChickenState.WALKING) this.setState(ChickenState.IDLE);
-        if (this.roadTrackIndex+1 <= CrossyRoadGameVariables.ROAD_TRACK_AMOUNT) this.roadTrackIndex++;
+        if (this.roadTrackIndex+1 <= CrossyRoadGameVariables.GAME_SETTING_ROAD_TRACK_AMOUNT) this.roadTrackIndex++;
 
         setTimeout(() => {
           CrossyRoadGameVariables.GAME_STATE = GameState.WON;
@@ -141,7 +143,7 @@ export class Chicken extends AnimatedSprite {
         if (this.currentState === ChickenState.WALKING) {
           this.setState(ChickenState.IDLE);
         }
-        if(this.roadTrackIndex+1 <= CrossyRoadGameVariables.ROAD_TRACK_AMOUNT) {
+        if(this.roadTrackIndex+1 <= CrossyRoadGameVariables.GAME_SETTING_ROAD_TRACK_AMOUNT) {
           this.roadTrackIndex++;
         }
 

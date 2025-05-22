@@ -1,5 +1,6 @@
 package de.szut.lf8_starter.game.session;
 
+import org.apache.coyote.BadRequestException;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -20,7 +21,7 @@ public class GameSessionDispatcher {
     }
 
     public <T extends BaseSessionExtension> GameSessionAggregate<T> start(
-            String gameId, String userId, Integer difficulty, int investedBalance) {
+            String gameId, String userId, Integer difficulty, int investedBalance) throws BadRequestException {
 
         var service = (GameSessionService<T>) services.get(gameId);
         if (service == null) throw new IllegalArgumentException("Unsupported game: " + gameId);
