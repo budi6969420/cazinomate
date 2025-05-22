@@ -5,13 +5,14 @@ import {NewUsername} from "../models/newUsername";
 import {user} from "../models/user";
 import {Observable, of, tap} from "rxjs";
 import {catchError} from "rxjs/operators";
+import {environment} from "../../environments/environment";
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
 
-  private apiUrl = 'http://localhost:8080/api/user';
+  private apiUrl = environment.backendApiUrl + 'user';
   public myUser: user | null = null;
   public myBalance: number = 0;
 
