@@ -6,6 +6,7 @@ import {user} from "../models/user";
 import {Observable, of, tap} from "rxjs";
 import {catchError} from "rxjs/operators";
 import {environment} from "../../environments/environment";
+import {Transaction} from "../models/transaction";
 
 @Injectable({
   providedIn: 'root'
@@ -40,6 +41,10 @@ export class UserService {
         return of(null);
       })
     );
+  }
+
+  getSelfTransactions() {
+    return this.http.get<Transaction[]>(`${this.apiUrl}/self/transactions`);
   }
   changeUsername(username: NewUsername): Observable<user>{
     return this.http.put<user>(this.apiUrl + "/username", username);

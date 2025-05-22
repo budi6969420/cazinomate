@@ -8,7 +8,7 @@ import {NgOptimizedImage} from "@angular/common";
   selector: 'app-footer',
   standalone: true,
   imports: [
-    NgOptimizedImage
+
   ],
   templateUrl: './footer.component.html',
   styleUrl: './footer.component.scss'
