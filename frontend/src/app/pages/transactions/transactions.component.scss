@@ -1,0 +1,62 @@
+.transactions-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.transaction-row {
+  display: flex;
+  align-items: center;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #444;
+
+  &.header {
+    font-weight: bold;
+    border-bottom: 2px solid #888;
+  }
+
+  .icon {
+    flex-basis: 24px;
+    flex-shrink: 0;
+    display: flex;
+    justify-content: center;
+    margin-right: 8px;
+
+    img {
+      width: 16px;
+      height: 16px;
+    }
+  }
+
+  .date {
+    flex-basis: 150px;
+    flex-shrink: 0;
+  }
+
+  .description {
+    flex-grow: 1;
+    padding: 0 1rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .amount {
+    flex-basis: 250px;
+    text-align: right;
+    flex-shrink: 0;
+
+    &.green {
+      color: #4caf50;
+    }
+
+    &.red {
+      color: #f44336;
+    }
+
+    img {
+      height: 25px;
+      width: auto;
+      vertical-align: middle;
+    }
+  }
+}
