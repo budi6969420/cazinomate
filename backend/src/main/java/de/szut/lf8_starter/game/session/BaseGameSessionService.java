@@ -4,6 +4,7 @@ import de.szut.lf8_starter.game.session.enums.GameDifficulty;
 import de.szut.lf8_starter.game.session.enums.GameState;
 import de.szut.lf8_starter.transaction.TransactionCategory;
 import de.szut.lf8_starter.transaction.TransactionService;
+import org.apache.coyote.BadRequestException;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -39,7 +40,7 @@ public abstract class BaseGameSessionService<T extends BaseSessionExtension> imp
     }
 
     @Override
-    public GameSessionAggregate<T> startSession(String userId, String gameId, Integer difficultyInt, int investedBalance) {
+    public GameSessionAggregate<T> startSession(String userId, String gameId, Integer difficultyInt, int investedBalance) throws BadRequestException {
         var activeSessionOpt = findActiveSession(userId, gameId);
         if (activeSessionOpt.isPresent()) {
             return activeSessionOpt.get();
@@ -47,6 +48,10 @@ public abstract class BaseGameSessionService<T extends BaseSessionExtension> imp
 
         if (investedBalance <= 0) {
             throw new IllegalArgumentException("Invested balance must be greater than 0");
+        }
+
+        if (transactionService.GetUserBalance(userId) < investedBalance) {
+            throw new BadRequestException("user does not have enough balance");
         }
 
         var baseSession = new BaseSession();
