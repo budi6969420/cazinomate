@@ -3,7 +3,7 @@ import { Assets, Application, Container, Sprite } from 'pixi.js';
 import { GameManifest, GameManifestBundle, GameManifestBundleAsset } from '../models/game/gameManifest'; // Ensure GameManifestBundleAsset defines 'name: string' if you extract names
 import { GameMetadata } from "../models/gameMetadata";
 import { IGameLogic } from "./game-logic/iGameLogic";
-import { CrossyRoadGameLogic } from "./game-logic/crossy-road/crossyRoadGameLogic";
+import { CrossyRoadGame } from "./game-logic/crossy-road/crossyRoadGame";
 
 const KnownGameIds = {
   CROSSY_ROAD: "39c63177-b7ad-478b-a009-69b8fa043e6f"
@@ -71,7 +71,7 @@ export class GameComponent implements OnInit, OnDestroy {
   private createGameLogic(gameId: string): IGameLogic {
     switch (gameId) {
       case KnownGameIds.CROSSY_ROAD:
-        return new CrossyRoadGameLogic(this.APP_LOGICAL_HEIGHT, this.APP_LOGICAL_WIDTH);
+        return new CrossyRoadGame(this.APP_LOGICAL_HEIGHT, this.APP_LOGICAL_WIDTH);
       default:
         throw new Error(`Unsupported game ID: ${gameId}. Cannot create game logic.`);
     }

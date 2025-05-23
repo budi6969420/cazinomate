@@ -14,8 +14,8 @@ export class Chicken extends AnimatedSprite {
   private playground: Playground;
 
   public currentState: ChickenState;
-  public roadTrackIndex: number;
-  public isAboutToDie: boolean = false;
+  public roadTrackIndex: number = -1;
+  public chickenIsGoingToDie: boolean = false;
 
   private idleFrames: Texture[];
   private walkFrames: Texture[];
@@ -24,7 +24,7 @@ export class Chicken extends AnimatedSprite {
 
   private activeMovementTween?: gsap.core.Tween;
 
-  constructor(playground: Playground, roadTrackIndex: number) {
+  constructor(playground: Playground) {
     const standTexture = Texture.from("texture_chicken_standing");
     const walkTexture = Texture.from("texture_chicken_walking");
     const dyingTexture = Texture.from("texture_chicken_dying");
@@ -38,7 +38,6 @@ export class Chicken extends AnimatedSprite {
     this.deadFrame = [deadTexture];
 
     this.playground = playground;
-    this.roadTrackIndex = roadTrackIndex;
 
     this.anchor.set(0.5, 1.0);
     this.scale = 1;
@@ -56,7 +55,7 @@ export class Chicken extends AnimatedSprite {
   }
 
   public getIsEffectivelyAlive(): boolean {
-    return (this.currentState !== ChickenState.DEAD && this.currentState !== ChickenState.DYING) && !this.isAboutToDie;
+    return (this.currentState !== ChickenState.DEAD && this.currentState !== ChickenState.DYING) && !this.chickenIsGoingToDie;
   }
 
   public setState(newState: ChickenState): void {
@@ -115,7 +114,7 @@ export class Chicken extends AnimatedSprite {
     });
   }
 
-  walk() {
+  walk(isQuick: boolean = false) {
     if (!this.getIsEffectivelyAlive() || (this.activeMovementTween && this.activeMovementTween.isActive())) {
       return;
     }
@@ -132,12 +131,14 @@ export class Chicken extends AnimatedSprite {
       return;
     }
 
+    let duration = isQuick ? 0 : 1;
+
     this.activeMovementTween = gsap.to(this.position, {
       x: targetCenterX,
-      duration: 1,
+      duration: duration,
       ease: "power1.out",
       onStart: () => {
-        this.setState(ChickenState.WALKING);
+        if(!isQuick) this.setState(ChickenState.WALKING);
       },
       onComplete: () => {
         if (this.currentState === ChickenState.WALKING) {

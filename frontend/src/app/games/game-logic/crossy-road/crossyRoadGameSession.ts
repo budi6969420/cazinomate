@@ -4,17 +4,17 @@ import {GameDifficulty, GameState} from "./crossyRoadGameVariables";
 export class CrossyRoadGameSession extends BaseGameSession {
   public currentIndex:number;
   public balanceDifference: number;
-  public prizeIndexValues: string[];
+  public prizeIndexValues: number[];
 
   constructor(id: string,
               gameId: string,
               userId: string,
               investedBalance: number,
-              gameState: GameState,
+              gameState: string,
               difficulty: GameDifficulty,
               currentIndex: number,
               balanceDifference: number,
-              prizeIndexValues: string[]) {
+              prizeIndexValues: number[]) {
     super(id, gameId, userId, investedBalance, gameState, difficulty);
     this.currentIndex = currentIndex;
     this.balanceDifference = balanceDifference;

@@ -68,7 +68,6 @@ export class EndDialogue extends Container{
 
     this.textHeadline.text = String();
     this.textAmount.text = String();
-
     this.visible = true;
   }
 
@@ -116,5 +115,11 @@ export class EndDialogue extends Container{
 
   public hide(){
     this.visible = false;
+  }
+
+  public setTextAmount(amount: number){
+    console.log(amount)
+    this.textAmount.text = isNaN(amount) ? 0 : amount;
+    this.textAmount.position.y = CrossyRoadGameVariables.GAME_SCREEN_HEIGHT / 1.5;
   }
 }

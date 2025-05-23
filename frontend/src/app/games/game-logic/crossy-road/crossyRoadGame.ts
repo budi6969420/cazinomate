@@ -7,8 +7,9 @@ import {ControlBar} from "./models/controlBar";
 import {CrossyRoadGameStartSessionRequest} from "./crossyRoadGameStartSessionRequest";
 import {CrossyRoadGameSession} from "./crossyRoadGameSession";
 
-export class CrossyRoadGameLogic implements IGameLogic{
+export class CrossyRoadGame implements IGameLogic{
   name: string = "crossy-road";
+  id: string = "39c63177-b7ad-478b-a009-69b8fa043e6f";
   gameWasInitialised: boolean = false;
   stage!: Container<any>
   playgroundScreen!: Playground;
@@ -54,16 +55,23 @@ export class CrossyRoadGameLogic implements IGameLogic{
   private gameStateCheckingLoop(){
     switch(CrossyRoadGameVariables.GAME_STATE){
       case GameState.TO_BE_PREPARED:
+        CrossyRoadGameVariables.CURRENT_GAINS = 0;
         this.prepareGameSession();
         break;
       case GameState.LOST:
-        this.endDialogueScreen.showPlayerLost()
+        CrossyRoadGameVariables.CURRENT_GAINS = 0;
+        this.endDialogueScreen.showPlayerLost();
         break;
       case GameState.WON:
-        this.endDialogueScreen.showPlayerWon()
+        this.endDialogueScreen.showPlayerWon();
         break;
       case GameState.ACTIVE:
         this.endDialogueScreen.hide();
+        break;
+      case GameState.ENDING:
+        this.playgroundScreen.endGamePrematurely();
+        this.endDialogueScreen.setTextAmount(CrossyRoadGameVariables.CURRENT_GAINS)
+        CrossyRoadGameVariables.GAME_STATE = GameState.WON;
     }
   }
 
@@ -78,7 +86,7 @@ export class CrossyRoadGameLogic implements IGameLogic{
         this.controlBar.editBetAmount(commandCode);
         break;
       case commandCode === CrossyRoadGameVariables.COMMAND_MOVE_CHICKEN_FORWARD:
-        this.playgroundScreen.actionTrigger();
+        this.playgroundScreen.nextMove();
         break;
       default:
         break;
@@ -89,7 +97,7 @@ export class CrossyRoadGameLogic implements IGameLogic{
     CrossyRoadGameVariables.GAME_STATE = GameState.PREPARING;
 
     let startSessionRequest = new CrossyRoadGameStartSessionRequest(
-      "39c63177-b7ad-478b-a009-69b8fa043e6f",
+      CrossyRoadGameVariables.GAME_ID,
       CrossyRoadGameVariables.GAME_SETTING_DIFFICULTY,
       Number(this.controlBar.betAmountText.text)
     );
@@ -108,8 +116,9 @@ export class CrossyRoadGameLogic implements IGameLogic{
     this.controlBar.betAmountText.text = gameSession.investedBalance;
     CrossyRoadGameVariables.GAME_SESSION_ID = gameSession.id;
     CrossyRoadGameVariables.GAME_STATE = GameState.ACTIVE;
-    CrossyRoadGameVariables.GAME_SETTING_ROAD_TRACK_AMOUNT = gameSession.prizeIndexValues.length+1;
+    CrossyRoadGameVariables.GAME_SETTING_ROAD_TRACK_AMOUNT = gameSession.prizeIndexValues.length;
     CrossyRoadGameVariables.GAME_SETTING_INITIAL_CHICKEN_INDEX = gameSession.currentIndex;
+    CrossyRoadGameVariables.GAME_SETTING_PRIZES_PER_FIELD = gameSession.prizeIndexValues;
     this.start();
   }
 
@@ -117,6 +126,9 @@ export class CrossyRoadGameLogic implements IGameLogic{
     return this.name;
   }
 
+  getId(): string {
+    return this.id;
+  }
   setStage(stage: Container<any>){
     this.stage = stage;
   }
