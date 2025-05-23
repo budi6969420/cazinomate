@@ -23,11 +23,11 @@ public class CrossyRoadGangBangGame extends BaseGame {
 
     @Override
     public String getLoadingIconUrl() {
-        return "/images/cazinomate-logo.svg";
+        return "/game-assets/crossy-road/icon.png";
     }
 
     @Override
     public String getPreviewHexColor() {
-        return "#2A03C7";
+        return "#8308FF";
     }
 }

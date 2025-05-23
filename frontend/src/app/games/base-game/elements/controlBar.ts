@@ -6,6 +6,7 @@ import {BaseGameInteractionRequest} from "../dtos/baseGameInteractionRequest";
 import {GameDifficulty} from "../enums/gameDifficulty";
 import {Interaction} from "../enums/interaction";
 import {GameState} from "../enums/gameState";
+import {environment} from "../../../../environments/environment";
 
 export class ControlBar extends Container {
   private barHeight: number = 242;
@@ -358,7 +359,7 @@ export class ControlBar extends Container {
 
   async findAndStartActiveGameSession(){
     try {
-      let response = await fetch("http://localhost:8080/api/game/session/find-active?gameId=" + this.game.GAME_ID, {
+      let response = await fetch(environment.backendApiUrl + "api/game/session/find-active?gameId=" + this.game.GAME_ID, {
         method: 'GET',
         headers: {
           authorization: "Bearer " + this.apiToken
@@ -378,7 +379,7 @@ export class ControlBar extends Container {
       Number(this.GAME_INVESTED_BALANCE.text)
     );
 
-    let response = await fetch("http://localhost:8080/api/game/session/start", {
+    let response = await fetch(environment.backendApiUrl + "api/game/session/start", {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -401,7 +402,7 @@ export class ControlBar extends Container {
       interaction
     );
 
-    let response = await fetch("http://localhost:8080/api/game/session/action", {
+    let response = await fetch(environment.backendApiUrl + "api/game/session/action", {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
