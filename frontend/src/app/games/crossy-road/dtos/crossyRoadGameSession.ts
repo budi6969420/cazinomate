@@ -1,9 +1,9 @@
-import {BaseGameSession} from "../BaseGameSession";
-import {GameDifficulty, GameState} from "./crossyRoadGameVariables";
+import {BaseGameSession} from "../../base-game/dtos/BaseGameSession";
+import {GameDifficulty} from "../../base-game/enums/gameDifficulty";
+import {GameState} from "../../base-game/enums/gameState";
 
 export class CrossyRoadGameSession extends BaseGameSession {
   public currentIndex:number;
-  public balanceDifference: number;
   public prizeIndexValues: number[];
 
   constructor(id: string,
@@ -15,9 +15,8 @@ export class CrossyRoadGameSession extends BaseGameSession {
               currentIndex: number,
               balanceDifference: number,
               prizeIndexValues: number[]) {
-    super(id, gameId, userId, investedBalance, gameState, difficulty);
+    super(id, gameId, userId, investedBalance, balanceDifference, gameState, difficulty);
     this.currentIndex = currentIndex;
-    this.balanceDifference = balanceDifference;
     this.prizeIndexValues = prizeIndexValues;
   }
 }

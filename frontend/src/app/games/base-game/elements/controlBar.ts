@@ -1,12 +1,27 @@
 import {Container, Graphics, Text, TextStyle, Ticker} from "pixi.js";
-import {CrossyRoadGameVariables, GameDifficulty, GameState} from "../crossyRoadGameVariables";
+import {IGame} from "../IGame";
+import {BaseGameSession} from "../dtos/BaseGameSession";
+import {BaseGameStartSessionRequest} from "../../crossy-road/dtos/baseGameStartSessionRequest";
+import {BaseGameInteractionRequest} from "../../crossy-road/dtos/baseGameInteractionRequest";
+import {GameDifficulty} from "../enums/gameDifficulty";
+import {Interaction} from "../enums/interaction";
+import {GameState} from "../enums/gameState";
 
 export class ControlBar extends Container {
   private barHeight: number = 242;
 
+  private game: IGame;
+  private GAME_DIFFICULTY: GameDifficulty = GameDifficulty.NORMAL;
+  private GAME_INVESTED_BALANCE: Text = new Text("100");
+  private GAME_CURRENT_GAINS: number = 0;
+  private GAME_SESSION_ID!: string;
+  private apiToken: string;
+
+  private isGameInteractionBlocked: boolean = false;
+
   public betAmountInputIsHovered = false;
   public mainButton!: Container<any>;
-  public betAmountText: Text = new Text("10");
+
   public currentGainsText: Text = new Text();
   private difficultyButtons: Container<any>[] = [];
   private selectedDifficultyButton: Container<any> | null = null;
@@ -34,13 +49,16 @@ export class ControlBar extends Container {
     align: 'center',
   });
 
-  constructor() {
+  constructor(game: IGame, apiToken: string) {
     super();
-    this.position.y = CrossyRoadGameVariables.GAME_SCREEN_HEIGHT;
+    this.game = game;
+    this.apiToken = apiToken;
+    this.position.y = this.game.GAME_SCREEN_HEIGHT;
     this.position.x = 0;
+    this._zIndex = 9999;
 
     const background = new Graphics()
-      .rect(0, 0, CrossyRoadGameVariables.GAME_SCREEN_WIDTH, this.barHeight)
+      .rect(0, 0, this.game.GAME_SCREEN_WIDTH, this.barHeight)
       .fill({ color: 0x181A39 });
     const einsatzSection = this._createEinsatzmengeSection();
     const schwierigkeitSection = this._createSchwierigkeitSection();
@@ -62,15 +80,15 @@ export class ControlBar extends Container {
   }
 
   private currentGainsUpdater(){
-    if(isNaN(CrossyRoadGameVariables.CURRENT_GAINS)){
+    if(isNaN(this.GAME_CURRENT_GAINS)){
       this.currentGainsText.text = "+ 0"
       return;
     }
-    this.currentGainsText.text = "+ " + CrossyRoadGameVariables.CURRENT_GAINS;
+    this.currentGainsText.text = "+ " + this.GAME_CURRENT_GAINS;
   }
 
   private buttonUpdater(){
-    if (CrossyRoadGameVariables.GAME_STATE == GameState.LOST){
+    if (this.game.GAME_STATE == GameState.LOST || this.game.GAME_STATE == GameState.WON){
       this._createSpielStartenButton();
     }
   }
@@ -93,14 +111,14 @@ export class ControlBar extends Container {
     betIcon.position.set(inputBgRadius, label.height + 15 + (inputBgHeight - betIcon.height) / 2);
     section.addChild(betIcon);
 
-    this.betAmountText.style = this.labelStyle;
-    this.betAmountText.anchor.set(0, 0.5);
-    this.betAmountText.position.set(
+    this.GAME_INVESTED_BALANCE.style = this.labelStyle;
+    this.GAME_INVESTED_BALANCE.anchor.set(0, 0.5);
+    this.GAME_INVESTED_BALANCE.position.set(
       betIcon.x + betIcon.width + 15,
       label.height + 15 + inputBgHeight / 2
     );
 
-    section.addChild(this.betAmountText);
+    section.addChild(this.GAME_INVESTED_BALANCE);
 
     inputBackground.eventMode = 'static';
     inputBackground.cursor = 'text';
@@ -171,7 +189,7 @@ export class ControlBar extends Container {
         bg.clear().roundRect(0, 0, buttonWidth, buttonHeight, buttonRadius).fill(selectedColor);
         this.selectedDifficultyButton = button;
 
-        CrossyRoadGameVariables.GAME_SETTING_DIFFICULTY = difficultyValue;
+        this.GAME_DIFFICULTY = difficultyValue;
       });
 
       buttonsContainer.addChild(button);
@@ -228,7 +246,7 @@ export class ControlBar extends Container {
     button.eventMode = 'static';
     button.cursor = 'pointer';
     button.on('pointertap', () => {
-      CrossyRoadGameVariables.GAME_STATE = GameState.ENDING;
+      this.endGameSessionPrematurely();
       this._createSpielStartenButton()
     });
 
@@ -239,7 +257,7 @@ export class ControlBar extends Container {
       bg.tint = 0xFFFFFF;
     });
 
-    button.position.set(CrossyRoadGameVariables.GAME_SCREEN_WIDTH - button.width - 50, this.barHeight / 2 - button.height / 2);
+    button.position.set(this.game.GAME_SCREEN_WIDTH - button.width - 50, this.barHeight / 2 - button.height / 2);
 
     this.mainButton = button;
     this.removeChild(this.mainButton);
@@ -267,7 +285,7 @@ export class ControlBar extends Container {
     button.eventMode = 'static';
     button.cursor = 'pointer';
     button.on('pointertap', () => {
-      CrossyRoadGameVariables.GAME_STATE = GameState.TO_BE_PREPARED;
+      this.prepareGameSession();
       this._createGeldAuszahlenButton();
     });
 
@@ -278,7 +296,7 @@ export class ControlBar extends Container {
       bg.tint = 0xFFFFFF;
     });
 
-    button.position.set(CrossyRoadGameVariables.GAME_SCREEN_WIDTH - button.width - 50, this.barHeight / 2 - button.height / 2);
+    button.position.set(this.game.GAME_SCREEN_WIDTH - button.width - 50, this.barHeight / 2 - button.height / 2);
 
     this.mainButton = button;
     this.removeChild(this.mainButton);
@@ -289,12 +307,94 @@ export class ControlBar extends Container {
 
     switch(true){
       case key.includes("Backspace"):
-        this.betAmountText.text = this.betAmountText.text.substring(0, this.betAmountText.text.length-1);
+        this.GAME_INVESTED_BALANCE.text = this.GAME_INVESTED_BALANCE.text.substring(0, this.GAME_INVESTED_BALANCE.text.length-1);
         break;
       case key.includes("Digit"):
-        if(this.betAmountText.text.length < 10){
-          this.betAmountText.text = String(this.betAmountText.text) + String(key.replace("Digit", ""));
+        if(this.GAME_INVESTED_BALANCE.text.length < 10){
+          this.GAME_INVESTED_BALANCE.text = String(this.GAME_INVESTED_BALANCE.text) + String(key.replace("Digit", ""));
         }
     }
+  }
+
+  public async controller(event: KeyboardEvent) {
+
+    switch (true) {
+      case this.betAmountInputIsHovered && this.game.GAME_STATE != GameState.ACTIVE:
+        this.editBetAmount(event.code);
+        break;
+      default:
+        this.processUserGameAction(event)
+        break;
+    }
+
+  }
+
+  private async processUserGameAction(event: KeyboardEvent){
+    if(!this.isGameInteractionBlocked && this.game.GAME_STATE == GameState.ACTIVE) {
+      this.isGameInteractionBlocked = true;
+
+      let interaction = this.game.getInteractionForPressedKey(event);
+      let gameSession = await this.makeInteractionRequest(interaction)
+      await this.game.processInteraction(interaction, gameSession);
+      this.GAME_CURRENT_GAINS = gameSession.gameState == GameState[GameState.LOST] ? 0 : gameSession.balanceDifference - gameSession.investedBalance;
+      this.game.GAME_CURRENT_GAINS = this.GAME_CURRENT_GAINS;
+
+      this.isGameInteractionBlocked = false;
+    }
+  }
+
+  private async prepareGameSession() {
+    this.game.GAME_STATE = GameState.PREPARING;
+
+    let gameSession = await this.startGameSession() as BaseGameSession;
+
+    this.GAME_INVESTED_BALANCE.text = gameSession.investedBalance;
+    this.GAME_SESSION_ID = gameSession.id;
+    this.game.GAME_STATE = GameState.ACTIVE;
+
+    this.GAME_CURRENT_GAINS = gameSession.balanceDifference - gameSession.investedBalance;
+    this.game.start(gameSession);
+  }
+
+  async startGameSession(): Promise<BaseGameSession>{
+    let startSessionRequest = new BaseGameStartSessionRequest(
+      this.game.getId(),
+      this.GAME_DIFFICULTY,
+      Number(this.GAME_INVESTED_BALANCE.text)
+    );
+
+    let response = await fetch("http://localhost:8080/api/game/session/start", {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        authorization: "Bearer " + this.apiToken
+      },
+      body: JSON.stringify(startSessionRequest)
+    });
+    return await response.json() as BaseGameSession;
+  }
+
+  async endGameSessionPrematurely(){
+    await this.makeInteractionRequest(Interaction.END);
+    this.game.GAME_STATE = GameState.WON
+  }
+
+  async makeInteractionRequest(interaction: Interaction): Promise<BaseGameSession>{
+    let interactionRequest = new BaseGameInteractionRequest(
+      this.game.GAME_ID,
+      this.GAME_SESSION_ID,
+      interaction
+    );
+
+    let response = await fetch("http://localhost:8080/api/game/session/action", {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        authorization: "Bearer " + this.apiToken
+      },
+      body: JSON.stringify(interactionRequest)
+    });
+
+    return await response.json();
   }
 }

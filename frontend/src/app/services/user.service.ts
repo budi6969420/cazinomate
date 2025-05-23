@@ -5,7 +5,7 @@ import {NewUsername} from "../models/newUsername";
 import {user} from "../models/user";
 import {Observable, of, tap} from "rxjs";
 import {catchError} from "rxjs/operators";
-import {CrossyRoadGameVariables} from "../games/game-logic/crossy-road/crossyRoadGameVariables";
+import {CrossyRoadGameVariables} from "../games/crossy-road/crossyRoadGameVariables";
 
 @Injectable({
   providedIn: 'root'
@@ -25,7 +25,6 @@ export class UserService {
     return this.http.get<user>(this.apiUrl + "/self").pipe(
       tap(user => {
         this.myUser = user
-        CrossyRoadGameVariables.USER_ID = user.id;
       }),
       catchError(err => {
         this.myUser = null;

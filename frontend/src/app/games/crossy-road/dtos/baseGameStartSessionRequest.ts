@@ -1,6 +1,6 @@
-import {GameDifficulty} from "./crossyRoadGameVariables";
+import {GameDifficulty} from "../../base-game/enums/gameDifficulty";
 
-export class CrossyRoadGameStartSessionRequest {
+export class BaseGameStartSessionRequest {
   gameId: string;
   difficulty: GameDifficulty;
   investedBalance: number

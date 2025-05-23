@@ -13,6 +13,7 @@ export class EndDialogue extends Container{
   constructor() {
     super();
 
+    this._zIndex = 10;
     this.visible = false;
 
     this.background = new Sprite();
@@ -71,7 +72,7 @@ export class EndDialogue extends Container{
     this.visible = true;
   }
 
-  public showPlayerWon(){
+  public showPlayerWon(finalGains: number){
     this.background.texture = Texture.from("texture_background_dialogue_game_won")
 
     for(let i=0; i<this.floatingSprites.length; i++){
@@ -104,7 +105,7 @@ export class EndDialogue extends Container{
     this.textHeadline.position.x = CrossyRoadGameVariables.GAME_SCREEN_WIDTH / 2;
     this.textHeadline.position.y = CrossyRoadGameVariables.GAME_SCREEN_HEIGHT / 3;
 
-    this.textAmount.text = CrossyRoadGameVariables.CURRENT_GAINS;
+    this.textAmount.text = String(finalGains);
     this.textAmount.style = textAmountStyle;
     this.textAmount.anchor = 0.5
     this.textAmount.position.x = CrossyRoadGameVariables.GAME_SCREEN_WIDTH / 2;

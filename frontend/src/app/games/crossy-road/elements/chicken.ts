@@ -1,7 +1,8 @@
 import {AnimatedSprite, Texture} from "pixi.js";
 import {gsap} from "gsap";
 import {Playground} from "./playground";
-import {CrossyRoadGameVariables, GameState} from "../crossyRoadGameVariables";
+import {CrossyRoadGameVariables} from "../crossyRoadGameVariables";
+import {GameState} from "../../base-game/enums/gameState";
 
 enum ChickenState {
   IDLE,
@@ -92,7 +93,7 @@ export class Chicken extends AnimatedSprite {
     }
   }
 
-  walkToFinishLine(){
+  async walkToFinishLine(): Promise<void> {
     this.activeMovementTween = gsap.to(this.position, {
       x: this.playground.width - CrossyRoadGameVariables.CHICKEN_PADDING_LEFT,
       y: (this.playground.height / 4) + this.height,
@@ -105,12 +106,14 @@ export class Chicken extends AnimatedSprite {
         if (this.currentState === ChickenState.WALKING) this.setState(ChickenState.IDLE);
         if (this.roadTrackIndex+1 <= CrossyRoadGameVariables.GAME_SETTING_ROAD_TRACK_AMOUNT) this.roadTrackIndex++;
 
-        setTimeout(() => {
-          CrossyRoadGameVariables.GAME_STATE = GameState.WON;
-        }, 1000)
-
         this.activeMovementTween = undefined;
       }
+    });
+
+    return await new Promise<void>((resolve) => {
+      setTimeout(() => {
+        resolve();
+      }, 2 * 1000);
     });
   }
 
@@ -132,28 +135,28 @@ export class Chicken extends AnimatedSprite {
     }
 
     let duration = isQuick ? 0 : 1;
+    let afterDelay = 2;
 
     this.activeMovementTween = gsap.to(this.position, {
       x: targetCenterX,
       duration: duration,
       ease: "power1.out",
       onStart: () => {
-        if(!isQuick) this.setState(ChickenState.WALKING);
+        if (!isQuick) this.setState(ChickenState.WALKING);
       },
       onComplete: () => {
         if (this.currentState === ChickenState.WALKING) {
           this.setState(ChickenState.IDLE);
         }
-        if(this.roadTrackIndex+1 <= CrossyRoadGameVariables.GAME_SETTING_ROAD_TRACK_AMOUNT) {
+        if (this.roadTrackIndex + 1 <= CrossyRoadGameVariables.GAME_SETTING_ROAD_TRACK_AMOUNT) {
           this.roadTrackIndex++;
         }
-
         this.activeMovementTween = undefined;
       }
     });
   }
 
-  die() {
+  async die(): Promise<void> {
     gsap.killTweensOf(this);
     gsap.killTweensOf(this.scale);
 
@@ -185,13 +188,14 @@ export class Chicken extends AnimatedSprite {
         x: targetScaleDown,
         y: targetScaleDown,
         duration: 0.25,
-        ease: "power1.out",
-        onComplete: () => {
-          setTimeout(() => {
-            CrossyRoadGameVariables.GAME_STATE = GameState.LOST;
-          }, 1000)
-        }
+        ease: "power1.out"
       })
+
+    return await new Promise<void>((resolve) => {
+      setTimeout(() => {
+        resolve();
+      }, 1 * 1000);
+    });
   }
 
   resetStateAndPosition() {
