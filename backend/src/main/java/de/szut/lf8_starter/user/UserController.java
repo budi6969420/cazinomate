@@ -1,8 +1,8 @@
 package de.szut.lf8_starter.user;
 
 
-import de.szut.lf8_starter.services.KeycloakService;
 import de.szut.lf8_starter.transaction.BalanceDto;
+import de.szut.lf8_starter.transaction.TransactionDto;
 import de.szut.lf8_starter.transaction.TransactionService;
 import de.szut.lf8_starter.user.dto.ChangePasswordDto;
 import de.szut.lf8_starter.user.dto.ChangeUsernameDto;
@@ -10,8 +10,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
-@RequestMapping(value = "api/user")
+@RequestMapping(value = "user")
 public class UserController {
     private final KeycloakService keycloakService;
     private final JwtService jwtService;
@@ -31,6 +33,15 @@ public class UserController {
     @GetMapping("/self/balance")
     public ResponseEntity<BalanceDto> getSelfBalance(@RequestHeader(value = "Authorization", required = false) String authorizationHeader) throws Exception {
         return ResponseEntity.ok(new BalanceDto(transactionService.GetUserBalance(jwtService.decodeId(authorizationHeader))));
+    }
+    @GetMapping("/self/transactions")
+    public ResponseEntity<List<TransactionDto>> getSelfTransactions(
+            @RequestHeader(value = "Authorization", required = false) String authorizationHeader) throws Exception {
+        return ResponseEntity.ok(transactionService
+                .getUserTransactions(jwtService.decodeId(authorizationHeader))
+                .stream()
+                .map(TransactionDto::new)
+                .toList());
     }
 
 

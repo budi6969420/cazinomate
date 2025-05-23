@@ -2,13 +2,14 @@ import {Injectable} from '@angular/core';
 import {Observable} from "rxjs";
 import {HttpClient} from "@angular/common/http";
 import {PaymentProvider} from "../models/paymentProvider";
+import {environment} from "../../environments/environment";
 
 @Injectable({
   providedIn: 'root'
 })
 export class PaymentProviderService {
 
-  private apiUrl = 'http://localhost:8080/api/paymentProvider';
+  private apiUrl = environment.backendApiUrl + 'payment-provider';
 
   public paymentProviders: PaymentProvider[] = [];
 

@@ -1,0 +1,16 @@
+<div [ngClass]="announcementData.isGreen ? 'container green' : 'container'" (click)="onClick()">
+  <div class="vertical-container">
+    <div class="header">
+      <label>{{announcementData.title}}</label>
+    </div>
+    <div>
+      <label class="label">{{announcementData.description}}</label>
+    </div>
+    <div>
+      <button class="button">{{announcementData.buttonText}}</button>
+    </div>
+  </div>
+  <div>
+    <img src="{{announcementData.imageUrl}}" alt="Logo">
+  </div>
+</div>
