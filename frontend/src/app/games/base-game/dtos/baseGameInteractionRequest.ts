@@ -1,5 +1,5 @@
-import {GameDifficulty} from "../../base-game/enums/gameDifficulty";
-import {Interaction} from "../../base-game/enums/interaction";
+import {GameDifficulty} from "../enums/gameDifficulty";
+import {Interaction} from "../enums/interaction";
 
 export class BaseGameInteractionRequest {
   gameId: string;

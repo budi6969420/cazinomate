@@ -155,6 +155,7 @@ export class GameComponent implements OnInit, OnDestroy {
     //@ts-ignore
     this.app.stage.addChild(this.game as Container<any>);
     this.app.stage.addChild(this.controlBar)
+    this.controlBar.findAndStartActiveGameSession();
 
     document.addEventListener('keydown', (event: KeyboardEvent) => {
       this.controlBar.controller(event);
@@ -197,7 +198,6 @@ export class GameComponent implements OnInit, OnDestroy {
       console.log(`Bundles '${bundleNamesToLoad.join(', ')}' loaded successfully!`);
       this.loadingProgressUpdate.emit(100);
       this.gameReady.emit(this.app);
-      this.game.start();
 
     } catch (error) {
       console.error('Error loading assets from manifest:', error);

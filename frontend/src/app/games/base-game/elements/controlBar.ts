@@ -1,8 +1,8 @@
 import {Container, Graphics, Text, TextStyle, Ticker} from "pixi.js";
 import {IGame} from "../IGame";
 import {BaseGameSession} from "../dtos/BaseGameSession";
-import {BaseGameStartSessionRequest} from "../../crossy-road/dtos/baseGameStartSessionRequest";
-import {BaseGameInteractionRequest} from "../../crossy-road/dtos/baseGameInteractionRequest";
+import {BaseGameStartSessionRequest} from "../dtos/baseGameStartSessionRequest";
+import {BaseGameInteractionRequest} from "../dtos/baseGameInteractionRequest";
 import {GameDifficulty} from "../enums/gameDifficulty";
 import {Interaction} from "../enums/interaction";
 import {GameState} from "../enums/gameState";
@@ -343,10 +343,10 @@ export class ControlBar extends Container {
     }
   }
 
-  private async prepareGameSession() {
-    this.game.GAME_STATE = GameState.PREPARING;
-
-    let gameSession = await this.startGameSession() as BaseGameSession;
+  private async prepareGameSession(gameSession?: BaseGameSession) {
+    if(!gameSession){
+      gameSession = await this.startGameSession() as BaseGameSession;
+    }
 
     this.GAME_INVESTED_BALANCE.text = gameSession.investedBalance;
     this.GAME_SESSION_ID = gameSession.id;
@@ -354,6 +354,21 @@ export class ControlBar extends Container {
 
     this.GAME_CURRENT_GAINS = gameSession.balanceDifference - gameSession.investedBalance;
     this.game.start(gameSession);
+  }
+
+  async findAndStartActiveGameSession(){
+    try {
+      let response = await fetch("http://localhost:8080/api/game/session/find-active?gameId=" + this.game.GAME_ID, {
+        method: 'GET',
+        headers: {
+          authorization: "Bearer " + this.apiToken
+        }
+      });
+      let gameSession = await response.json() as BaseGameSession;
+      this.prepareGameSession(gameSession);
+    } catch {
+      this.game.start();
+    }
   }
 
   async startGameSession(): Promise<BaseGameSession>{

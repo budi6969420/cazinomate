@@ -27,6 +27,7 @@ public class CrossyRoadGangBangSessionService extends BaseGameSessionService<Cro
                 }
                 else if (prizes != null && extension.getCurrentIndex()-1 >= prizes.size() - 1) {
                     baseSession.setGameState(GameState.WON);
+                    addBalanceToUser(baseSession.getUserId(), extension.getBalanceDifference(), getGame().getTitle() + " game won");
                 }
                 else if (prizes != null) {
                     extension.setBalanceDifference(prizes.get(extension.getCurrentIndex()));

@@ -1,4 +1,4 @@
-import {GameDifficulty} from "../../base-game/enums/gameDifficulty";
+import {GameDifficulty} from "../enums/gameDifficulty";
 
 export class BaseGameStartSessionRequest {
   gameId: string;
