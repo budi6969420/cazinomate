@@ -47,8 +47,28 @@ export class Playground extends Container<any> {
     }
   }
 
+  async endGamePrematurely(){
+    let interactionRequest = new CrossyRoadGameInteractionRequest(
+      CrossyRoadGameVariables.GAME_ID,
+      CrossyRoadGameVariables.GAME_SESSION_ID,
+      "end"
+    );
 
-  async actionTrigger() {
+    let response = await fetch("http://localhost:8080/api/game/session/action", {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        authorization: "Bearer " + CrossyRoadGameVariables.API_TOKEN
+      },
+      body: JSON.stringify(interactionRequest)
+    });
+    const gameSession = await response.json() as CrossyRoadGameSession;
+
+    CrossyRoadGameVariables.CURRENT_GAINS = gameSession.balanceDifference - gameSession.investedBalance;
+    CrossyRoadGameVariables.GAME_STATE = GameState.WON
+  }
+
+  async nextMove() {
     if (CrossyRoadGameVariables.GAME_STATE != GameState.ACTIVE) return;
     if (this.isScrolling) return;
     if (!this.chicken.getIsEffectivelyAlive()) return;
@@ -102,6 +122,7 @@ export class Playground extends Container<any> {
         }
 
         if (currentRoadTrackIndex >= 0) currentRoadTrack.setToVisited();
+        CrossyRoadGameVariables.CURRENT_GAINS = gameSession.balanceDifference - gameSession.investedBalance;
       }
     }
 

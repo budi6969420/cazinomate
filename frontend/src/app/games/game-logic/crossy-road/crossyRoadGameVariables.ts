@@ -5,6 +5,7 @@ export enum GameState {
   ACTIVE,
   LOST,
   WON,
+  ENDING,
 }
 
 export enum GameDifficulty {
@@ -31,7 +32,7 @@ export class CrossyRoadGameVariables {
   public static GAME_SETTING_ROAD_TRACK_AMOUNT: number = 2;
   public static GAME_SETTING_INITIAL_CHICKEN_INDEX: number = -1;
   public static GAME_SETTING_PRIZES_PER_FIELD: number[] = [];
-  public static CURRENT_GAINS: string = "69.420";
+  public static CURRENT_GAINS: number = 0;
 
   public static GAME_SESSION_ID: string
   public static USER_ID: string;

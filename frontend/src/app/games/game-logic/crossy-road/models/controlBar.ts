@@ -1,5 +1,5 @@
-import {Container, Graphics, Text, TextStyle} from "pixi.js";
-import {CrossyRoadGameVariables, GameState} from "../crossyRoadGameVariables";
+import {Container, Graphics, Text, TextStyle, Ticker} from "pixi.js";
+import {CrossyRoadGameVariables, GameDifficulty, GameState} from "../crossyRoadGameVariables";
 
 export class ControlBar extends Container {
   private barHeight: number = 242;
@@ -7,7 +7,7 @@ export class ControlBar extends Container {
   public betAmountInputIsHovered = false;
   public mainButton!: Container<any>;
   public betAmountText: Text = new Text("10");
-  public currentWinningsText: Text = new Text();
+  public currentGainsText: Text = new Text();
   private difficultyButtons: Container<any>[] = [];
   private selectedDifficultyButton: Container<any> | null = null;
 
@@ -56,6 +56,23 @@ export class ControlBar extends Container {
     this.addChild(gewinnSection);
 
     this._createSpielStartenButton();
+
+    Ticker.shared.add(this.currentGainsUpdater, this);
+    Ticker.shared.add(this.buttonUpdater, this);
+  }
+
+  private currentGainsUpdater(){
+    if(isNaN(CrossyRoadGameVariables.CURRENT_GAINS)){
+      this.currentGainsText.text = "+ 0"
+      return;
+    }
+    this.currentGainsText.text = "+ " + CrossyRoadGameVariables.CURRENT_GAINS;
+  }
+
+  private buttonUpdater(){
+    if (CrossyRoadGameVariables.GAME_STATE == GameState.LOST){
+      this._createSpielStartenButton();
+    }
   }
 
   private _createEinsatzmengeSection(): Container<any> {
@@ -87,9 +104,6 @@ export class ControlBar extends Container {
 
     inputBackground.eventMode = 'static';
     inputBackground.cursor = 'text';
-    inputBackground.on('pointertap', () => {
-      console.log("Einsatzmenge input area clicked. Implement input handling.");
-    });
     inputBackground.on('pointerover', () => {
       this.betAmountInputIsHovered = true;
     });
@@ -102,7 +116,6 @@ export class ControlBar extends Container {
 
   private _createSchwierigkeitSection(): Container<any> {
     const section = new Container();
-    this.difficultyButtons = [];
 
     const label = new Text('Schwierigkeit 🎲', this.labelStyle);
     section.addChild(label);
@@ -110,7 +123,12 @@ export class ControlBar extends Container {
     const buttonsContainer = new Container();
     buttonsContainer.position.y = label.height + 15;
 
-    const buttonLabels = ['Einfach', 'Mittel', 'Schwer'];
+    const difficultiesToDisplay = [
+      GameDifficulty.EASY,
+      GameDifficulty.NORMAL,
+      GameDifficulty.HARD,
+    ];
+
     const buttonWidth = 220;
     const buttonHeight = 100;
     const buttonRadius = 20;
@@ -118,17 +136,26 @@ export class ControlBar extends Container {
     const selectedColor = 0x7030A0;
     const spacing = 10;
 
-    buttonLabels.forEach((btnLabelText, index) => {
+    const selectedByDefault = GameDifficulty.NORMAL;
+
+    difficultiesToDisplay.forEach((difficultyValue, index) => {
+      let buttonLabelText: string = GameDifficulty[difficultyValue];
+
+      if(buttonLabelText == "EASY") buttonLabelText = "Einfach";
+      if(buttonLabelText == "NORMAL") buttonLabelText = "Mittel";
+      if(buttonLabelText == "HARD") buttonLabelText = "Schwer";
+
       const button = new Container();
-      button.name = btnLabelText;
-      button.position.x = index * (buttonWidth + spacing);
+      button.name = buttonLabelText;
+
+      button.position.x = difficultyValue * (buttonWidth + spacing);
 
       const bg = new Graphics()
         .roundRect(0, 0, buttonWidth, buttonHeight, buttonRadius)
-        .fill(btnLabelText === 'Mittel' ? selectedColor : unselectedColor);
+        .fill(difficultyValue === selectedByDefault ? selectedColor : unselectedColor);
       button.addChild(bg);
 
-      const text = new Text(btnLabelText, this.buttonTextStyle);
+      const text = new Text(buttonLabelText, this.buttonTextStyle);
       text.anchor.set(0.5);
       text.position.set(buttonWidth / 2, buttonHeight / 2);
       button.addChild(text);
@@ -143,13 +170,14 @@ export class ControlBar extends Container {
         }
         bg.clear().roundRect(0, 0, buttonWidth, buttonHeight, buttonRadius).fill(selectedColor);
         this.selectedDifficultyButton = button;
-        console.log(`Schwierigkeit: ${btnLabelText}`);
+
+        CrossyRoadGameVariables.GAME_SETTING_DIFFICULTY = difficultyValue;
       });
 
       buttonsContainer.addChild(button);
       this.difficultyButtons.push(button);
 
-      if (btnLabelText === 'Mittel') {
+      if (difficultyValue === selectedByDefault) {
         this.selectedDifficultyButton = button;
       }
     });
@@ -173,10 +201,10 @@ export class ControlBar extends Container {
       .fill({ color: "#0A0B1F" });
     section.addChild(displayBackground);
 
-    this.currentWinningsText = new Text('+4.150 EUR', this.valueStyle);
-    this.currentWinningsText.anchor.set(0, 0.5);
-    this.currentWinningsText.position.set(30, label.height + 15 + displayBgHeight / 2);
-    section.addChild(this.currentWinningsText);
+    this.currentGainsText = new Text('0', this.valueStyle);
+    this.currentGainsText.anchor.set(0, 0.5);
+    this.currentGainsText.position.set(30, label.height + 15 + displayBgHeight / 2);
+    section.addChild(this.currentGainsText);
 
     return section;
   }
@@ -200,6 +228,7 @@ export class ControlBar extends Container {
     button.eventMode = 'static';
     button.cursor = 'pointer';
     button.on('pointertap', () => {
+      CrossyRoadGameVariables.GAME_STATE = GameState.ENDING;
       this._createSpielStartenButton()
     });
 
@@ -217,12 +246,14 @@ export class ControlBar extends Container {
     this.addChild(this.mainButton);
   }
 
-  private _createSpielStartenButton(): void {
+  public _createSpielStartenButton(): void {
+    if(this.mainButton && this.mainButton.name == "SpielStarten") return;
+
     const button = new Container();
+    button.name = "SpielStarten";
     const buttonWidth = 700;
     const buttonHeight = 100;
     const buttonRadius = 40;
-
     const bg = new Graphics()
       .roundRect(0, 0, buttonWidth, buttonHeight, buttonRadius)
       .fill({ color: "#EBAF0D" });
@@ -265,13 +296,5 @@ export class ControlBar extends Container {
           this.betAmountText.text = String(this.betAmountText.text) + String(key.replace("Digit", ""));
         }
     }
-  }
-
-  public setCurrentWinnings(winnings: string): void {
-    this.currentWinningsText.text = winnings;
-  }
-
-  public getSelectedDifficulty(): string | null {
-    return this.selectedDifficultyButton ? this.selectedDifficultyButton.name : null;
   }
 }

@@ -55,16 +55,23 @@ export class CrossyRoadGame implements IGameLogic{
   private gameStateCheckingLoop(){
     switch(CrossyRoadGameVariables.GAME_STATE){
       case GameState.TO_BE_PREPARED:
+        CrossyRoadGameVariables.CURRENT_GAINS = 0;
         this.prepareGameSession();
         break;
       case GameState.LOST:
-        this.endDialogueScreen.showPlayerLost()
+        CrossyRoadGameVariables.CURRENT_GAINS = 0;
+        this.endDialogueScreen.showPlayerLost();
         break;
       case GameState.WON:
-        this.endDialogueScreen.showPlayerWon()
+        this.endDialogueScreen.showPlayerWon();
         break;
       case GameState.ACTIVE:
         this.endDialogueScreen.hide();
+        break;
+      case GameState.ENDING:
+        this.playgroundScreen.endGamePrematurely();
+        this.endDialogueScreen.setTextAmount(CrossyRoadGameVariables.CURRENT_GAINS)
+        CrossyRoadGameVariables.GAME_STATE = GameState.WON;
     }
   }
 
@@ -79,7 +86,7 @@ export class CrossyRoadGame implements IGameLogic{
         this.controlBar.editBetAmount(commandCode);
         break;
       case commandCode === CrossyRoadGameVariables.COMMAND_MOVE_CHICKEN_FORWARD:
-        this.playgroundScreen.actionTrigger();
+        this.playgroundScreen.nextMove();
         break;
       default:
         break;
