@@ -89,7 +89,10 @@ export class ControlBar extends Container {
   }
 
   private buttonUpdater(){
-    if (this.game.GAME_STATE == GameState.LOST || this.game.GAME_STATE == GameState.WON){
+    if (this.game.GAME_STATE == GameState.ACTIVE){
+      this._createGeldAuszahlenButton();
+    }
+    else{
       this._createSpielStartenButton();
     }
   }
@@ -229,7 +232,9 @@ export class ControlBar extends Container {
   }
 
   private _createGeldAuszahlenButton(): void {
+    if(this.mainButton && this.mainButton.name == "GeldAuszahlen") return;
     const button = new Container();
+    button.name = "GeldAuszahlen";
     const buttonWidth = 700;
     const buttonHeight = 100;
     const buttonRadius = 40;
@@ -248,7 +253,6 @@ export class ControlBar extends Container {
     button.cursor = 'pointer';
     button.on('pointertap', () => {
       this.endGameSessionPrematurely();
-      this._createSpielStartenButton()
     });
 
     button.on('pointerover', () => {
@@ -287,7 +291,6 @@ export class ControlBar extends Container {
     button.cursor = 'pointer';
     button.on('pointertap', () => {
       this.prepareGameSession();
-      this._createGeldAuszahlenButton();
     });
 
     button.on('pointerover', () => {

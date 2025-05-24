@@ -3,6 +3,7 @@ import {gsap} from "gsap";
 import {Playground} from "./playground";
 import {CrossyRoadGameVariables} from "../crossyRoadGameVariables";
 import {GameState} from "../../base-game/enums/gameState";
+import {sound} from "@pixi/sound";
 
 enum ChickenState {
   IDLE,
@@ -142,7 +143,12 @@ export class Chicken extends AnimatedSprite {
       duration: duration,
       ease: "power1.out",
       onStart: () => {
-        if (!isQuick) this.setState(ChickenState.WALKING);
+        if (!isQuick) {
+          this.setState(ChickenState.WALKING);
+          sound.play('sound_chicken_walking', {
+            volume: 2
+          });
+        }
       },
       onComplete: () => {
         if (this.currentState === ChickenState.WALKING) {
@@ -172,6 +178,7 @@ export class Chicken extends AnimatedSprite {
         ease: "power1.out",
         duration: 0.1,
         onStart: () => {
+          sound.play('sound_chicken_dying');
           this.setState(ChickenState.DYING);
         }
       })

@@ -1,12 +1,12 @@
 import { Component, OnInit, ElementRef, OnDestroy, Input, Output, EventEmitter } from '@angular/core';
-import { Assets, Application, Container, Sprite } from 'pixi.js';
+import { soundAsset } from '@pixi/sound';
+import { Assets, Application, Container, Sprite, extensions } from 'pixi.js';
 import { GameManifest, GameManifestBundle, GameManifestBundleAsset } from '../models/game/gameManifest';
 import { GameMetadata } from "../models/gameMetadata";
 import { IGame } from "./base-game/IGame";
 import { CrossyRoadGame } from "./crossy-road/crossyRoadGame";
 import { ControlBar } from "./base-game/elements/controlBar";
 import {KeycloakAuthService} from "../services/keycloak-auth.service";
-import Keycloak from "keycloak-js";
 
 const gameIds = {
   CROSSY_ROAD: "39c63177-b7ad-478b-a009-69b8fa043e6f"
@@ -44,6 +44,8 @@ export class GameComponent implements OnInit, OnDestroy {
   constructor(private elementRef: ElementRef<HTMLElement>, private keycloakService: KeycloakAuthService) { }
 
   async ngOnInit(): Promise<void> {
+    extensions.add(soundAsset)
+
     if (!this.gameMetaData) {
       console.error("Game metadata is not available. Cannot initialize game.");
       return;

@@ -8,7 +8,6 @@ import {
 import { Observable, from, throwError } from 'rxjs';
 import { switchMap, catchError } from 'rxjs/operators';
 import { KeycloakAuthService } from './services/keycloak-auth.service';
-import {CrossyRoadGameVariables} from "./games/crossy-road/crossyRoadGameVariables";
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
