@@ -1,0 +1,121 @@
+{
+  "bundles":[
+    {
+      "name":"chicken",
+      "assets":[
+        {
+          "alias": "texture_chicken_standing",
+          "src": "./images/chicken_standing.png"
+        },
+        {
+          "alias": "texture_chicken_walking",
+          "src": "./images/chicken_walking.png"
+        },
+        {
+          "alias": "texture_chicken_dying",
+          "src": "./images/chicken_dying.png"
+        },
+        {
+          "alias": "texture_chicken_dead",
+          "src": "./images/chicken_dead.png"
+        },
+        {
+          "alias": "sound_chicken_dying",
+          "src": "./sounds/chicken_dying.mp3"
+        },
+        {
+          "alias": "sound_chicken_walking",
+          "src": "./sounds/chicken_walking.mp3"
+        }
+      ]
+    },
+    {
+      "name":"backgrounds",
+      "assets":[
+        {
+          "alias": "texture_roadtrack_left",
+          "src": "./images/roadtrack_left.png"
+        },
+        {
+          "alias": "texture_roadtrack_right",
+          "src": "./images/roadtrack_right.png"
+        },
+        {
+          "alias": "texture_background_finish",
+          "src": "./images/background_finish.png"
+        },
+        {
+          "alias": "texture_background_start",
+          "src": "./images/background_start.png"
+        }
+      ]
+    },
+    {
+      "name":"cars",
+      "assets":[
+        {
+          "alias": "texture_car_blue",
+          "src": "./images/car_blue.png"
+        },
+        {
+          "alias": "texture_car_red",
+          "src": "./images/car_red.png"
+        },
+        {
+          "alias": "texture_car_truck",
+          "src": "./images/car_truck.png"
+        }
+      ]
+    },
+    {
+      "name":"bricks",
+      "assets":[
+        {
+          "alias": "texture_brick_falling",
+          "src": "./images/brick_falling.png"
+        },
+        {
+          "alias": "texture_brick_landed",
+          "src": "./images/brick_landed.png"
+        }
+      ]
+    },
+    {
+      "name":"coin_field",
+      "assets":[
+        {
+          "alias": "texture_coin_field_default",
+          "src": "./images/coin_field_default.png"
+        },
+        {
+          "alias": "texture_coin_field_visited",
+          "src": "./images/coin_field_visited.png"
+        },
+        {
+          "alias": "texture_coin_field_death",
+          "src": "./images/coin_field_death.png"
+        }
+      ]
+    },
+    {
+      "name":"end_dialogue",
+      "assets":[
+        {
+          "alias": "texture_background_dialogue_game_lost",
+          "src": "./images/background_dialogue_game_lost.png"
+        },
+        {
+          "alias": "texture_background_dialogue_game_won",
+          "src": "./images/background_dialogue_game_won.png"
+        },
+        {
+          "alias": "texture_dialogue_floating_sprite_lost",
+          "src": "./images/dialogue_floating_sprite_lost.png"
+        },
+        {
+          "alias": "texture_dialogue_floating_sprite_won",
+          "src": "./images/dialogue_floating_sprite_won.png"
+        }
+      ]
+    }]
+}

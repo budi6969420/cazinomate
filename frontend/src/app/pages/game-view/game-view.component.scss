@@ -9,13 +9,13 @@ main {
   flex-direction: column;
   gap: 80px;
   max-width: 100%;
-  width: calc(75svh/10*15); //Hängt direkt mit aspect-ratio in game-view zusammen
+  width: calc(75svh/13*18); //Hängt direkt mit aspect-ratio in game-view zusammen
 }
 .game-view {
   width: 100%;
-  aspect-ratio: 15/10;
+  aspect-ratio: 18/13;
   background-color: var(--app-color-background-secondary);
-  border-radius: var(--app-spacing-big);
+  border-radius: var(--app-spacing-small);
   overflow: hidden;
 }
 
