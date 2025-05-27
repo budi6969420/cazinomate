@@ -7,6 +7,7 @@ import {SettingsComponent} from "./pages/settings/settings.component";
 import {OrderConfirmationComponent} from "./pages/order-confirmation/order-confirmation.component";
 import {FaqComponent} from "./pages/faq/faq.component";
 import {PayoutComponent} from "./pages/payout/payout.component";
+import {TransactionsComponent} from "./pages/transactions/transactions.component";
 
 export const routes: Routes = [
   { path: '', component: HomeComponent},
@@ -16,4 +17,5 @@ export const routes: Routes = [
   { path: 'faq', component: FaqComponent},
   { path: 'game/:gameId', component: GameViewComponent, canActivate: [authGuard]},
   { path: 'payout', component: PayoutComponent},
+  { path: 'transactions', component: TransactionsComponent, canActivate: [authGuard]},
 ];

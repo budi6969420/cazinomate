@@ -1,11 +1,14 @@
 import { Component, OnInit, ElementRef, OnDestroy, Input, Output, EventEmitter } from '@angular/core';
-import { Assets, Application, Container, Sprite } from 'pixi.js';
-import { GameManifest, GameManifestBundle, GameManifestBundleAsset } from '../models/game/gameManifest'; // Ensure GameManifestBundleAsset defines 'name: string' if you extract names
+import { soundAsset } from '@pixi/sound';
+import { Assets, Application, Container, Sprite, extensions } from 'pixi.js';
+import { GameManifest, GameManifestBundle, GameManifestBundleAsset } from '../models/game/gameManifest';
 import { GameMetadata } from "../models/gameMetadata";
-import { IGameLogic } from "./game-logic/iGameLogic";
-import { CrossyRoadGame } from "./game-logic/crossy-road/crossyRoadGame";
+import { IGame } from "./base-game/IGame";
+import { CrossyRoadGame } from "./crossy-road/crossyRoadGame";
+import { ControlBar } from "./base-game/elements/controlBar";
+import {KeycloakAuthService} from "../services/keycloak-auth.service";
 
-const KnownGameIds = {
+const gameIds = {
   CROSSY_ROAD: "39c63177-b7ad-478b-a009-69b8fa043e6f"
 } as const;
 
@@ -23,31 +26,32 @@ export class GameComponent implements OnInit, OnDestroy {
   @Output() loadingProgressUpdate = new EventEmitter<number>();
   @Output() gameReady = new EventEmitter<Application>();
 
-  private gameLogic!: IGameLogic;
+  private game!: IGame;
+  private controlBar!: ControlBar;
 
   private app?: Application;
-  private stageContainer!: Container<any>;
 
   private loadedManifest?: GameManifest;
   private assetIdentifiers: string[] = [];
 
   private readonly APP_LOGICAL_WIDTH: number = 2770;
   private readonly APP_LOGICAL_HEIGHT: number = 2000;
-
   private readonly GAME_ASSETS_ROOT_PATH = "/game-assets/";
   private currentGameSpecificAssetPath!: string;
   private currentManifestUrl!: string;
 
-  constructor(private elementRef: ElementRef<HTMLElement>) { }
+  constructor(private elementRef: ElementRef<HTMLElement>, private keycloakService: KeycloakAuthService) { }
 
   async ngOnInit(): Promise<void> {
+    extensions.add(soundAsset)
+
     if (!this.gameMetaData) {
       console.error("Game metadata is not available. Cannot initialize game.");
       return;
     }
 
     try {
-      this.gameLogic = this.createGameLogic(this.gameMetaData.id);
+      this.game = this.createGameLogic(this.gameMetaData.id);
       this.configurePaths();
 
       await this.fetchAndProcessManifest();
@@ -59,8 +63,8 @@ export class GameComponent implements OnInit, OnDestroy {
 
       await this.initializePixiAssets();
       await this.initializePixiApplication();
-      this.setupStage();
       await this.loadAssetsFromManifest();
+      this.setupStage();
 
     } catch (error) {
       console.error('Critical error during GameComponent initialization:', error);
@@ -68,9 +72,9 @@ export class GameComponent implements OnInit, OnDestroy {
     }
   }
 
-  private createGameLogic(gameId: string): IGameLogic {
+  private createGameLogic(gameId: string): IGame {
     switch (gameId) {
-      case KnownGameIds.CROSSY_ROAD:
+      case gameIds.CROSSY_ROAD:
         return new CrossyRoadGame(this.APP_LOGICAL_HEIGHT, this.APP_LOGICAL_WIDTH);
       default:
         throw new Error(`Unsupported game ID: ${gameId}. Cannot create game logic.`);
@@ -78,10 +82,10 @@ export class GameComponent implements OnInit, OnDestroy {
   }
 
   private configurePaths(): void {
-    if (!this.gameLogic) {
+    if (!this.game) {
       throw new Error("Game logic must be initialized before configuring paths.");
     }
-    const gameName = this.gameLogic.getName(); // Assumes IGameLogic has getName()
+    const gameName = this.game.getName();
     this.currentGameSpecificAssetPath = `${this.GAME_ASSETS_ROOT_PATH}${gameName}/`;
     this.currentManifestUrl = `${this.currentGameSpecificAssetPath}manifest.json`;
   }
@@ -141,15 +145,22 @@ export class GameComponent implements OnInit, OnDestroy {
     console.log('PIXI.Application initialized and canvas appended.');
   }
 
-  private setupStage(): void {
+  private async setupStage() {
     if (!this.app) {
       console.error("PIXI Application not initialized. Cannot setup stage.");
       return;
     }
-    this.stageContainer = new Container();
 
-    this.gameLogic.setStage(this.stageContainer);
-    this.app.stage.addChild(this.stageContainer);
+    this.controlBar = new ControlBar(this.game, await this.keycloakService.getToken());
+
+    //@ts-ignore
+    this.app.stage.addChild(this.game as Container<any>);
+    this.app.stage.addChild(this.controlBar)
+    this.controlBar.findAndStartActiveGameSession();
+
+    document.addEventListener('keydown', (event: KeyboardEvent) => {
+      this.controlBar.controller(event);
+    });
   }
 
   private async loadAssetsFromManifest(): Promise<void> {
@@ -166,7 +177,6 @@ export class GameComponent implements OnInit, OnDestroy {
         console.log('No bundles found in the manifest to load.');
         this.loadingProgressUpdate.emit(100);
         this.gameReady.emit(this.app);
-        this.gameLogic.start();
         return;
       }
 
@@ -175,7 +185,6 @@ export class GameComponent implements OnInit, OnDestroy {
         console.log('No valid bundle names found in the manifest to load.');
         this.loadingProgressUpdate.emit(100);
         this.gameReady.emit(this.app);
-        this.gameLogic.start();
         return;
       }
 
@@ -189,7 +198,6 @@ export class GameComponent implements OnInit, OnDestroy {
 
       console.log(`Bundles '${bundleNamesToLoad.join(', ')}' loaded successfully!`);
       this.loadingProgressUpdate.emit(100);
-      this.gameLogic.start();
       this.gameReady.emit(this.app);
 
     } catch (error) {
@@ -203,7 +211,6 @@ export class GameComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     console.log("GameComponent ngOnDestroy: Cleaning up PIXI resources.");
 
-    // Unload assets identified by their names/aliases
     if (this.assetIdentifiers.length > 0) {
       Assets.unload(this.assetIdentifiers)
           .then(() => console.log("Assets unloaded based on collected identifiers:", this.assetIdentifiers))

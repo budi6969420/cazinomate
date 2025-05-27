@@ -18,6 +18,14 @@
         {
           "alias": "texture_chicken_dead",
           "src": "./images/chicken_dead.png"
+        },
+        {
+          "alias": "sound_chicken_dying",
+          "src": "./sounds/chicken_dying.mp3"
+        },
+        {
+          "alias": "sound_chicken_walking",
+          "src": "./sounds/chicken_walking.mp3"
         }
       ]
     },

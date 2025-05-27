@@ -1,7 +1,7 @@
 package de.szut.lf8_starter.payout;
 
 import de.szut.lf8_starter.payout.coupons.ICouponCodeGenerator;
-import de.szut.lf8_starter.services.KeycloakService;
+import de.szut.lf8_starter.user.KeycloakService;
 import de.szut.lf8_starter.transaction.TransactionCategory;
 import de.szut.lf8_starter.transaction.TransactionService;
 import de.szut.lf8_starter.user.JwtService;
@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RequestMapping(value = "api/payout")
+@RequestMapping(value = "payout")
 @RestController
 public class PayoutController {
     private final PayoutItemService payoutItemService;

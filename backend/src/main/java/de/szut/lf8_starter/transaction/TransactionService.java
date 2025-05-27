@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.Instant;
 import java.util.Date;
+import java.util.List;
 
 @Service
 public class TransactionService {
@@ -23,5 +24,9 @@ public class TransactionService {
 
     public int GetUserBalance(String userId) {
         return transactionRepository.findByUserId(userId).stream().mapToInt(TransactionModel::getAmount).sum();
+    }
+
+    public List<TransactionModel> getUserTransactions(String userId) {
+        return transactionRepository.findByUserId(userId);
     }
 }

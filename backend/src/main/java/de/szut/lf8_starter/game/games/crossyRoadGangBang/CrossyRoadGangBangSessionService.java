@@ -17,8 +17,8 @@ public class CrossyRoadGangBangSessionService extends BaseGameSessionService<Cro
 
     @Override
     protected void applyGameLogic(BaseSession baseSession, CrossyRoadGangBangSessionExtension extension, String interaction) {
-        switch (interaction.toLowerCase()) {
-            case "move" -> {
+        switch (interaction) {
+            case "MOVE" -> {
                 extension.setCurrentIndex(extension.getCurrentIndex() + 1);
                 var prizes = extension.getPrizeIndexValues(baseSession.getInvestedBalance(), baseSession.getDifficulty());
 
@@ -27,12 +27,13 @@ public class CrossyRoadGangBangSessionService extends BaseGameSessionService<Cro
                 }
                 else if (prizes != null && extension.getCurrentIndex() >= prizes.size() - 1) {
                     baseSession.setGameState(GameState.WON);
+                    addBalanceToUser(baseSession.getUserId(), extension.getBalanceDifference(), getGame().getTitle() + " game won");
                 }
                 else if (prizes != null) {
                     extension.setBalanceDifference(prizes.get(extension.getCurrentIndex()));
                 }
             }
-            case "end" -> {
+            case "END" -> {
                 if (extension.getCurrentIndex() < 0) throw new IllegalStateException("Current index is less than 0");
                 baseSession.setGameState(GameState.WON);
                 addBalanceToUser(baseSession.getUserId(), extension.getBalanceDifference(), getGame().getTitle() + " game won");

@@ -23,6 +23,8 @@ services:
       KC_DB_SCHEMA: public
       KEYCLOAK_ADMIN: admin
       KEYCLOAK_ADMIN_PASSWORD: admin
+      KC_PROXY: edge
+      KC_FRAME_OPTIONS: ALLOWALL
     ports:
       - "9090:8080"
     depends_on:

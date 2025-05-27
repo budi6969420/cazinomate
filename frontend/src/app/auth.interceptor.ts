@@ -8,7 +8,6 @@ import {
 import { Observable, from, throwError } from 'rxjs';
 import { switchMap, catchError } from 'rxjs/operators';
 import { KeycloakAuthService } from './services/keycloak-auth.service';
-import {CrossyRoadGameVariables} from "./games/game-logic/crossy-road/crossyRoadGameVariables";
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
@@ -20,7 +19,6 @@ export class AuthInterceptor implements HttpInterceptor {
     if (this.keycloakAuthService.isAuthenticated()) {
       return from(this.keycloakAuthService.getToken()).pipe(
         switchMap(token => {
-          CrossyRoadGameVariables.API_TOKEN = token;
           request = request.clone({
             setHeaders: {
               Authorization: `Bearer ${token}`

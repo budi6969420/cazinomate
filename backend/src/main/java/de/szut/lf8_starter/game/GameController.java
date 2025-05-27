@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-@RequestMapping(value = "api/game")
+@RequestMapping(value = "game")
 @RestController
 public class GameController {
 
