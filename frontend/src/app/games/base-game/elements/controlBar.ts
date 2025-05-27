@@ -12,10 +12,10 @@ export class ControlBar extends Container {
   private barHeight: number = 242;
 
   private game: IGame;
-  private GAME_DIFFICULTY: GameDifficulty = GameDifficulty.NORMAL;
-  private GAME_INVESTED_BALANCE: Text = new Text("100");
-  private GAME_CURRENT_GAINS: number = 0;
-  private GAME_SESSION_ID!: string;
+  private gameDifficulty: GameDifficulty = GameDifficulty.NORMAL;
+  private investedBalance: Text = new Text("100");
+  private currentGains: number = 0;
+  private gameSessionId!: string;
   private apiToken: string;
 
   private isGameInteractionBlocked: boolean = false;
@@ -54,12 +54,12 @@ export class ControlBar extends Container {
     super();
     this.game = game;
     this.apiToken = apiToken;
-    this.position.y = this.game.GAME_SCREEN_HEIGHT;
+    this.position.y = this.game.GAME_HEIGHT-242;
     this.position.x = 0;
     this._zIndex = 9999;
 
     const background = new Graphics()
-      .rect(0, 0, this.game.GAME_SCREEN_WIDTH, this.barHeight)
+      .rect(0, 0, this.game.GAME_WIDTH, this.barHeight)
       .fill({ color: 0x181A39 });
     const einsatzSection = this._createEinsatzmengeSection();
     const schwierigkeitSection = this._createSchwierigkeitSection();
@@ -81,15 +81,15 @@ export class ControlBar extends Container {
   }
 
   private currentGainsUpdater(){
-    if(isNaN(this.GAME_CURRENT_GAINS)){
+    if(isNaN(this.currentGains)){
       this.currentGainsText.text = "+ 0"
       return;
     }
-    this.currentGainsText.text = "+ " + this.GAME_CURRENT_GAINS;
+    this.currentGainsText.text = "+ " + this.currentGains;
   }
 
   private buttonUpdater(){
-    if (this.game.GAME_STATE == GameState.ACTIVE){
+    if (this.game.getGameState() == GameState.ACTIVE){
       this._createGeldAuszahlenButton();
     }
     else{
@@ -115,14 +115,14 @@ export class ControlBar extends Container {
     betIcon.position.set(inputBgRadius, label.height + 15 + (inputBgHeight - betIcon.height) / 2);
     section.addChild(betIcon);
 
-    this.GAME_INVESTED_BALANCE.style = this.labelStyle;
-    this.GAME_INVESTED_BALANCE.anchor.set(0, 0.5);
-    this.GAME_INVESTED_BALANCE.position.set(
+    this.investedBalance.style = this.labelStyle;
+    this.investedBalance.anchor.set(0, 0.5);
+    this.investedBalance.position.set(
       betIcon.x + betIcon.width + 15,
       label.height + 15 + inputBgHeight / 2
     );
 
-    section.addChild(this.GAME_INVESTED_BALANCE);
+    section.addChild(this.investedBalance);
 
     inputBackground.eventMode = 'static';
     inputBackground.cursor = 'text';
@@ -193,7 +193,7 @@ export class ControlBar extends Container {
         bg.clear().roundRect(0, 0, buttonWidth, buttonHeight, buttonRadius).fill(selectedColor);
         this.selectedDifficultyButton = button;
 
-        this.GAME_DIFFICULTY = difficultyValue;
+        this.gameDifficulty = difficultyValue;
       });
 
       buttonsContainer.addChild(button);
@@ -262,7 +262,7 @@ export class ControlBar extends Container {
       bg.tint = 0xFFFFFF;
     });
 
-    button.position.set(this.game.GAME_SCREEN_WIDTH - button.width - 50, this.barHeight / 2 - button.height / 2);
+    button.position.set(this.game.GAME_WIDTH - button.width - 50, this.barHeight / 2 - button.height / 2);
 
     this.mainButton = button;
     this.removeChild(this.mainButton);
@@ -300,7 +300,7 @@ export class ControlBar extends Container {
       bg.tint = 0xFFFFFF;
     });
 
-    button.position.set(this.game.GAME_SCREEN_WIDTH - button.width - 50, this.barHeight / 2 - button.height / 2);
+    button.position.set(this.game.GAME_WIDTH - button.width - 50, this.barHeight / 2 - button.height / 2);
 
     this.mainButton = button;
     this.removeChild(this.mainButton);
@@ -311,11 +311,11 @@ export class ControlBar extends Container {
 
     switch(true){
       case key.includes("Backspace"):
-        this.GAME_INVESTED_BALANCE.text = this.GAME_INVESTED_BALANCE.text.substring(0, this.GAME_INVESTED_BALANCE.text.length-1);
+        this.investedBalance.text = this.investedBalance.text.substring(0, this.investedBalance.text.length-1);
         break;
       case key.includes("Digit"):
-        if(this.GAME_INVESTED_BALANCE.text.length < 10){
-          this.GAME_INVESTED_BALANCE.text = String(this.GAME_INVESTED_BALANCE.text) + String(key.replace("Digit", ""));
+        if(this.investedBalance.text.length < 10){
+          this.investedBalance.text = String(this.investedBalance.text) + String(key.replace("Digit", ""));
         }
     }
   }
@@ -323,7 +323,7 @@ export class ControlBar extends Container {
   public async controller(event: KeyboardEvent) {
 
     switch (true) {
-      case this.betAmountInputIsHovered && this.game.GAME_STATE != GameState.ACTIVE:
+      case this.betAmountInputIsHovered && this.game.getGameState() != GameState.ACTIVE:
         this.editBetAmount(event.code);
         break;
       default:
@@ -334,14 +334,14 @@ export class ControlBar extends Container {
   }
 
   private async processUserGameAction(event: KeyboardEvent){
-    if(!this.isGameInteractionBlocked && this.game.GAME_STATE == GameState.ACTIVE) {
+    if(!this.isGameInteractionBlocked && this.game.getGameState() == GameState.ACTIVE) {
       this.isGameInteractionBlocked = true;
 
       let interaction = this.game.getInteractionForPressedKey(event);
       let gameSession = await this.makeInteractionRequest(interaction)
       await this.game.processInteraction(interaction, gameSession);
-      this.GAME_CURRENT_GAINS = gameSession.gameState == GameState[GameState.LOST] ? 0 : gameSession.balanceDifference - gameSession.investedBalance;
-      this.game.GAME_CURRENT_GAINS = this.GAME_CURRENT_GAINS;
+      this.currentGains = gameSession.gameState == GameState[GameState.LOST] ? 0 : gameSession.balanceDifference - gameSession.investedBalance;
+      this.game.setCurrentGains(this.currentGains);
 
       this.isGameInteractionBlocked = false;
     }
@@ -352,17 +352,17 @@ export class ControlBar extends Container {
       gameSession = await this.startGameSession() as BaseGameSession;
     }
 
-    this.GAME_INVESTED_BALANCE.text = gameSession.investedBalance;
-    this.GAME_SESSION_ID = gameSession.id;
-    this.game.GAME_STATE = GameState.ACTIVE;
+    this.investedBalance.text = gameSession.investedBalance;
+    this.gameSessionId = gameSession.id;
+    this.game.setGameState(GameState.ACTIVE);
 
-    this.GAME_CURRENT_GAINS = gameSession.balanceDifference - gameSession.investedBalance;
+    this.currentGains = gameSession.balanceDifference - gameSession.investedBalance;
     this.game.start(gameSession);
   }
 
   async findAndStartActiveGameSession(){
     try {
-      let response = await fetch(environment.backendApiUrl + "api/game/session/find-active?gameId=" + this.game.GAME_ID, {
+      let response = await fetch(environment.backendApiUrl + "api/game/session/find-active?gameId=" + this.game.getId(), {
         method: 'GET',
         headers: {
           authorization: "Bearer " + this.apiToken
@@ -378,8 +378,8 @@ export class ControlBar extends Container {
   async startGameSession(): Promise<BaseGameSession>{
     let startSessionRequest = new BaseGameStartSessionRequest(
       this.game.getId(),
-      this.GAME_DIFFICULTY,
-      Number(this.GAME_INVESTED_BALANCE.text)
+      this.gameDifficulty,
+      Number(this.investedBalance.text)
     );
 
     let response = await fetch(environment.backendApiUrl + "api/game/session/start", {
@@ -395,13 +395,13 @@ export class ControlBar extends Container {
 
   async endGameSessionPrematurely(){
     await this.makeInteractionRequest(Interaction.END);
-    this.game.GAME_STATE = GameState.WON
+    this.game.setGameState(GameState.WON);
   }
 
   async makeInteractionRequest(interaction: Interaction): Promise<BaseGameSession>{
     let interactionRequest = new BaseGameInteractionRequest(
-      this.game.GAME_ID,
-      this.GAME_SESSION_ID,
+      this.game.getId(),
+      this.gameSessionId,
       interaction
     );
 

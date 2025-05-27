@@ -36,7 +36,6 @@ export class GameComponent implements OnInit, OnDestroy {
 
   private readonly APP_LOGICAL_WIDTH: number = 2770;
   private readonly APP_LOGICAL_HEIGHT: number = 2000;
-  private readonly APP_GAME_SCREEN_HEIGHT: number = 1758;
   private readonly GAME_ASSETS_ROOT_PATH = "/game-assets/";
   private currentGameSpecificAssetPath!: string;
   private currentManifestUrl!: string;
@@ -76,7 +75,7 @@ export class GameComponent implements OnInit, OnDestroy {
   private createGameLogic(gameId: string): IGame {
     switch (gameId) {
       case gameIds.CROSSY_ROAD:
-        return new CrossyRoadGame(this.APP_LOGICAL_HEIGHT, this.APP_LOGICAL_WIDTH, this.APP_GAME_SCREEN_HEIGHT, this.APP_LOGICAL_WIDTH);
+        return new CrossyRoadGame(this.APP_LOGICAL_HEIGHT, this.APP_LOGICAL_WIDTH);
       default:
         throw new Error(`Unsupported game ID: ${gameId}. Cannot create game logic.`);
     }

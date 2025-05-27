@@ -9,27 +9,23 @@ import {GameState} from "../base-game/enums/gameState";
 import {CrossyRoadGameVariables} from "./crossyRoadGameVariables";
 
 export class CrossyRoadGame extends Container implements IGame{
-  GAME_NAME: string = "crossy-road";
-  GAME_ID: string = "39c63177-b7ad-478b-a009-69b8fa043e6f";
-  GAME_STATE: GameState = GameState.INACTIVE;
-  GAME_CURRENT_GAINS: number = 0;
+  private readonly GAME_NAME: string = "crossy-road";
+  private readonly GAME_ID: string = "39c63177-b7ad-478b-a009-69b8fa043e6f";
+  private gameState: GameState = GameState.INACTIVE;
+  private currentGains: number = 0;
 
-  playgroundScreen!: Playground;
-  endDialogueScreen!: EndDialogue;
+  private playgroundScreen!: Playground;
+  private endDialogueScreen!: EndDialogue;
 
-  GAME_HEIGHT: number;
-  GAME_WIDTH: number;
-  GAME_SCREEN_WIDTH: number;
-  GAME_SCREEN_HEIGHT: number;
+  readonly GAME_HEIGHT: number;
+  readonly GAME_WIDTH: number;
 
   private gameWasAlreadyInitialisedBefore: boolean = false;
 
-  constructor(GAME_HEIGHT: number,GAME_WIDTH: number, GAME_SCREEN_HEIGHT: number, GAME_SCREEN_WIDTH: number) {
+  constructor(GAME_HEIGHT: number,GAME_WIDTH: number) {
     super();
     this.GAME_HEIGHT = GAME_HEIGHT;
     this.GAME_WIDTH = GAME_WIDTH;
-    this.GAME_SCREEN_HEIGHT = GAME_SCREEN_HEIGHT;
-    this.GAME_SCREEN_WIDTH = GAME_SCREEN_WIDTH
   }
 
   start(gameSession?: CrossyRoadGameSession){
@@ -58,12 +54,12 @@ export class CrossyRoadGame extends Container implements IGame{
 
   private gameStateCheckingLoop(){
 
-    switch(this.GAME_STATE){
+    switch(this.gameState){
       case GameState.LOST:
         this.endDialogueScreen.showPlayerLost();
         break;
       case GameState.WON:
-        this.endDialogueScreen.showPlayerWon(this.GAME_CURRENT_GAINS);
+        this.endDialogueScreen.showPlayerWon(this.currentGains);
         break;
       case GameState.ACTIVE:
         this.endDialogueScreen.hide();
@@ -98,6 +94,18 @@ export class CrossyRoadGame extends Container implements IGame{
     return this.GAME_NAME;
   }
   public getId() {
-    return this.GAME_ID
+    return this.GAME_ID;
+  }
+  public getGameState(): GameState {
+    return this.gameState;
+  }
+  public getCurrentGains(): number {
+    return this.currentGains;
+  }
+  public setGameState(gameState: GameState) {
+    this.gameState = gameState;
+  }
+  public setCurrentGains(gains: number) {
+    this.currentGains = gains;
   }
 }

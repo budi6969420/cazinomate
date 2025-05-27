@@ -53,7 +53,7 @@ export class Playground extends Container<any> {
 
   async nextMove(gameSession: CrossyRoadGameSession): Promise<void> {
     return new Promise(async (resolve) => {
-      if (this.game.GAME_STATE != GameState.ACTIVE) return;
+      if (this.game.getGameState() != GameState.ACTIVE) return;
       if (this.isScrolling) return;
       if (!this.chicken.getIsEffectivelyAlive()) return;
       if (this.activeWaitForRoadTrackFn != null) return;
@@ -65,7 +65,7 @@ export class Playground extends Container<any> {
       if (!nextRoadTrack) {
         currentRoadTrack.setToVisited();
         await this.chicken.walkToFinishLine();
-        this.game.GAME_STATE = GameState.WON;
+        this.game.setGameState(GameState.WON);
         resolve();
         return;
       }
@@ -89,7 +89,7 @@ export class Playground extends Container<any> {
             this.chicken.chickenIsGoingToDie = true;
             await nextRoadTrack.killChicken();
             await this.chicken.die();
-            this.game.GAME_STATE = GameState.LOST;
+            this.game.setGameState(GameState.LOST);
           }
 
           if (currentRoadTrackIndex >= 0) {
