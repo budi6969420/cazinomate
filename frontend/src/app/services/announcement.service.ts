@@ -1,20 +1,42 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {AnnouncementModel} from "../models/announcementModel";
+import {GameMetadataService} from "./game-metadata.service";
+import {GameMetadata} from "../models/gameMetadata";
 
 @Injectable({
   providedIn: 'root'
 })
-export class AnnouncementService {
+export class AnnouncementService{
 
   private announcements: AnnouncementModel[] = [];
 
-  constructor() {
-    this.announcements = [{navigationUrl: "/game/39c63177-b7ad-478b-a009-69b8fa043e6f", title: "Crossy Road", description: "Unser neues Spiel auf CazinoMate", buttonText: "Jetzt Spielen", imageUrl: "/images/crossy-road.svg", isGreen: false},
-      {navigationUrl: "/shop", title: "Promo", description: "Kaufen sie ein Paket", buttonText: "Jetzt Kaufen", imageUrl: "/images/mrCrabs.svg", isGreen: true}
-    ,{navigationUrl: "/game/92ed9e52-afd8-49a5-8b09-d7a049783725", title: "Slots", description: "Unser neues Spiel auf CazinoMate", buttonText: "Jetzt Spielen", imageUrl: "/images/slots.svg", isGreen: false}];
+  constructor(private gameService: GameMetadataService) {
+    this.gameService.dataLoaded$.subscribe(
+      data => {
+        this.createAnnouncements(data);
+      }
+    );
   }
 
   public getAnnouncements(): AnnouncementModel[] {
      return this.announcements;
+  }
+
+  private createAnnouncements(games: GameMetadata[]){
+    for (let metadata of games) {
+
+      let announcement: AnnouncementModel = new AnnouncementModel();
+
+      announcement.title = metadata.title;
+      announcement.description = "Empfohlen auf CazinoMate";
+      announcement.imageUrl = metadata.previewImageUrl;
+      announcement.buttonText = "Jetzt Spielen";
+      announcement.navigationUrl = "/game/" + metadata.id;
+      announcement.isGreen = false;
+
+      this.announcements.push(announcement);
+    }
+
+    this.announcements.push({navigationUrl: "/shop", title: "Shop", description: "Kaufen sie unsere tollen Pakete", buttonText: "Jetzt Kaufen", imageUrl: "/images/mrCrabs.svg", isGreen: true});
   }
 }
