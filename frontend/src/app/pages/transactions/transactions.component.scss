@@ -2,6 +2,10 @@
   display: flex;
   flex-direction: column;
   min-height: 500px;
+  background-color: var(--app-color-background-secondary);
+  padding: 20px;
+  border: 1px solid var(--app-color-border);
+
 }
 
 .no-transaction-message {
