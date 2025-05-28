@@ -17,11 +17,11 @@ public class CrossyRoadGangBangSessionService extends BaseGameSessionService<Cro
 
     @Override
     protected void applyGameLogic(BaseSession baseSession, CrossyRoadGangBangSessionExtension extension, String interaction) {
+
+        var prizes = extension.getPrizeIndexValues(baseSession.getInvestedBalance(), baseSession.getDifficulty());
         switch (interaction) {
             case "MOVE" -> {
                 extension.setCurrentIndex(extension.getCurrentIndex() + 1);
-                var prizes = extension.getPrizeIndexValues(baseSession.getInvestedBalance(), baseSession.getDifficulty());
-
                 if (hasLost(baseSession.getDifficulty())) {
                     baseSession.setGameState(GameState.LOST);
                 }
@@ -38,6 +38,17 @@ public class CrossyRoadGangBangSessionService extends BaseGameSessionService<Cro
                 if (extension.getCurrentIndex() < 0) throw new IllegalStateException("Current index is less than 0");
                 baseSession.setGameState(GameState.WON);
                 addBalanceToUser(baseSession.getUserId(), extension.getBalanceDifference(), getGame().getTitle() + " game won");
+
+                int simulatedIndex = extension.getCurrentIndex();
+                int wouldHaveLostAt = -1;
+
+                while (simulatedIndex++ < prizes.size()) {
+                    if (hasLost(baseSession.getDifficulty())) {
+                        wouldHaveLostAt = simulatedIndex;
+                        break;
+                    }
+                }
+                extension.setWouldHaveLostIndex(wouldHaveLostAt);
             }
 
             default -> throw new IllegalStateException("Unexpected interaction: " + interaction);

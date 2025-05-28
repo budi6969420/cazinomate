@@ -4,6 +4,7 @@ import de.szut.lf8_starter.game.session.BaseSessionExtension;
 import de.szut.lf8_starter.game.session.enums.GameDifficulty;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.Transient;
 import lombok.Data;
 
 import java.util.ArrayList;
@@ -17,6 +18,9 @@ public class CrossyRoadGangBangSessionExtension implements BaseSessionExtension 
 
     private int currentIndex;
     private int balanceDifference;
+
+    @Transient
+    private int wouldHaveLostIndex = -1;
 
     public List<Integer> getPrizeIndexValues(int investedBalance, GameDifficulty difficulty) {
         int length = 12;
@@ -37,5 +41,4 @@ public class CrossyRoadGangBangSessionExtension implements BaseSessionExtension 
         }
         return prizes;
     }
-
 }
