@@ -26,7 +26,7 @@ main {
 
   img {
     float: left;
-    max-height: 241px;
+    max-height: 232px;
     max-width: 100%;
     padding-right: var(--app-spacing-huge);
     padding-bottom: var(--app-spacing-huge);
@@ -43,5 +43,13 @@ main {
   p {
     margin-top: 0;
     margin-bottom: 1em;
+    white-space: pre-wrap;
+  }
+
+  h5 {
+    margin-bottom: 5px;
+  }
+  ul {
+    margin-bottom: 5px;
   }
 }

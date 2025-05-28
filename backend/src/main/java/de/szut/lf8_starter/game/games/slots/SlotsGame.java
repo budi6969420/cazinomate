@@ -1,6 +1,7 @@
 package de.szut.lf8_starter.game.games.slots;
 
 import de.szut.lf8_starter.game.BaseGame;
+import de.szut.lf8_starter.game.HeaderedText;
 
 public class SlotsGame extends BaseGame {
     @Override
@@ -14,7 +15,12 @@ public class SlotsGame extends BaseGame {
     }
 
     @Override
-    public String getDescription() { return "TBA >:("; }
+    public HeaderedText[] getDescription() { return new HeaderedText[0]; }
+
+    @Override
+    public String getLovelyDescriptionMessage() {
+        return "";
+    }
 
     @Override
     public String getPreviewImageUrl() {
