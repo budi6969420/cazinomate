@@ -1,0 +1,28 @@
+name: Deploy Full Project (Optimized)
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: Testing
+
+    steps:
+      - name: Setup SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          ssh-keyscan -H ${{ secrets.SERVER_IP }} >> ~/.ssh/known_hosts
+
+      - name: Run update-code.sh on Server
+        run: |
+          ssh "${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }}" "update-code"
+
+      - name: Run build-and-restart.sh on Server
+        run: |
+          ssh "${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }}" "build-and-restart"
