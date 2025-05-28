@@ -45,13 +45,3 @@
     }
   </div>
 }
-@if (paymentProviderService.paymentProviders.length > 0) {
-  <hr>
-  <div id="paymentProvidersWrapper">
-    @for (paymentProvider of paymentProviderService.paymentProviders; track paymentProvider.id) {
-      <a href="{{paymentProvider.url}}" target="_blank" rel="noopener noreferrer">
-        <img [src]="paymentProvider.imageUrl" [alt]="paymentProvider.name">
-      </a>
-    }
-  </div>
-}

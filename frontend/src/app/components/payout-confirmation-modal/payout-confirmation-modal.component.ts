@@ -1,7 +1,4 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {PaymentLinkCreationOptionsModel} from "../../models/PaymentLinkCreationOptions";
-import {ShopPackageService} from "../../services/shopPackage.service";
-import {ShopPackage} from "../../models/shopPackage";
 import {PayoutItemService} from "../../services/payout-item.service";
 import {PayoutItemModel} from "../../models/payoutItemModel";
 import {PayoutSuccessfulResponseModel} from "../../models/payoutSuccessfulResponseModel";
