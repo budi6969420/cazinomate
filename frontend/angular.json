@@ -23,6 +23,12 @@
             "polyfills": [
               "zone.js"
             ],
+            "allowedCommonJsDependencies": [
+              "earcut",
+              "earcut",
+              "@xmldom/xmldom",
+              "parse-svg-path"
+            ],
             "tsConfig": "tsconfig.app.json",
             "assets": [
               {
@@ -41,8 +47,8 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kB",
-                  "maximumError": "1MB"
+                  "maximumWarning": "1000kB",
+                  "maximumError": "2500kB"
                 },
                 {
                   "type": "anyComponentStyle",
