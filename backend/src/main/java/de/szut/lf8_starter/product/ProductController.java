@@ -3,7 +3,7 @@ package de.szut.lf8_starter.product;
 
 import com.stripe.exception.StripeException;
 import de.szut.lf8_starter.user.JwtService;
-import de.szut.lf8_starter.transaction.StripeService;
+import de.szut.lf8_starter.transaction.StripeService2ElectricBoogaloo;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,10 +13,10 @@ import java.util.List;
 @RequestMapping(value = "product")
 public class ProductController {
 
-    private final StripeService stripeService;
+    private final StripeService2ElectricBoogaloo stripeService;
     private final JwtService jwtService;
 
-    public ProductController(StripeService stripeService, JwtService jwtService) {
+    public ProductController(StripeService2ElectricBoogaloo stripeService, JwtService jwtService) {
         this.stripeService = stripeService;
         this.jwtService = jwtService;
     }

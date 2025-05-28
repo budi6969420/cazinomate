@@ -19,12 +19,12 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class StripeService {
+public class StripeService2ElectricBoogaloo {
 
     @Value("${stripe.secret.key}")
     private String stripeSecretKey;
 
-    public StripeService() {
+    public StripeService2ElectricBoogaloo() {
         Stripe.apiKey = stripeSecretKey;
     }
 

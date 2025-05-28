@@ -23,7 +23,7 @@ public class CrossyRoadGangBangGame extends BaseGame {
 
     @Override
     public String getLoadingIconUrl() {
-        return "/game-assets/crossy-road/icon.png";
+        return "https://cdn.budidev.de/2d3e8";
     }
 
     @Override
