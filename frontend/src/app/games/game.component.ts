@@ -7,10 +7,9 @@ import { IGame } from "./base-game/IGame";
 import { CrossyRoadGame } from "./crossy-road/crossyRoadGame";
 import { ControlBar } from "./base-game/elements/controlBar";
 import {KeycloakAuthService} from "../services/keycloak-auth.service";
+import {GameMetadataService} from "../services/game-metadata.service";
+import {GameConstants} from "./gameConstants";
 
-const gameIds = {
-  CROSSY_ROAD: "39c63177-b7ad-478b-a009-69b8fa043e6f"
-} as const;
 
 @Component({
   selector: 'app-game',
@@ -34,13 +33,11 @@ export class GameComponent implements OnInit, OnDestroy {
   private loadedManifest?: GameManifest;
   private assetIdentifiers: string[] = [];
 
-  private readonly APP_LOGICAL_WIDTH: number = 2770;
-  private readonly APP_LOGICAL_HEIGHT: number = 2000;
   private readonly GAME_ASSETS_ROOT_PATH = "/game-assets/";
   private currentGameSpecificAssetPath!: string;
   private currentManifestUrl!: string;
 
-  constructor(private elementRef: ElementRef<HTMLElement>, private keycloakService: KeycloakAuthService) { }
+  constructor(private elementRef: ElementRef<HTMLElement>, private keycloakService: KeycloakAuthService, private gameMetadataService: GameMetadataService) { }
 
   async ngOnInit(): Promise<void> {
     extensions.add(soundAsset)
@@ -73,12 +70,9 @@ export class GameComponent implements OnInit, OnDestroy {
   }
 
   private createGameLogic(gameId: string): IGame {
-    switch (gameId) {
-      case gameIds.CROSSY_ROAD:
-        return new CrossyRoadGame(this.APP_LOGICAL_HEIGHT, this.APP_LOGICAL_WIDTH);
-      default:
-        throw new Error(`Unsupported game ID: ${gameId}. Cannot create game logic.`);
-    }
+    let game = this.gameMetadataService.getGameObject(gameId);
+    if (game) return game;
+    throw new Error(`Unsupported game ID: ${gameId}. Cannot create game logic.`);
   }
 
   private configurePaths(): void {
@@ -132,8 +126,8 @@ export class GameComponent implements OnInit, OnDestroy {
     this.app = new Application();
     await this.app.init({
       background: '#1099bb',
-      width: this.APP_LOGICAL_WIDTH,
-      height: this.APP_LOGICAL_HEIGHT,
+      width: GameConstants.APP_LOGICAL_WIDTH,
+      height: GameConstants.APP_LOGICAL_HEIGHT,
       antialias: true,
       autoDensity: true,
     });
