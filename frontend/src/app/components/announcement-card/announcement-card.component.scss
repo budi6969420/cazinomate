@@ -14,7 +14,6 @@
 
 .header {
   display: inline-flex;
-  height: 15px;
   padding: 5px;
   padding-left: 10px;
   padding-right: 10px;
@@ -76,3 +75,16 @@
   line-height: normal;
   margin-top: auto;
 }
+
+.image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  mask-image: url('/images/shape.svg');
+  mask-repeat: no-repeat;
+  mask-size: cover;
+  -webkit-mask-image: url('/images/shape.svg');
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-size: cover;
+}
+

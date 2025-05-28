@@ -6,7 +6,7 @@ import {NgClass} from "@angular/common";
 @Component({
   selector: 'app-announcement-card',
   imports: [
-    NgClass
+    NgClass,
   ],
   templateUrl: './announcement-card.component.html',
   styleUrl: './announcement-card.component.scss'
