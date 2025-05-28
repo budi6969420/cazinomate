@@ -25,5 +25,9 @@ export class CoinFieldBase extends Container {
       style: this.textStyle,
     });
     this.addChild(this.text);
+
+    this.pivot.set(this.width/2, this.height/2);
+    this.x = this.width/2;
+    this.y = this.height/2;
   }
 }

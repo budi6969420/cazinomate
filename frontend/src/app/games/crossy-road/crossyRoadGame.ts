@@ -52,6 +52,17 @@ export class CrossyRoadGame extends Container implements IGame{
     }
   }
 
+  async end(gameSession: CrossyRoadGameSession){
+    if(gameSession.wouldHaveLostAtIndex>=0) {
+      await this.playgroundScreen.scrollToDeathField(gameSession.wouldHaveLostAtIndex);
+    }
+    else{
+      this.playgroundScreen.setAllFieldsToVisited();
+      await this.playgroundScreen.scrollToMaxWidth();
+    }
+    this.setGameState(GameState.WON);
+  }
+
   private gameStateCheckingLoop(){
 
     switch(this.gameState){

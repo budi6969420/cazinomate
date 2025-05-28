@@ -7,8 +7,10 @@ export interface IGame{
   readonly GAME_WIDTH: number;
 
   start(gameSession?: BaseGameSession): void;
+  end(gameSession: BaseGameSession): void;
   getInteractionForPressedKey(event: KeyboardEvent): Interaction;
   processInteraction(interaction: Interaction, gameSession: BaseGameSession): Promise<void>;
+
   getName(): string;
   getId(): string;
   getGameState(): GameState;

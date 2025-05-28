@@ -63,7 +63,6 @@ export class Playground extends Container<any> {
       const nextRoadTrack = this.road.getTrack(currentRoadTrackIndex + 1);
 
       if (!nextRoadTrack) {
-        currentRoadTrack.setToVisited();
         await this.chicken.walkToFinishLine();
         this.game.setGameState(GameState.WON);
         resolve();
@@ -92,8 +91,8 @@ export class Playground extends Container<any> {
             this.game.setGameState(GameState.LOST);
           }
 
-          if (currentRoadTrackIndex >= 0) {
-            currentRoadTrack.setToVisited();
+          if (currentRoadTrackIndex+1 < this.road.roadTracks.length) {
+            nextRoadTrack.setToVisited();
           }
           resolve();
         }
@@ -102,6 +101,54 @@ export class Playground extends Container<any> {
       this.activeWaitForRoadTrackFn = waitForRoadTrackToBeEmpty;
       Ticker.shared.add(this.activeWaitForRoadTrackFn, this);
 
+    });
+  }
+
+  async setAllFieldsToVisited(){
+    for(let i=0; i < this.road.roadTracks.length; i++){
+      this.road.getTrack(i).setToVisited();
+    }
+  }
+  async scrollToDeathField(deathFieldIndex: number){
+    let scrollPositionX = CrossyRoadGameVariables.ROAD_TRACK_WIDTH * deathFieldIndex * -1;
+
+    await gsap.to(this.position, {
+      x: scrollPositionX,
+      duration: 1.5,
+      ease: "power5.out",
+      onStart: () => {
+        this.isScrolling = true;
+      },
+      onComplete: () => {
+        this.isScrolling = false;
+      }
+    });
+
+    await this.road.getTrack(deathFieldIndex).setToDeath();
+    await new Promise<void>((resolve) => {
+      setTimeout(() => {
+        resolve();
+      }, 2 * 1000);
+    });
+  }
+
+  async scrollToMaxWidth(){
+    await gsap.to(this.position, {
+      x: this.maxScrollX,
+      duration: 1,
+      ease: "power5.out",
+      onStart: () => {
+        this.isScrolling = true;
+      },
+      onComplete: () => {
+        this.isScrolling = false;
+      }
+    });
+
+    await new Promise<void>((resolve) => {
+      setTimeout(() => {
+        resolve();
+      }, 1 * 1000);
     });
   }
 
@@ -115,7 +162,7 @@ export class Playground extends Container<any> {
 
     let duration = 1.5;
 
-    gsap.to(this.position, {
+    await gsap.to(this.position, {
       x: newPosition,
       duration: duration,
       ease: "power5.out",
@@ -125,12 +172,6 @@ export class Playground extends Container<any> {
       onComplete: () => {
         this.isScrolling = false;
       }
-    });
-
-    return await new Promise<void>((resolve) => {
-      setTimeout(() => {
-        resolve();
-      }, (duration)*1000);
     });
   }
 }

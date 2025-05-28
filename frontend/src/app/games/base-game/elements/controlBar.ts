@@ -1,4 +1,4 @@
-import {Container, Graphics, Text, TextStyle, Ticker} from "pixi.js";
+import {Container, Graphics, Sprite, Text, TextStyle, Texture, Ticker} from "pixi.js";
 import {IGame} from "../IGame";
 import {BaseGameSession} from "../dtos/BaseGameSession";
 import {BaseGameStartSessionRequest} from "../dtos/baseGameStartSessionRequest";
@@ -7,11 +7,13 @@ import {GameDifficulty} from "../enums/gameDifficulty";
 import {Interaction} from "../enums/interaction";
 import {GameState} from "../enums/gameState";
 import {environment} from "../../../../environments/environment";
+import {UserService} from "../../../services/user.service";
 
 export class ControlBar extends Container {
   private barHeight: number = 242;
 
   private game: IGame;
+  private userService: UserService
   private gameDifficulty: GameDifficulty = GameDifficulty.NORMAL;
   private investedBalance: Text = new Text("100");
   private currentGains: number = 0;
@@ -50,9 +52,10 @@ export class ControlBar extends Container {
     align: 'center',
   });
 
-  constructor(game: IGame, apiToken: string) {
+  constructor(game: IGame, userService: UserService, apiToken: string) {
     super();
     this.game = game;
+    this.userService = userService;
     this.apiToken = apiToken;
     this.position.y = this.game.GAME_HEIGHT-242;
     this.position.x = 0;
@@ -111,7 +114,9 @@ export class ControlBar extends Container {
       .fill({ color: "#0A0B1F" });
     section.addChild(inputBackground);
 
-    const betIcon = new Text('🤑', { ...this.valueStyle }); // White icon
+    const betIcon = new Sprite(Texture.from("texture_dialogue_floating_sprite_won"))
+    betIcon.height = label.height + 15;
+    betIcon.width = label.height +15;
     betIcon.position.set(inputBgRadius, label.height + 15 + (inputBgHeight - betIcon.height) / 2);
     section.addChild(betIcon);
 
@@ -233,6 +238,7 @@ export class ControlBar extends Container {
 
   private _createGeldAuszahlenButton(): void {
     if(this.mainButton && this.mainButton.name == "GeldAuszahlen") return;
+
     const button = new Container();
     button.name = "GeldAuszahlen";
     const buttonWidth = 700;
@@ -271,6 +277,8 @@ export class ControlBar extends Container {
 
   public _createSpielStartenButton(): void {
     if(this.mainButton && this.mainButton.name == "SpielStarten") return;
+
+    this.userService.updateSelfBalance().subscribe();
 
     const button = new Container();
     button.name = "SpielStarten";
@@ -358,6 +366,8 @@ export class ControlBar extends Container {
 
     this.currentGains = gameSession.balanceDifference - gameSession.investedBalance;
     this.game.start(gameSession);
+
+    this.userService.updateSelfBalance().subscribe();
   }
 
   async findAndStartActiveGameSession(){
@@ -394,8 +404,8 @@ export class ControlBar extends Container {
   }
 
   async endGameSessionPrematurely(){
-    await this.makeInteractionRequest(Interaction.END);
-    this.game.setGameState(GameState.WON);
+    let gameSession = await this.makeInteractionRequest(Interaction.END);
+    this.game.end(gameSession);
   }
 
   async makeInteractionRequest(interaction: Interaction): Promise<BaseGameSession>{
