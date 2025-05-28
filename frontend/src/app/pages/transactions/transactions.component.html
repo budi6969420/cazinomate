@@ -1,4 +1,10 @@
+<h1 class="transactions-title">Transaktionen</h1>
+
 <div class="transactions-group">
+  @if (groupedMonths.length == 0) {
+    <p class="no-transaction-message">Keine Transaktionen sind verfügbar.</p>
+  }
+
   <ng-container *ngFor="let month of groupedMonths">
     <h3>{{ month }}</h3>
 

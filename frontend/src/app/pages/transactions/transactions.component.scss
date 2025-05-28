@@ -1,6 +1,18 @@
 .transactions-group {
   display: flex;
   flex-direction: column;
+  min-height: 500px;
+}
+
+.no-transaction-message {
+  text-align: center;
+  height: 100%;
+  vertical-align: center;
+  margin-top: 150px;
+}
+
+.transactions-title {
+  text-align: center;
 }
 
 .transaction-row {
