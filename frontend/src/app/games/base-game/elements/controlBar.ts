@@ -133,9 +133,23 @@ export class ControlBar extends Container {
     inputBackground.cursor = 'text';
     inputBackground.on('pointerover', () => {
       this.betAmountInputIsHovered = true;
+      if (this.game.getGameState() == GameState.ACTIVE) return;
+
+      inputBackground
+          .clear();
+      inputBackground
+          .roundRect(0, label.height + 15, inputBgWidth, inputBgHeight, inputBgRadius)
+          .fill({ color: "#7030A0" });
     });
     inputBackground.on('pointerout', () => {
       this.betAmountInputIsHovered = false;
+      if (this.game.getGameState() == GameState.ACTIVE) return;
+
+      inputBackground
+          .clear();
+      inputBackground
+          .roundRect(0, label.height + 15, inputBgWidth, inputBgHeight, inputBgRadius)
+          .fill({ color: "#0A0B1F" });
     });
 
     return section;
@@ -191,6 +205,7 @@ export class ControlBar extends Container {
       button.cursor = 'pointer';
 
       button.on('pointertap', () => {
+        if (this.game.getGameState() == GameState.ACTIVE) return;
         if (this.selectedDifficultyButton) {
           const prevBg = this.selectedDifficultyButton.children[0] as Graphics;
           prevBg.clear().roundRect(0, 0, buttonWidth, buttonHeight, buttonRadius).fill(unselectedColor);
