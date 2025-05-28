@@ -1,10 +1,14 @@
 .faq-page {
   min-height: 40vh;
+  background-color: var(--app-color-background-secondary);
+  padding: 20px;
+  border: 1px solid var(--app-color-border);
 }
 
 .faq-title {
   font-size: 24px;
   margin-bottom: 1rem;
+  text-align: center;
 }
 
 .faq-item {

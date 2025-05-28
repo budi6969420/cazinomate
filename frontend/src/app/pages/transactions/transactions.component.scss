@@ -1,6 +1,22 @@
 .transactions-group {
   display: flex;
   flex-direction: column;
+  min-height: 500px;
+  background-color: var(--app-color-background-secondary);
+  padding: 20px;
+  border: 1px solid var(--app-color-border);
+
+}
+
+.no-transaction-message {
+  text-align: center;
+  height: 100%;
+  vertical-align: center;
+  margin-top: 150px;
+}
+
+.transactions-title {
+  text-align: center;
 }
 
 .transaction-row {
