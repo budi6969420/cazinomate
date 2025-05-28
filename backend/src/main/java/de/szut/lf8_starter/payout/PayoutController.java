@@ -1,7 +1,7 @@
 package de.szut.lf8_starter.payout;
 
-import de.szut.lf8_starter.payout.coupons.ICouponCodeGenerator;
-import de.szut.lf8_starter.user.KeycloakService;
+import de.szut.lf8_starter.game.coupons.ICouponCodeGenerator;
+import de.szut.lf8_starter.user.UserService;
 import de.szut.lf8_starter.transaction.TransactionCategory;
 import de.szut.lf8_starter.transaction.TransactionService;
 import de.szut.lf8_starter.user.JwtService;
@@ -17,14 +17,14 @@ public class PayoutController {
     private final PayoutItemService payoutItemService;
     private final JwtService jwtService;
     private final TransactionService transactionService;
-    private final KeycloakService keycloakService;
+    private final UserService userService;
     private final ICouponCodeGenerator couponCodeGenerator;
 
-    public PayoutController(PayoutItemService payoutItemService, JwtService jwtService, TransactionService transactionService, KeycloakService keycloakService, @Qualifier("mock") ICouponCodeGenerator couponCodeGenerator) {
+    public PayoutController(PayoutItemService payoutItemService, JwtService jwtService, TransactionService transactionService, UserService userService, @Qualifier("mock") ICouponCodeGenerator couponCodeGenerator) {
         this.payoutItemService = payoutItemService;
         this.jwtService = jwtService;
         this.transactionService = transactionService;
-        this.keycloakService = keycloakService;
+        this.userService = userService;
         this.couponCodeGenerator = couponCodeGenerator;
     }
 
@@ -36,7 +36,7 @@ public class PayoutController {
 
     @PostMapping()
     public ResponseEntity<PayoutSuccessfulResponseDto> purchasePayoutItem(@RequestHeader(value = "Authorization", required = false) String authorizationHeader,@RequestBody PurchasePayoutItemDto purchasePayoutItemDto) throws Exception {
-        var user = keycloakService.getUserData(jwtService.decodeId(authorizationHeader));
+        var user = userService.getUserData(jwtService.decodeId(authorizationHeader));
         var item = payoutItemService.getPayoutItemMetadataById(purchasePayoutItemDto.getId());
 
         if (item == null) return ResponseEntity.notFound().build();

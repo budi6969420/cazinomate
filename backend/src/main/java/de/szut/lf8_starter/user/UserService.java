@@ -13,7 +13,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Service
-public class KeycloakService {
+public class UserService {
     private final RestTemplate restTemplate;
     private final String keycloakUrl;
     private final String adminRealm;
@@ -23,13 +23,13 @@ public class KeycloakService {
     private final String adminUsername;
     private final String adminPassword;
 
-    public KeycloakService(@Value("${keycloak.server-url}") String keycloakUrl,
-                           @Value("${keycloak.realm}") String realm,
-                           @Value("${keycloak.admin-realm}") String adminRealm,
-                           @Value("${keycloak.admin-client-id}") String adminClientId,
-                           @Value("${keycloak.normal-client-id}") String normalClientId,
-                           @Value("${keycloak.admin-username}") String adminUsername,
-                           @Value("${keycloak.admin-password}") String adminPassword) {
+    public UserService(@Value("${keycloak.server-url}") String keycloakUrl,
+                       @Value("${keycloak.realm}") String realm,
+                       @Value("${keycloak.admin-realm}") String adminRealm,
+                       @Value("${keycloak.admin-client-id}") String adminClientId,
+                       @Value("${keycloak.normal-client-id}") String normalClientId,
+                       @Value("${keycloak.admin-username}") String adminUsername,
+                       @Value("${keycloak.admin-password}") String adminPassword) {
         this.keycloakUrl = keycloakUrl;
         this.adminRealm = adminRealm;
         this.realm = realm;
