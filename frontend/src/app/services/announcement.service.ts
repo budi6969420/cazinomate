@@ -11,11 +11,16 @@ export class AnnouncementService{
   private announcements: AnnouncementModel[] = [];
 
   constructor(private gameService: GameMetadataService) {
-    this.gameService.dataLoaded$.subscribe(
-      data => {
-        this.createAnnouncements(data);
-      }
-    );
+    if (this.gameService.gameMetadatas == null || this.gameService.gameMetadatas.length === 0) {
+      this.gameService.dataLoaded$.subscribe(
+        data => {
+          this.createAnnouncements(data);
+        }
+      );
+    }
+    else {
+      this.createAnnouncements(this.gameService.gameMetadatas);
+    }
   }
 
   public getAnnouncements(): AnnouncementModel[] {
