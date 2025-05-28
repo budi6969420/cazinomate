@@ -2,9 +2,10 @@ import {Injectable, Type} from '@angular/core';
 import { HttpClient } from "@angular/common/http";
 import { Observable, ReplaySubject } from "rxjs";
 import { GameMetadata } from "../models/gameMetadata";
-import {CrossyRoadGangBangComponent} from "../games/crossy-road-gang-bang/crossy-road-gang-bang.component";
-import {TheLuckyCrewmateComponent} from "../games/the-lucky-crewmate/the-lucky-crewmate.component";
 import {environment} from "../../environments/environment";
+import {IGame} from "../games/base-game/IGame";
+import {CrossyRoadGame} from "../games/crossy-road/crossyRoadGame";
+import {GameConstants} from "../games/gameConstants";
 
 @Injectable({
   providedIn: 'root'
@@ -12,13 +13,11 @@ import {environment} from "../../environments/environment";
 export class GameMetadataService {
   private apiUrl = environment.backendApiUrl + 'game';
   gameMetadatas: GameMetadata[] = [];
+  gameObjects: IGame[] = [
+    new CrossyRoadGame(GameConstants.APP_LOGICAL_HEIGHT, GameConstants.APP_LOGICAL_WIDTH),
+  ]
   private dataLoadedSubject = new ReplaySubject<GameMetadata[]>(1);
   public dataLoaded$: Observable<GameMetadata[]> = this.dataLoadedSubject.asObservable();
-
-  public gameComponentRegistry = new Map<string, Type<any>>([
-    ['39c63177-b7ad-478b-a009-69b8fa043e6f', CrossyRoadGangBangComponent],
-    ['92ed9e52-afd8-49a5-8b09-d7a049783725', TheLuckyCrewmateComponent]
-  ]);
 
   constructor(private http: HttpClient) {
     this.getGameMetadatas().subscribe({
@@ -33,5 +32,9 @@ export class GameMetadataService {
 
   private getGameMetadatas(): Observable<GameMetadata[]> {
     return this.http.get<GameMetadata[]>(this.apiUrl);
+  }
+
+  getGameObject(gameId: string): IGame | undefined {
+    return this.gameObjects.find(game => game.getId() === gameId);
   }
 }
