@@ -1,70 +1,115 @@
-# Casino Application
+# Casino-Anwendung
 
-This is a casino application with a Spring Boot backend and React frontend.
+Dies ist eine Casino-Anwendung mit einem Spring Boot Backend und einem React Frontend.
 
-## Prerequisites
+Läuft aktuell auf: https://cazinomate.de
 
-- Docker and Docker Compose
-- Java 17 or higher
-- Node.js and npm
-- Make
+## Voraussetzungen
 
-## Available Make Commands
+* Docker und Docker Compose
+* Java 17 oder höher
+* Node.js und npm
+* Make
 
-### Start the Application
+## Verfügbare Make-Befehle
+
+### Anwendung starten
+
 ```bash
 make start
 ```
-This command will:
-- Clean up any existing processes and logs
-- Start the Docker services
-- Wait for the Keycloak database to be healthy
-- Start the Spring Boot backend
-- Start the React frontend
-- Create a new timestamped log file
 
-### View Logs
+Alias für `make start-local`. Dieser Befehl führt Folgendes aus:
+
+* Startet die Lade-Seite (`loading-next`)
+* Startet die Docker-Dienste
+* Wartet, bis die Keycloak-Datenbank bereit ist
+* Startet das Spring Boot Backend
+* Startet das React Frontend im Entwicklungsmodus
+* Erstellt eine neue Logdatei mit Zeitstempel und verlinkt sie als `casino.log`
+
+### Nur Lade-Seite starten
+
+```bash
+make start-loading
+```
+
+Startet nur die Lade-Seite. Installiert bei Bedarf automatisch Abhängigkeiten und baut das Projekt.
+
+### Auf Server deployen
+
+```bash
+make deploy-server
+```
+
+Führt einen Produktions-Deployment-Prozess aus:
+
+* Installiert und baut die Lade-Seite
+* Baut das Backend als Spring Boot JAR
+* Installiert und baut das Frontend im Produktionsmodus (mittels Angular CLI)
+
+### Logs anzeigen
+
 ```bash
 make logs
 ```
-Shows the live application logs. The logs are written to a timestamped file (e.g., `casino_20240315_123456.log`) and symlinked to `casino.log` for easy access.
 
-### Stop the Application
+Zeigt die Live-Anwendungs-Logs an. Die Logs werden in einer Datei mit Zeitstempel gespeichert (z. B. `casino_20240315_123456.log`) und über einen Symlink als `casino.log` verfügbar gemacht.
+
+### Anwendung stoppen
+
 ```bash
 make stop
 ```
-This will:
-- Stop all running services
-- Clean up all log files
-- Stop Docker containers
 
-### Clean Everything
+Dieser Befehl:
+
+* Stoppt die Lade-Seite, das Frontend und das Backend
+* Stoppt alle Docker-Container
+* Löscht alle Logdateien
+
+### Alles bereinigen
+
 ```bash
 make clean
 ```
-This is a more thorough cleanup that:
-- Stops all services (calls `make stop`)
-- Kills any remaining backend or frontend processes
-- Removes all log files
 
-## Log Files
+Dies ist eine gründlichere Bereinigung, die:
 
-- Log files are created with timestamps (e.g., `casino_20240315_123456.log`)
-- The latest log is always available at `casino.log`
-- Logs are automatically cleaned up when stopping the application
-- You can view live logs using `make logs`
+* Alle Dienste stoppt (`make stop` wird aufgerufen)
+* Übrig gebliebene Backend- oder Frontend-Prozesse beendet
+* Alle Logdateien entfernt
 
-## Development
+## Logdateien
 
-The application consists of:
-- Backend: Spring Boot application in the `backend` directory
-- Frontend: React application in the `frontend` directory
-- Docker services: Configuration in the `docker` directory
+* Logdateien werden mit Zeitstempel erstellt (z. B. `casino_20240315_123456.log`)
+* Die aktuellste Logdatei ist immer über `casino.log` verfügbar
+* Beim Stoppen der Anwendung werden Logs automatisch gelöscht
+* Mit `make logs` können Live-Logs angezeigt werden
 
-## Troubleshooting
+## Entwicklung
 
-If you encounter any issues:
-1. Run `make clean` to ensure a clean state
-2. Check the logs using `make logs`
-3. Ensure all prerequisites are installed
-4. Verify Docker services are running properly 
+Die Anwendung besteht aus:
+
+* **Backend**: Spring Boot Anwendung im Verzeichnis `backend`
+  → Läuft auf [http://localhost:8080](http://localhost:8080)
+
+* **Frontend**: React Anwendung im Verzeichnis `frontend`
+  → Läuft im Entwicklungsmodus auf [http://localhost:4200](http://localhost:4200)
+
+* **Lade-Seite**: Next.js App im Verzeichnis `loading-next`
+  → Läuft auf [http://localhost:3000](http://localhost:3000)
+
+* **Keycloak** (Docker-Dienst)
+  → Erreichbar über [http://localhost:9090](http://localhost:9090)
+
+* **Docker-Dienste**: Konfiguration im Verzeichnis `docker`
+
+## Fehlerbehebung
+
+Wenn Probleme auftreten:
+
+1. Führe `make clean` aus, um einen sauberen Zustand herzustellen
+2. Überprüfe die Logs mit `make logs`
+3. Stelle sicher, dass alle Voraussetzungen installiert sind
+4. Überprüfe, ob die Docker-Dienste ordnungsgemäß laufen
