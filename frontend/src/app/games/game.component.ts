@@ -7,9 +7,9 @@ import { IGame } from "./base-game/IGame";
 import { CrossyRoadGame } from "./crossy-road/crossyRoadGame";
 import { ControlBar } from "./base-game/elements/controlBar";
 import {KeycloakAuthService} from "../services/keycloak-auth.service";
+import {UserService} from "../services/user.service";
 import {GameMetadataService} from "../services/game-metadata.service";
 import {GameConstants} from "./gameConstants";
-
 
 @Component({
   selector: 'app-game',
@@ -37,8 +37,7 @@ export class GameComponent implements OnInit, OnDestroy {
   private currentGameSpecificAssetPath!: string;
   private currentManifestUrl!: string;
 
-  constructor(private elementRef: ElementRef<HTMLElement>, private keycloakService: KeycloakAuthService, private gameMetadataService: GameMetadataService) { }
-
+  constructor(private elementRef: ElementRef<HTMLElement>, private keycloakService: KeycloakAuthService,private userService: UserService, private gameMetadataService: GameMetadataService) { }
   async ngOnInit(): Promise<void> {
     extensions.add(soundAsset)
 
@@ -145,7 +144,7 @@ export class GameComponent implements OnInit, OnDestroy {
       return;
     }
 
-    this.controlBar = new ControlBar(this.game, await this.keycloakService.getToken());
+    this.controlBar = new ControlBar(this.game, this.userService, await this.keycloakService.getToken());
 
     //@ts-ignore
     this.app.stage.addChild(this.game as Container<any>);

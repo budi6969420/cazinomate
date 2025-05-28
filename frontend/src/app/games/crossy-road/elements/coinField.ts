@@ -1,4 +1,5 @@
 import {Container} from "pixi.js";
+import {gsap} from "gsap";
 import {CoinFieldBase} from "./coinFieldBase";
 import {CoinFieldDeath} from "./coinFieldDeath";
 import {CoinFieldVisited} from "./coinFieldVisited";
@@ -20,21 +21,41 @@ export class CoinField extends Container {
     this.addChild(this.coinField);
   }
 
-  setToDeath(){
-    this.removeChild(this.coinField);
-    this.coinField = new CoinFieldDeath(this.text);
-    this.addChild(this.coinField);
+  async setToDeath(){
+    let newCoinField = new CoinFieldDeath(this.text);
+    return this.replace(this.coinField, newCoinField);
   }
 
-  setToVisited(){
-    this.removeChild(this.coinField);
-    this.coinField = new CoinFieldVisited(this.text);
-    this.addChild(this.coinField);
+  async setToVisited(){
+    let newCoinField = new CoinFieldVisited(this.text);
+    return this.replace(this.coinField, newCoinField);
   }
 
-  setToDefault(){
+  async setToDefault(){
     this.removeChild(this.coinField);
     this.coinField = new CoinFieldDefault(this.text);
     this.addChild(this.coinField);
   }
+
+  async replace(oldCoinField: CoinFieldBase, newCoinField: CoinFieldBase){
+    this.coinField = newCoinField;
+
+    await gsap.to(oldCoinField, {
+      height: oldCoinField.height * 0.5,
+      width: oldCoinField.width * 0.5,
+      duration: 0.5,
+      ease: "power3.in"
+    })
+
+    this.removeChild(oldCoinField)
+    this.addChild(newCoinField)
+
+    await gsap.from(newCoinField, {
+      height: oldCoinField.height * 0.5,
+      width: oldCoinField.width * 0.5,
+      duration: 0.5,
+      ease: "power3.out"
+    })
+  }
+
 }

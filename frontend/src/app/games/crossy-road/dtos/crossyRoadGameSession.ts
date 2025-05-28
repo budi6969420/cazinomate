@@ -1,10 +1,10 @@
 import {BaseGameSession} from "../../base-game/dtos/BaseGameSession";
 import {GameDifficulty} from "../../base-game/enums/gameDifficulty";
-import {GameState} from "../../base-game/enums/gameState";
 
 export class CrossyRoadGameSession extends BaseGameSession {
   public currentIndex:number;
   public prizeIndexValues: number[];
+  public wouldHaveLostAtIndex: number;
 
   constructor(id: string,
               gameId: string,
@@ -14,9 +14,11 @@ export class CrossyRoadGameSession extends BaseGameSession {
               difficulty: GameDifficulty,
               currentIndex: number,
               balanceDifference: number,
-              prizeIndexValues: number[]) {
+              prizeIndexValues: number[],
+              wouldHaveLostAtIndex: number) {
     super(id, gameId, userId, investedBalance, balanceDifference, gameState, difficulty);
     this.currentIndex = currentIndex;
     this.prizeIndexValues = prizeIndexValues;
+    this.wouldHaveLostAtIndex = wouldHaveLostAtIndex;
   }
 }

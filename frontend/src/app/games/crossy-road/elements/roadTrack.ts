@@ -100,8 +100,13 @@ export class RoadTrack extends Container {
     return this.car.killChicken();
   }
 
-  public setToVisited(){
-    this.coinField.setToVisited();
+  async setToVisited(){
+    await this.coinField.setToVisited();
+    this.setIsBlocked(false);
+  }
+
+  async setToDeath(){
+    await this.coinField.setToDeath();
     this.setIsBlocked(false);
   }
 }
