@@ -1,6 +1,6 @@
 # Casino-Anwendung
 
-Dies ist eine Casino-Anwendung mit einem Spring Boot Backend und einem React Frontend.
+Dies ist eine Casino-Anwendung mit einem Spring Boot Backend und einem Angular Frontend.
 
 Läuft aktuell auf: https://cazinomate.de
 
