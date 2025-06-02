@@ -94,7 +94,7 @@ Die Anwendung besteht aus:
 * **Backend**: Spring Boot Anwendung im Verzeichnis `backend`
   → Läuft auf [http://localhost:8080](http://localhost:8080)
 
-* **Frontend**: React Anwendung im Verzeichnis `frontend`
+* **Frontend**: Angular Anwendung im Verzeichnis `frontend`
   → Läuft im Entwicklungsmodus auf [http://localhost:4200](http://localhost:4200)
 
 * **Lade-Seite**: Next.js App im Verzeichnis `loading-next`
