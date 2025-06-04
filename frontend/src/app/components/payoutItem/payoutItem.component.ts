@@ -7,7 +7,8 @@ import {UserService} from "../../services/user.service";
   selector: 'app-payoutItem',
   standalone: true,
   imports: [
-    NgClass
+    NgClass,
+    DecimalPipe
   ],
   templateUrl: './payoutItem.component.html',
   styleUrl: './payoutItem.component.scss'

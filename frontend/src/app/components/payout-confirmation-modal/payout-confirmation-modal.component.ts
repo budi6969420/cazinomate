@@ -3,11 +3,14 @@ import {PayoutItemService} from "../../services/payout-item.service";
 import {PayoutItemModel} from "../../models/payoutItemModel";
 import {PayoutSuccessfulResponseModel} from "../../models/payoutSuccessfulResponseModel";
 import {UserService} from "../../services/user.service";
+import {DecimalPipe} from "@angular/common";
 
 @Component({
   selector: 'app-payout-confirmation-modal',
   standalone: true,
-  imports: [],
+  imports: [
+    DecimalPipe
+  ],
   templateUrl: './payout-confirmation-modal.component.html',
   styleUrl: './payout-confirmation-modal.component.scss'
 })
