@@ -6,5 +6,5 @@ import java.util.List;
 
 public interface ITransactionRepository extends JpaRepository<TransactionModel, Long> {
 
-    List<TransactionModel> findByUserId(String userId);
+    List<TransactionModel> findByUserIdOrderByDateDesc(String userId);
 }
