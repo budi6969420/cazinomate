@@ -73,9 +73,9 @@ public class CrossyRoadGangBangSessionService extends BaseGameSessionService<Cro
     private Boolean hasLost(GameDifficulty difficulty) {
 
         double r = switch (difficulty) {
-            case EASY -> 0.1;
-            case NORMAL -> 0.2;
-            case HARD -> 0.3;
+            case EASY -> 0.05;
+            case NORMAL -> 0.1;
+            case HARD -> 0.15;
         };
         return Math.random() < r;
     }

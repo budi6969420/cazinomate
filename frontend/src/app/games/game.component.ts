@@ -114,6 +114,7 @@ export class GameComponent implements OnInit, OnDestroy {
     if (!this.loadedManifest) {
       throw new Error("Cannot initialize PIXI.Assets: Manifest not loaded.");
     }
+    Assets.reset();
     await Assets.init({
       manifest: this.loadedManifest,
       basePath: this.currentGameSpecificAssetPath
@@ -148,7 +149,9 @@ export class GameComponent implements OnInit, OnDestroy {
 
     //@ts-ignore
     this.app.stage.addChild(this.game as Container<any>);
-    this.app.stage.addChild(this.controlBar)
+    if (this.game.getIsGamePlayable()) {
+      this.app!.stage.addChild(this.controlBar)
+    }
     this.controlBar.findAndStartActiveGameSession();
 
     document.addEventListener('keydown', (event: KeyboardEvent) => {
