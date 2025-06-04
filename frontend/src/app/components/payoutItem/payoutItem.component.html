@@ -21,7 +21,7 @@
     </div>
 
     <div class="container-price">
-      <label class="price">{{ payoutItem.cost }}</label>
+      <label class="price">{{ payoutItem.cost | number: '1.0-0' }}</label>
       <img src="/images/coin.png">
     </div>
   </div>
