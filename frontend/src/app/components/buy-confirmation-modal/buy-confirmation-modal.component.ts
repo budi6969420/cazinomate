@@ -2,17 +2,20 @@ import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {PaymentLinkCreationOptionsModel} from "../../models/PaymentLinkCreationOptions";
 import {ShopPackageService} from "../../services/shopPackage.service";
 import {ShopPackage} from "../../models/shopPackage";
+import {DecimalPipe} from "@angular/common";
 
 @Component({
   selector: 'app-buy-confirmation-modal',
   standalone: true,
-  imports: [],
+  imports: [
+    DecimalPipe
+  ],
   templateUrl: './buy-confirmation-modal.component.html',
   styleUrl: './buy-confirmation-modal.component.scss'
 })
 export class BuyConfirmationModalComponent {
 
-  @Input() product: ShopPackage | null = null;
+  @Input() product!: ShopPackage;
   @Output() confirmationClosed = new EventEmitter();
 
   constructor(private packageService: ShopPackageService) {

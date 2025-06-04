@@ -29,11 +29,16 @@ public class SlotsGame extends BaseGame {
 
     @Override
     public String getLoadingIconUrl() {
-        return "/images/cazinomate-logo.svg";
+        return "https://cdn.budidev.de/3655d";
     }
 
     @Override
     public String getPreviewHexColor() {
         return "#EE0D0D";
+    }
+
+    @Override
+    public boolean getIsPlayable() {
+        return false;
     }
 }

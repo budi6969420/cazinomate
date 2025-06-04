@@ -1,0 +1,13 @@
+{
+  "bundles":[
+    {
+      "name":"backgrounds",
+      "assets":[
+        {
+          "alias": "under_construction",
+          "src": "./images/under-construction-background.png"
+        }
+      ]
+    }
+  ]
+}

@@ -22,10 +22,10 @@ public class TransactionService {
     }
 
     public int GetUserBalance(String userId) {
-        return transactionRepository.findByUserId(userId).stream().mapToInt(TransactionModel::getAmount).sum();
+        return transactionRepository.findByUserIdOrderByDateDesc(userId).stream().mapToInt(TransactionModel::getAmount).sum();
     }
 
     public List<TransactionModel> getUserTransactions(String userId) {
-        return transactionRepository.findByUserId(userId);
+        return transactionRepository.findByUserIdOrderByDateDesc(userId);
     }
 }

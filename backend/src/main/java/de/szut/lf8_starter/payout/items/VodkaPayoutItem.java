@@ -15,7 +15,7 @@ public class VodkaPayoutItem extends BasePayoutItem {
 
     @Override
     public int getCost() {
-        return 700;
+        return 950;
     }
 
     @Override
