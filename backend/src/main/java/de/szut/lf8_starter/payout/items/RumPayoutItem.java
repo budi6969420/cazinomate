@@ -15,7 +15,7 @@ public class RumPayoutItem extends BasePayoutItem {
 
     @Override
     public int getCost() {
-        return 900;
+        return 1250 ;
     }
 
     @Override

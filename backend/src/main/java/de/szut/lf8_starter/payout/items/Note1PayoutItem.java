@@ -2,24 +2,24 @@ package de.szut.lf8_starter.payout.items;
 
 import de.szut.lf8_starter.payout.BasePayoutItem;
 
-public class BeerPackPayoutItem extends BasePayoutItem {
+public class Note1PayoutItem extends BasePayoutItem {
     @Override
     public String getId() {
-        return "ea8b2ebd-7f9c-425d-872a-abbb8277e790";
+        return "1a711347-dbf7-416b-8a1f-877128617499";
     }
 
     @Override
     public String getName() {
-        return "6er Bier";
+        return "Note 1";
     }
 
     @Override
     public int getCost() {
-        return 550;
+        return 9999;
     }
 
     @Override
     public String getImageUrl() {
-        return "https://cdn.budidev.de/efb25";
+        return "https://cdn.budidev.de/b37c5";
     }
 }
