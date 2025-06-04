@@ -1,4 +1,8 @@
 .popup {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
   position: fixed;
   top: 50%;
   left: 50%;
@@ -9,12 +13,13 @@
   border-radius: 10px;
   text-align: center;
   width: 300px;
-  height: 80px;
-  min-height: 80px;
+  height: 300px;
+  min-height: 300px;
   transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
   z-index: 999;
 }
 .popup button {
+  width: 100%;
   margin: 10px;
   padding: 10px 20px;
   border: none;
@@ -25,12 +30,8 @@
 }
 
 .yes-btn {
-  background: green;
-  color: white;
-}
-
-.yes-btn:hover {
-  background: darkgreen;
+  background: white;
+  color: black;
 }
 
 .no-btn {
@@ -39,7 +40,8 @@
 }
 
 .no-btn:hover {
-  background: darkred;
+  background: transparent;
+  color: white;
 }
 
 .popup {
@@ -50,3 +52,18 @@
     text-align: center;
   }
 }
+
+img {
+  width: 75px;
+  height: 75px;
+  margin-bottom: 10px;
+}
+
+hr {
+
+  border: none;
+  width: 100%;
+  border-top: 1px solid dimgrey;
+}
+
+
