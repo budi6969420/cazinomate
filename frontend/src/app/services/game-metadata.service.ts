@@ -6,6 +6,7 @@ import {environment} from "../../environments/environment";
 import {IGame} from "../games/base-game/IGame";
 import {CrossyRoadGame} from "../games/crossy-road/crossyRoadGame";
 import {GameConstants} from "../games/gameConstants";
+import {SlotsGame} from "../games/the-lucky-crewmate/slotsGame";
 
 @Injectable({
   providedIn: 'root'
@@ -15,6 +16,7 @@ export class GameMetadataService {
   gameMetadatas: GameMetadata[] = [];
   gameObjects: IGame[] = [
     new CrossyRoadGame(GameConstants.APP_LOGICAL_HEIGHT, GameConstants.APP_LOGICAL_WIDTH),
+    new SlotsGame(GameConstants.APP_LOGICAL_HEIGHT, GameConstants.APP_LOGICAL_WIDTH)
   ]
   private dataLoadedSubject = new ReplaySubject<GameMetadata[]>(1);
   public dataLoaded$: Observable<GameMetadata[]> = this.dataLoadedSubject.asObservable();

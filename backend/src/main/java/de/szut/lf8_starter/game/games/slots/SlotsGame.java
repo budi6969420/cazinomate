@@ -29,7 +29,7 @@ public class SlotsGame extends BaseGame {
 
     @Override
     public String getLoadingIconUrl() {
-        return "/images/cazinomate-logo.svg";
+        return "https://cdn.budidev.de/3655d";
     }
 
     @Override
