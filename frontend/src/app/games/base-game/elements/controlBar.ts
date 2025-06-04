@@ -231,7 +231,7 @@ export class ControlBar extends Container {
   private _createAktuellerGewinnSection(): Container<any> {
     const section = new Container();
 
-    const label = new Text('Aktueller Gewinn €', this.labelStyle);
+    const label = new Text('Aktueller Gewinn', this.labelStyle);
     section.addChild(label);
 
     const displayBgWidth = 450;
