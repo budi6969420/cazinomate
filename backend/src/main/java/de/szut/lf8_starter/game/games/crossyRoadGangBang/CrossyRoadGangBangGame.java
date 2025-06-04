@@ -57,6 +57,11 @@ public class CrossyRoadGangBangGame extends BaseGame {
     }
 
     @Override
+    public boolean getIsPlayable() {
+        return true;
+    }
+
+    @Override
     public String getPreviewImageUrl() {
         return "https://cdn.budidev.de/43f81";
     }

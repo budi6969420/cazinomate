@@ -15,4 +15,5 @@ public class GameMetadata {
     private String previewImageUrl;
     private String loadingIconUrl;
     private String previewHexColor;
+    private boolean isPlayable;
 }

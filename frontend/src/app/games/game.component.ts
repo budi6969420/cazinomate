@@ -149,7 +149,7 @@ export class GameComponent implements OnInit, OnDestroy {
 
     //@ts-ignore
     this.app.stage.addChild(this.game as Container<any>);
-    if (this.game.getIsGamePlayable()) {
+    if (this.gameMetaData.playable) {
       this.app!.stage.addChild(this.controlBar)
     }
     this.controlBar.findAndStartActiveGameSession();

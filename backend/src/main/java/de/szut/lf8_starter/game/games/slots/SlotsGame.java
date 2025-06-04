@@ -36,4 +36,9 @@ public class SlotsGame extends BaseGame {
     public String getPreviewHexColor() {
         return "#EE0D0D";
     }
+
+    @Override
+    public boolean getIsPlayable() {
+        return false;
+    }
 }
