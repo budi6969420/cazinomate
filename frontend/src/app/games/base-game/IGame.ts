@@ -15,6 +15,7 @@ export interface IGame{
   getId(): string;
   getGameState(): GameState;
   getCurrentGains(): number;
+  getIsGamePlayable(): boolean;
 
   setGameState(gameState: GameState): void;
   setCurrentGains(gains: number): void;
