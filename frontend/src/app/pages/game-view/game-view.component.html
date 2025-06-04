@@ -2,32 +2,33 @@
   <app-game-wrapper [gameMetadata]="gameMetadata" class="game-view"></app-game-wrapper>
   <app-adBar/>
 
-  <div class="description">
-    <img [src]="gameMetadata.previewImageUrl">
+  @if (gameMetadata.playable) {
+    <div class="description">
+      <img [src]="gameMetadata.previewImageUrl">
 
-    <h1>{{gameMetadata.title}}</h1>
-    <h4>So funktioniert's:</h4>
-    <ol>
-    @for (headeredText of gameMetadata.description; track headeredText.title) {
-      <li>
-        <h5>{{headeredText.title}}</h5>
-        @if (headeredText.content == null) {}
-        @else if (headeredText.content.length > 1) {
-          <ul>
-            @for (message of headeredText.content; track message) {
-              <li>{{message}}</li>
+      <h1>{{gameMetadata.title}}</h1>
+      <h4>So funktioniert's:</h4>
+      <ol>
+        @for (headeredText of gameMetadata.description; track headeredText.title) {
+          <li>
+            <h5>{{headeredText.title}}</h5>
+            @if (headeredText.content == null) {}
+            @else if (headeredText.content.length > 1) {
+              <ul>
+                @for (message of headeredText.content; track message) {
+                  <li>{{message}}</li>
+                }
+              </ul>
+            } @else {
+              <p>{{ headeredText.content ? headeredText.content : [0]}}</p>
             }
-          </ul>
-        } @else {
-          <p>{{ headeredText.content ? headeredText.content : [0]}}</p>
+          </li>
         }
-      </li>
-    }
-    </ol>
+      </ol>
 
-    <h4>
-      {{gameMetadata.lovelyDescriptionMessage}}
-    </h4>
-  </div>
-
+      <h4>
+        {{gameMetadata.lovelyDescriptionMessage}}
+      </h4>
+    </div>
+  }
 </main>
