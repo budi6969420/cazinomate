@@ -1,10 +1,11 @@
-import {Container} from "pixi.js";
+import {Container, Ticker} from "pixi.js";
 import {IGame} from "../base-game/IGame";
 import {BaseGameSession} from "../base-game/dtos/BaseGameSession";
 import {GameState} from "../base-game/enums/gameState";
 import {Interaction} from "../base-game/enums/interaction";
 import {Playground} from "./elements/playground";
 import {EndDialogue} from "./elements/endDialogue";
+import {CrossyRoadGameSession} from "../crossy-road/dtos/crossyRoadGameSession";
 
 export class CoinFlipGame extends Container implements IGame {
 
@@ -13,6 +14,7 @@ export class CoinFlipGame extends Container implements IGame {
 
   private gameState: GameState = GameState.INACTIVE;
   private currentGains: number = 0;
+  private gameWasAlreadyInitialisedBefore = false;
 
   private playgroundScreen!: Playground;
   private endDialogueScreen!: EndDialogue;
@@ -25,9 +27,28 @@ export class CoinFlipGame extends Container implements IGame {
   }
 
   start(gameSession?: BaseGameSession): void {
+    if (this.playgroundScreen){
+      this.removeChild(this.playgroundScreen);
+      this.playgroundScreen.destroy();
+    }
+
+    this.playgroundScreen = new Playground(this);
+    this.addChild(this.playgroundScreen);
+
+    if(!this.gameWasAlreadyInitialisedBefore){
+      this.endDialogueScreen = new EndDialogue();
+      this.addChild(this.endDialogueScreen);
+
+      Ticker.shared.add(this.gameStateCheckingLoop, this);
+      this.gameWasAlreadyInitialisedBefore = true;
+    }
   }
 
   end(gameSession: BaseGameSession): void {
+  }
+
+  gameStateCheckingLoop() {
+
   }
 
   getCurrentGains(): number {
@@ -50,8 +71,15 @@ export class CoinFlipGame extends Container implements IGame {
     return "coin-flip";
   }
 
-  processInteraction(interaction: Interaction, gameSession: BaseGameSession): Promise<void> {
-    return Promise.resolve(undefined);
+  getIsGamePlayable(): boolean {
+    return true;
+  }
+
+  async processInteraction(interaction: Interaction, gameSession: BaseGameSession){
+    switch(interaction) {
+      case Interaction.PLAY:
+        return await this.playgroundScreen.flipCoin(gameSession as CrossyRoadGameSession);
+    }
   }
 
   setCurrentGains(gains: number): void {
