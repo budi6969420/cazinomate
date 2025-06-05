@@ -67,7 +67,4 @@ public class CoinFlipGame extends BaseGame {
     public boolean getIsPlayable() {
         return true;
     }
-
-    @Override
-    public boolean getIsPlayable() { return true; }
 }
