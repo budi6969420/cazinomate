@@ -36,4 +36,7 @@ public class CoinFlipGame extends BaseGame {
     public String getPreviewHexColor() {
         return "#2A03C7";
     }
+
+    @Override
+    public boolean getIsPlayable() { return true; }
 }
