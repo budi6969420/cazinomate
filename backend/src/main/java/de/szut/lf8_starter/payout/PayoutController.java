@@ -19,13 +19,20 @@ public class PayoutController {
     private final TransactionService transactionService;
     private final KeycloakService keycloakService;
     private final ICouponCodeGenerator couponCodeGenerator;
+    private final PayoutReceiptEmailSendingService payoutReceiptEmailSendingService;
 
-    public PayoutController(PayoutItemService payoutItemService, JwtService jwtService, TransactionService transactionService, KeycloakService keycloakService, @Qualifier("mock") ICouponCodeGenerator couponCodeGenerator) {
+    public PayoutController(PayoutItemService payoutItemService,
+                            JwtService jwtService,
+                            TransactionService transactionService,
+                            KeycloakService keycloakService,
+                            @Qualifier("mock") ICouponCodeGenerator couponCodeGenerator,
+                            PayoutReceiptEmailSendingService payoutReceiptEmailSendingService) {
         this.payoutItemService = payoutItemService;
         this.jwtService = jwtService;
         this.transactionService = transactionService;
         this.keycloakService = keycloakService;
         this.couponCodeGenerator = couponCodeGenerator;
+        this.payoutReceiptEmailSendingService = payoutReceiptEmailSendingService;
     }
 
     @GetMapping()
@@ -46,6 +53,9 @@ public class PayoutController {
         if (!transactionService.TryAddTransaction(user.getId(), -item.getCost(), TransactionCategory.Payment, "1x ".concat(item.getName()).concat(": ").concat(code))) {
             return ResponseEntity.badRequest().build();
         }
+
+        var emailModel = new PayoutItemCouponModel(code, item);
+        this.payoutReceiptEmailSendingService.sendEmail(emailModel, user, "Auszahlung");
 
         var response = new PayoutSuccessfulResponseDto(code);
 
