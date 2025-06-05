@@ -1,7 +1,12 @@
 package de.szut.lf8_starter.user;
 
 
+import com.stripe.model.Price;
+import com.stripe.model.Product;
+import de.szut.lf8_starter.product.ProductPurchasedReceiptEmailSendingService;
+import de.szut.lf8_starter.product.ProductWithPriceModel;
 import de.szut.lf8_starter.transaction.BalanceDto;
+import de.szut.lf8_starter.transaction.StripeService2ElectricBoogaloo;
 import de.szut.lf8_starter.transaction.TransactionDto;
 import de.szut.lf8_starter.transaction.TransactionService;
 import de.szut.lf8_starter.user.dto.ChangePasswordDto;
@@ -37,7 +42,7 @@ public class UserController {
     @GetMapping("/self/transactions")
     public ResponseEntity<List<TransactionDto>> getSelfTransactions(
             @RequestHeader(value = "Authorization", required = false) String authorizationHeader) throws Exception {
-        return ResponseEntity.ok(transactionService
+                return ResponseEntity.ok(transactionService
                 .getUserTransactions(jwtService.decodeId(authorizationHeader))
                 .stream()
                 .map(TransactionDto::new)
