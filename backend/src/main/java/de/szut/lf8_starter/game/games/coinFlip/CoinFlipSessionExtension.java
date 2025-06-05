@@ -14,4 +14,5 @@ import java.util.List;
 public class CoinFlipSessionExtension implements BaseSessionExtension {
     @Id
     private String sessionId;
+    private int balanceDifference;
 }

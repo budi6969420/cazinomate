@@ -1,6 +1,27 @@
 {
   "bundles":[
     {
+      "name":"end_dialogue",
+      "assets":[
+        {
+          "alias": "texture_background_dialogue_game_lost",
+          "src": "./images/background_dialogue_game_lost.png"
+        },
+        {
+          "alias": "texture_background_dialogue_game_won",
+          "src": "./images/background_dialogue_game_won.png"
+        },
+        {
+          "alias": "texture_dialogue_floating_sprite_lost",
+          "src": "./images/dialogue_floating_sprite_lost.png"
+        },
+        {
+          "alias": "texture_dialogue_floating_sprite_won",
+          "src": "./images/dialogue_floating_sprite_won.png"
+        }
+      ]
+    },
+    {
       "name":"coin",
       "assets":[
         {

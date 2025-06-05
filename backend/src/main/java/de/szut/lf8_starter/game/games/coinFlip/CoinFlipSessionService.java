@@ -26,7 +26,9 @@ public class CoinFlipSessionService extends BaseGameSessionService<CoinFlipSessi
                 }
                 else {
                     baseSession.setGameState(GameState.WON);
-                    addBalanceToUser(baseSession.getUserId(), getPrize(baseSession.getInvestedBalance(), baseSession.getDifficulty()), getGame().getTitle() + " game won");
+                    var prize = getPrize(baseSession.getInvestedBalance(), baseSession.getDifficulty());
+                    extension.setBalanceDifference(prize);
+                    addBalanceToUser(baseSession.getUserId(), prize, getGame().getTitle() + " game won");
                 }
             }
 
@@ -49,6 +51,7 @@ public class CoinFlipSessionService extends BaseGameSessionService<CoinFlipSessi
     protected CoinFlipSessionExtension createDefaultExtension(BaseSession baseSession) {
         var extension = new CoinFlipSessionExtension();
         extension.setSessionId(baseSession.getId());
+        extension.setBalanceDifference(baseSession.getInvestedBalance());
 
         return extension;
     }
