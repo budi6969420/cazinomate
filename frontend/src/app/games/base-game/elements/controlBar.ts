@@ -52,6 +52,14 @@ export class ControlBar extends Container {
     align: 'center',
   });
 
+  private valueStyle2 = new TextStyle({
+    fontFamily: 'Arial, sans-serif',
+    fontSize: 45,
+    fontWeight: 'bold',
+    fill: "#fff",
+    align: 'center',
+  });
+
   constructor(game: IGame, userService: UserService, apiToken: string) {
     super();
     this.game = game;
@@ -84,10 +92,12 @@ export class ControlBar extends Container {
   }
 
   private currentGainsUpdater(){
-    if(isNaN(this.currentGains)){
-      this.currentGainsText.text = "+ 0"
+    if(isNaN(this.currentGains) || this.currentGains == 0){
+      this.currentGainsText.text = "0"
+      this.currentGainsText.style = this.valueStyle2;
       return;
     }
+    this.currentGainsText.style = this.valueStyle;
     this.currentGainsText.text = "+ " + this.currentGains;
   }
 

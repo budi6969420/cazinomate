@@ -12,5 +12,7 @@ import java.util.List;
 public class CoinFlipSessionDto extends BaseSessionDto {
     public CoinFlipSessionDto(BaseSession baseSession, CoinFlipSessionExtension sessionExtension) {
         super(baseSession);
+        this.balanceDifference = sessionExtension.getBalanceDifference();
     }
+    private int balanceDifference;
 }

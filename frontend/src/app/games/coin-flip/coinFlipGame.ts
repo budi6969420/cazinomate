@@ -6,6 +6,7 @@ import {Interaction} from "../base-game/enums/interaction";
 import {Playground} from "./elements/playground";
 import {EndDialogue} from "./elements/endDialogue";
 import {CrossyRoadGameSession} from "../crossy-road/dtos/crossyRoadGameSession";
+import {GameConstants} from "../gameConstants";
 
 export class CoinFlipGame extends Container implements IGame {
 
@@ -47,8 +48,19 @@ export class CoinFlipGame extends Container implements IGame {
   end(gameSession: BaseGameSession): void {
   }
 
-  gameStateCheckingLoop() {
+  private gameStateCheckingLoop(){
 
+    switch(this.gameState){
+      case GameState.LOST:
+        this.endDialogueScreen.showPlayerLost();
+        break;
+      case GameState.WON:
+        this.endDialogueScreen.showPlayerWon(this.currentGains);
+        break;
+      case GameState.ACTIVE:
+        this.endDialogueScreen.hide();
+        break;
+    }
   }
 
   getCurrentGains(): number {
@@ -76,6 +88,8 @@ export class CoinFlipGame extends Container implements IGame {
   }
 
   async processInteraction(interaction: Interaction, gameSession: BaseGameSession){
+    if(this.gameState != GameState.ACTIVE) return;
+
     switch(interaction) {
       case Interaction.PLAY:
         return await this.playgroundScreen.flipCoin(gameSession as CrossyRoadGameSession);

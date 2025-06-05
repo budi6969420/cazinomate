@@ -110,5 +110,8 @@ export class Playground extends Container {
     });
 
     await moveToCenterTween;
+    setTimeout(() => {
+      gameSession.gameState == GameState[GameState.WON] ? this.game.setGameState(GameState.WON) : this.game.setGameState(GameState.LOST)
+    }, 1500);
   }
 }
