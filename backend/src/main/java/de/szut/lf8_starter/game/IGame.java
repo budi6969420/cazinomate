@@ -8,6 +8,7 @@ public interface IGame {
     String getPreviewImageUrl();
     String getLoadingIconUrl();
     String getPreviewHexColor();
+    boolean getIsPlayable();
 
     GameMetadata getMetadata();
 }

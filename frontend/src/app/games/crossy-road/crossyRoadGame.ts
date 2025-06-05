@@ -113,9 +113,6 @@ export class CrossyRoadGame extends Container implements IGame{
   public getCurrentGains(): number {
     return this.currentGains;
   }
-  getIsGamePlayable(): boolean {
-    return true;
-  }
   public setGameState(gameState: GameState) {
     this.gameState = gameState;
   }

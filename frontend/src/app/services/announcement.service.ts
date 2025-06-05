@@ -28,20 +28,25 @@ export class AnnouncementService{
   }
 
   private createAnnouncements(games: GameMetadata[]){
-    for (let metadata of games) {
+    const shuffledGames = [...games].sort(() => 0.5 - Math.random()); // create a shuffled copy
+    const selectedGames = shuffledGames.slice(0, 2)
 
-      let announcement: AnnouncementModel = new AnnouncementModel();
+    this.createAnnouncementForGame(selectedGames[0]);
+    this.announcements.push({navigationUrl: "/shop", title: "Shop", description: "Kaufen sie unsere tollen Pakete", buttonText: "Jetzt Kaufen", imageUrl: "/images/mrCrabs.svg", isGreen: true, deactivateButton: false});
+    this.createAnnouncementForGame(selectedGames[1]);
+  }
 
-      announcement.title = metadata.title;
-      announcement.description = "Empfohlen auf CazinoMate";
-      announcement.imageUrl = metadata.previewImageUrl;
-      announcement.buttonText = "Jetzt Spielen";
-      announcement.navigationUrl = "/game/" + metadata.id;
-      announcement.isGreen = false;
+  private createAnnouncementForGame(game: GameMetadata){
+    let announcement: AnnouncementModel = new AnnouncementModel();
 
-      this.announcements.push(announcement);
-    }
+    announcement.title = game.title;
+    announcement.description = game.playable ? "Empfohlen auf CazinoMate" : "Bald auf CazinoMate";
+    announcement.imageUrl = game.previewImageUrl;
+    announcement.buttonText = "Jetzt Spielen";
+    announcement.navigationUrl = "/game/" + game.id;
+    announcement.isGreen = false;
+    announcement.deactivateButton = !game.playable;
 
-    this.announcements.push({navigationUrl: "/shop", title: "Shop", description: "Kaufen sie unsere tollen Pakete", buttonText: "Jetzt Kaufen", imageUrl: "/images/mrCrabs.svg", isGreen: true});
+    this.announcements.push(announcement);
   }
 }

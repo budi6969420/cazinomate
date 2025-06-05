@@ -7,7 +7,7 @@
       <label class="label">{{announcementData.description}}</label>
     </div>
     <div>
-      <button class="button">{{announcementData.buttonText}}</button>
+      <button class="button" [disabled]="announcementData.deactivateButton">{{announcementData.buttonText}}</button>
     </div>
   </div>
   <div>
