@@ -4,7 +4,7 @@ import { GameMetadataService } from "../../services/game-metadata.service";
 import { GameMetadata } from "../../models/gameMetadata";
 import { RouterLink } from "@angular/router";
 import { Subscription } from 'rxjs';
-import {GameTileComponent} from "../../atoms/game-tile/game-tile.component";
+import {GameTileComponent} from "../game-tile/game-tile.component";
 
 @Component({
   selector: 'app-game-overview',

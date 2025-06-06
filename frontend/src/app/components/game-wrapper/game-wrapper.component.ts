@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {GameMetadata} from "../../models/gameMetadata";
-import {ProgressBarComponent} from "../../atoms/progress-bar/progress-bar.component";
+import {ProgressBarComponent} from "../progress-bar/progress-bar.component";
 import {GameComponent} from "../../games/game.component";
 
 @Component({
