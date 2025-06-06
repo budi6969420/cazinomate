@@ -33,6 +33,7 @@ export class CrossyRoadGame extends Container implements IGame{
       CrossyRoadGameVariables.GAME_SETTING_ROAD_TRACK_AMOUNT = gameSession.prizeIndexValues.length;
       CrossyRoadGameVariables.GAME_SETTING_INITIAL_CHICKEN_INDEX = gameSession.currentIndex;
       CrossyRoadGameVariables.GAME_SETTING_PRIZES_PER_FIELD = gameSession.prizeIndexValues;
+      this.currentGains = gameSession.balanceDifference - gameSession.investedBalance;
     }
 
     if (this.playgroundScreen){
@@ -57,7 +58,7 @@ export class CrossyRoadGame extends Container implements IGame{
       await this.playgroundScreen.scrollToDeathField(gameSession.wouldHaveLostAtIndex);
     }
     else{
-      this.playgroundScreen.setAllFieldsToVisited();
+      await this.playgroundScreen.setAllFieldsToVisited();
       await this.playgroundScreen.scrollToMaxWidth();
     }
     this.setGameState(GameState.WON);

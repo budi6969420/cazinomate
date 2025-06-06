@@ -23,7 +23,7 @@ export class ControlBar extends Container {
   private isGameInteractionBlocked: boolean = false;
 
   public betAmountInputIsHovered = false;
-  public mainButton!: Container<any>;
+  public mainButton: Container<any> | null = null;
 
   public currentGainsText: Text = new Text();
   private difficultyButtons: Container<any>[] = [];
@@ -106,12 +106,14 @@ export class ControlBar extends Container {
 
   private buttonUpdater(){
     if (this.game.getGameState() == GameState.ACTIVE){
-      if (this.game.getSupportsMidGamePayout() && this.game.getCurrentGains() != 0) {
+      if (this.game.getSupportsMidGamePayout() && this.game.getCurrentGains() > 0) {
         this._createGeldAuszahlenButton();
       }
       else {
-        this.mainButton.name = "noButton";
-        this.removeChild(this.mainButton);
+        if (this.mainButton) {
+          this.removeChild(this.mainButton);
+          this.mainButton = null;
+        }
       }
     }
     else{
@@ -336,8 +338,11 @@ export class ControlBar extends Container {
 
     button.position.set(this.game.GAME_WIDTH - button.width - 50, this.barHeight / 2 - button.height / 2);
 
+    if (this.mainButton) {
+      this.removeChild(this.mainButton);
+    }
+
     this.mainButton = button;
-    this.removeChild(this.mainButton);
     this.addChild(this.mainButton);
   }
 
@@ -376,8 +381,10 @@ export class ControlBar extends Container {
 
     button.position.set(this.game.GAME_WIDTH - button.width - 50, this.barHeight / 2 - button.height / 2);
 
+    if (this.mainButton) {
+      this.removeChild(this.mainButton);
+    }
     this.mainButton = button;
-    this.removeChild(this.mainButton);
     this.addChild(this.mainButton);
   }
 
