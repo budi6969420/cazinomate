@@ -1,10 +1,9 @@
 package de.szut.lf8_starter.stripeWebHook;
 
 import de.szut.lf8_starter.product.ProductPurchasedReceiptEmailSendingService;
-import de.szut.lf8_starter.transaction.StripeService2ElectricBoogaloo;
+import de.szut.lf8_starter.transaction.StripeProductService;
 import com.stripe.Stripe;
 import com.stripe.exception.SignatureVerificationException;
-import com.stripe.exception.StripeException;
 import com.stripe.model.Event;
 import com.stripe.model.checkout.Session;
 import com.stripe.net.Webhook;
@@ -21,7 +20,7 @@ import org.springframework.http.ResponseEntity;
 @RestController
 public class StripeWebHookController {
 
-    private final StripeService2ElectricBoogaloo stripeService;
+    private final StripeProductService stripeService;
     private final TransactionService transactionService;
     private final KeycloakService keycloakService;
     private final ProductPurchasedReceiptEmailSendingService productPurchasedReceiptEmailSendingService;
@@ -37,7 +36,7 @@ public class StripeWebHookController {
         Stripe.apiKey = stripeSecretKey;
     }
 
-    public StripeWebHookController(StripeService2ElectricBoogaloo stripeService, TransactionService transactionService, KeycloakService keycloakService, ProductPurchasedReceiptEmailSendingService productPurchasedReceiptEmailSendingService) {
+    public StripeWebHookController(StripeProductService stripeService, TransactionService transactionService, KeycloakService keycloakService, ProductPurchasedReceiptEmailSendingService productPurchasedReceiptEmailSendingService) {
         this.stripeService = stripeService;
         this.transactionService = transactionService;
         this.keycloakService = keycloakService;

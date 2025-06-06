@@ -11,6 +11,7 @@ import com.stripe.param.PriceListParams;
 import com.stripe.param.ProductListParams;
 import com.stripe.param.checkout.SessionCreateParams;
 import de.szut.lf8_starter.product.ProductWithPriceModel;
+import de.szut.lf8_starter.user.KeycloakService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -19,17 +20,22 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class StripeService2ElectricBoogaloo {
+public class StripeProductService {
 
+    private final KeycloakService keycloakService;
     @Value("${stripe.secret.key}")
     private String stripeSecretKey;
 
-    public StripeService2ElectricBoogaloo() {
+    public StripeProductService(KeycloakService keycloakService) {
+        this.keycloakService = keycloakService;
         Stripe.apiKey = stripeSecretKey;
     }
 
     public String createPaymentLink(String productId, String userId, String successUrl, String cancelUrl) throws StripeException {
         var product = getProductById(productId);
+        var user = keycloakService.getUserData(userId);
+        var userEmail = user.getEmail();
+
         try {
 
             SessionCreateParams params = SessionCreateParams.builder()
@@ -41,7 +47,9 @@ public class StripeService2ElectricBoogaloo {
                                                     .setUnitAmount(product.getPriceAmount())
                                                     .setProductData(
                                                             SessionCreateParams.LineItem.PriceData.ProductData.builder()
-                                                                    .setName("Coin Bundle")
+                                                                    .setName(product.getName())
+                                                                    .setDescription(product.getDescription())
+                                                                    .addImage(product.getImageUrl())
                                                                     .build())
                                                     .build())
                                     .setQuantity(1L)
@@ -51,6 +59,8 @@ public class StripeService2ElectricBoogaloo {
                     .putMetadata("userId", userId)
                     .setSuccessUrl(successUrl)
                     .setCancelUrl(cancelUrl)
+                    .setCustomerEmail(userEmail != null ? userEmail : "")
+                    .setLocale(SessionCreateParams.Locale.DE)
                     .build();
 
             Session session = Session.create(params);

@@ -1,12 +1,7 @@
 package de.szut.lf8_starter.user;
 
 
-import com.stripe.model.Price;
-import com.stripe.model.Product;
-import de.szut.lf8_starter.product.ProductPurchasedReceiptEmailSendingService;
-import de.szut.lf8_starter.product.ProductWithPriceModel;
 import de.szut.lf8_starter.transaction.BalanceDto;
-import de.szut.lf8_starter.transaction.StripeService2ElectricBoogaloo;
 import de.szut.lf8_starter.transaction.TransactionDto;
 import de.szut.lf8_starter.transaction.TransactionService;
 import de.szut.lf8_starter.user.dto.ChangePasswordDto;
