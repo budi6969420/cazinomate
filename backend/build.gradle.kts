@@ -38,7 +38,6 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-webflux")
     implementation("io.projectreactor:reactor-core")
     implementation("com.stripe:stripe-java:20.105.0")
-    implementation("org.json:json:20240303")
     implementation("com.mailjet:mailjet-client:5.2.6")
 }
 
