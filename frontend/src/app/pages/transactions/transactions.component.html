@@ -1,6 +1,14 @@
 <div class="transactions-group">
-  <h1 class="transactions-title">Transaktionshistorie</h1>
-
+  <div class="title-container">
+    <h1 class="transactions-title">Transaktionshistorie</h1>
+    <div class="filter-category" style="margin-bottom: 1rem; text-align:center;">
+      <label for="category-select">Kategorie filtern:</label>
+      <select id="category-select" [(ngModel)]="selectedCategory" (change)="onCategoryChange(selectedCategory)">
+        <option value="">Alle Kategorien</option>
+        <option *ngFor="let category of categories" [value]="category">{{ category }}</option>
+      </select>
+    </div>
+  </div>
 
   @if (loading) {
     <div class="loader-container">
@@ -20,7 +28,7 @@
       <span class="date">{{ tx.date | date:'d. MMMM, HH:mm' }}</span>
       <span class="description">{{ tx.description }}</span>
       <span class="amount" [ngClass]="tx.amount > 0 ? 'green' : 'red'">
-        {{ tx.amount > 0 ? '+' : '' }}{{ tx.amount }}
+        {{ tx.amount > 0 ? '+' : '' }}{{ tx.amount.toLocaleString("de-DE") }}
         <span><img src="/images/coin.png"></span>
       </span>
     </div>

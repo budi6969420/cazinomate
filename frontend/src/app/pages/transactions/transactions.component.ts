@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Transaction } from "../../models/transaction";
 import { UserService } from "../../services/user.service";
 import { DatePipe, NgClass, NgForOf, NgIf } from "@angular/common";
+import {FormsModule} from "@angular/forms";
 
 @Component({
   selector: 'app-transactions',
@@ -12,7 +13,8 @@ import { DatePipe, NgClass, NgForOf, NgIf } from "@angular/common";
     NgClass,
     NgForOf,
     NgIf,
-    DatePipe
+    DatePipe,
+    FormsModule
   ]
 })
 export class TransactionsComponent {
@@ -28,6 +30,9 @@ export class TransactionsComponent {
 
   loading = true;
 
+  categories: string[] = [];
+  selectedCategory: string = '';
+
   constructor(private userService: UserService) {
     this.userService.getSelfTransactions().subscribe({
       next: (transactions) => {
@@ -36,6 +41,8 @@ export class TransactionsComponent {
           this.allTransactions = transactions.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
           this.totalPages = Math.ceil(this.allTransactions.length / this.pageSize);
           this.loadPage(1);
+
+          this.categories = Array.from(new Set(this.allTransactions.map(tx => tx.category))).sort();
         }
       }
     });
@@ -47,12 +54,23 @@ export class TransactionsComponent {
 
     this.currentPage = page;
 
+    const filteredTransactions = this.selectedCategory
+      ? this.allTransactions.filter(tx => tx.category === this.selectedCategory)
+      : this.allTransactions;
+
+    this.totalPages = Math.ceil(filteredTransactions.length / this.pageSize);
+
     const startIndex = (page - 1) * this.pageSize;
     const endIndex = startIndex + this.pageSize;
 
-    this.displayedTransactions = this.allTransactions.slice(startIndex, endIndex);
+    this.displayedTransactions = filteredTransactions.slice(startIndex, endIndex);
     this.displayedGroupedTransactions = this.groupTransactionsByMonth(this.displayedTransactions);
     this.displayedGroupedMonths = Object.keys(this.displayedGroupedTransactions);
+  }
+
+  onCategoryChange(newCategory: string) {
+    this.selectedCategory = newCategory;
+    this.loadPage(1);
   }
 
   groupTransactionsByMonth(transactions: Transaction[]): { [key: string]: Transaction[] } {
