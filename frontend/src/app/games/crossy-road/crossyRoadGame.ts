@@ -9,8 +9,7 @@ import {GameState} from "../base-game/enums/gameState";
 import {CrossyRoadGameVariables} from "./crossyRoadGameVariables";
 
 export class CrossyRoadGame extends Container implements IGame{
-  private readonly GAME_NAME: string = "crossy-road";
-  private readonly GAME_ID: string = "39c63177-b7ad-478b-a009-69b8fa043e6f";
+  private readonly GAME_ID: string = "crossy-road";
   private gameState: GameState = GameState.INACTIVE;
   private currentGains: number = 0;
 
@@ -117,9 +116,6 @@ export class CrossyRoadGame extends Container implements IGame{
     }
 
     return interaction;
-  }
-  public getName(){
-    return this.GAME_NAME;
   }
   public getId() {
     return this.GAME_ID;

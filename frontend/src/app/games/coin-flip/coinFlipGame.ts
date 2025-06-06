@@ -92,7 +92,7 @@ export class CoinFlipGame extends Container implements IGame {
   }
 
   getId(): string {
-    return "0b283c6d-b147-4d66-94a4-e120811d1cf0";
+    return "coin-flip";
   }
 
   getInteractionForPressedKey(event: KeyboardEvent): Interaction {
@@ -107,10 +107,6 @@ export class CoinFlipGame extends Container implements IGame {
     }
 
     return interaction;
-  }
-
-  getName(): string {
-    return "coin-flip";
   }
 
   getSupportsMidGamePayout(): boolean {

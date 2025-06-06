@@ -6,7 +6,7 @@ import de.szut.lf8_starter.game.HeaderedText;
 public class CrossyRoadGame extends BaseGame {
     @Override
     public String getId() {
-        return "39c63177-b7ad-478b-a009-69b8fa043e6f";
+        return "crossy-road";
     }
 
     @Override

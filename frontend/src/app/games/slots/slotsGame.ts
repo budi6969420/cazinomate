@@ -34,12 +34,8 @@ export class SlotsGame extends Container implements IGame {
   async processInteraction(interaction: Interaction, gameSession: BaseGameSession): Promise<void> {
   }
 
-  getName(): string {
-    return "the-lucky-crewmate";
-  }
-
   getId(): string {
-    return "92ed9e52-afd8-49a5-8b09-d7a049783725"
+    return "slots"
   }
 
   getGameState(): GameState {

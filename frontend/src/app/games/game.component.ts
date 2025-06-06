@@ -78,7 +78,7 @@ export class GameComponent implements OnInit, OnDestroy {
     if (!this.game) {
       throw new Error("Game logic must be initialized before configuring paths.");
     }
-    const gameName = this.game.getName();
+    const gameName = this.game.getId();
     this.currentGameSpecificAssetPath = `${this.GAME_ASSETS_ROOT_PATH}${gameName}/`;
     this.currentManifestUrl = `${this.currentGameSpecificAssetPath}manifest.json`;
   }

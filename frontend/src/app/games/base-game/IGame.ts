@@ -11,7 +11,6 @@ export interface IGame{
   getInteractionForPressedKey(event: KeyboardEvent): Interaction;
   processInteraction(interaction: Interaction, gameSession: BaseGameSession): Promise<void>;
 
-  getName(): string;
   getId(): string;
   getGameState(): GameState;
   getCurrentGains(): number;

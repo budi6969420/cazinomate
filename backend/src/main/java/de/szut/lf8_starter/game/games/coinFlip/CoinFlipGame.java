@@ -6,7 +6,7 @@ import de.szut.lf8_starter.game.HeaderedText;
 public class CoinFlipGame extends BaseGame {
     @Override
     public String getId() {
-        return "0b283c6d-b147-4d66-94a4-e120811d1cf0";
+        return "coin-flip";
     }
 
     @Override

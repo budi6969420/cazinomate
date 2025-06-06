@@ -6,7 +6,7 @@ import de.szut.lf8_starter.game.HeaderedText;
 public class SlotsGame extends BaseGame {
     @Override
     public String getId() {
-        return "92ed9e52-afd8-49a5-8b09-d7a049783725";
+        return "slots";
     }
 
     @Override

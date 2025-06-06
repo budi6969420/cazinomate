@@ -6,7 +6,7 @@ import {environment} from "../../environments/environment";
 import {IGame} from "../games/base-game/IGame";
 import {CrossyRoadGame} from "../games/crossy-road/crossyRoadGame";
 import {GameConstants} from "../games/gameConstants";
-import {SlotsGame} from "../games/the-lucky-crewmate/slotsGame";
+import {SlotsGame} from "../games/slots/slotsGame";
 import {CoinFlipGame} from "../games/coin-flip/coinFlipGame";
 
 @Injectable({
