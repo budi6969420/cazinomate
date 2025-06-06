@@ -22,13 +22,16 @@ export class TransactionsComponent {
   displayedGroupedTransactions: { [key: string]: Transaction[] } = {};
   displayedGroupedMonths: string[] = [];
 
-  pageSize = 20;
+  pageSize = 15;
   currentPage = 1;
   totalPages = 0;
+
+  loading = true;
 
   constructor(private userService: UserService) {
     this.userService.getSelfTransactions().subscribe({
       next: (transactions) => {
+        this.loading = false;
         if (transactions?.length) {
           this.allTransactions = transactions.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
           this.totalPages = Math.ceil(this.allTransactions.length / this.pageSize);

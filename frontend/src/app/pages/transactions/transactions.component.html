@@ -1,7 +1,12 @@
 <div class="transactions-group">
   <h1 class="transactions-title">Transaktionshistorie</h1>
 
-  @if (displayedGroupedMonths.length === 0) {
+
+  @if (loading) {
+    <div class="loader-container">
+      <div class="loader"></div>
+    </div>
+  } @else if (displayedGroupedMonths.length === 0) {
     <p class="no-transaction-message">
       Keine Transaktionen sind verfügbar.
     </p>
