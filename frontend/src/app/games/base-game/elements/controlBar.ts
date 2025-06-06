@@ -118,8 +118,14 @@ export class ControlBar extends Container {
         }
       }
     }
-    else if (this.userService.myBalance > 0){
+    else if (this.userService.myBalance > 0 && !(Number(this.investedBalance.text.replace(/\./g, '')) <= 0)){
       this._createSpielStartenButton();
+    }
+    else {
+      if (this.mainButton) {
+        this.removeChild(this.mainButton);
+        this.mainButton = null;
+      }
     }
   }
 
@@ -421,7 +427,7 @@ export class ControlBar extends Container {
         this.editBetAmount(event.code);
         break;
       default:
-        this.processUserGameAction(event)
+        await this.processUserGameAction(event)
         break;
     }
 
