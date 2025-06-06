@@ -7,6 +7,8 @@ import {IGame} from "../games/base-game/IGame";
 import {CrossyRoadGame} from "../games/crossy-road/crossyRoadGame";
 import {GameConstants} from "../games/gameConstants";
 import {SlotsGame} from "../games/the-lucky-crewmate/slotsGame";
+import {CoinFlipGame} from "../games/coin-flip/coinFlipGame";
+import {Container} from "pixi.js";
 
 @Injectable({
   providedIn: 'root'
@@ -14,8 +16,12 @@ import {SlotsGame} from "../games/the-lucky-crewmate/slotsGame";
 export class GameMetadataService {
   private apiUrl = environment.backendApiUrl + 'game';
   gameMetadatas: GameMetadata[] = [];
+  getPlayableGameMetadatas(): GameMetadata[] {
+    return this.gameMetadatas.filter(g => g.playable);
+  }
   gameObjects: IGame[] = [
     new CrossyRoadGame(GameConstants.APP_LOGICAL_HEIGHT, GameConstants.APP_LOGICAL_WIDTH),
+    new CoinFlipGame(GameConstants.APP_LOGICAL_HEIGHT, GameConstants.APP_LOGICAL_WIDTH),
     new SlotsGame(GameConstants.APP_LOGICAL_HEIGHT, GameConstants.APP_LOGICAL_WIDTH)
   ]
   private dataLoadedSubject = new ReplaySubject<GameMetadata[]>(1);

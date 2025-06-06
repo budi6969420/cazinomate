@@ -15,7 +15,10 @@ export interface IGame{
   getId(): string;
   getGameState(): GameState;
   getCurrentGains(): number;
+  getSupportsMidGamePayout(): boolean;
 
   setGameState(gameState: GameState): void;
   setCurrentGains(gains: number): void;
+
+  destroy(options?: boolean) : void;
 }

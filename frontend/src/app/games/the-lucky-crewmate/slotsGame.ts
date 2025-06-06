@@ -50,6 +50,10 @@ export class SlotsGame extends Container implements IGame {
     return 0;
   }
 
+  getSupportsMidGamePayout(): boolean {
+    return false;
+  }
+
   setGameState(gameState: GameState): void {
 
   }

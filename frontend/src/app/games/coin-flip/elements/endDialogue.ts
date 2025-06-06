@@ -1,6 +1,6 @@
-import {Container, Sprite, Texture, Text, TextStyle} from "pixi.js";
-import {CrossyRoadGameVariables} from "../crossyRoadGameVariables";
+import {Container, Sprite, Text, TextStyle, Texture} from "pixi.js";
 import {gsap} from "gsap";
+import {GameConstants} from "../../gameConstants";
 
 export class EndDialogue extends Container{
   background: Sprite;
@@ -17,8 +17,8 @@ export class EndDialogue extends Container{
     this.visible = false;
 
     this.background = new Sprite();
-    this.background.height = CrossyRoadGameVariables.GAME_SCREEN_HEIGHT;
-    this.background.width = CrossyRoadGameVariables.GAME_SCREEN_WIDTH;
+    this.background.height = GameConstants.GAME_SCREEN_HEIGHT;
+    this.background.width = GameConstants.GAME_SCREEN_WIDTH;
 
     this.addChild(this.background);
     this.generateAndPositionFloatingSprites();
@@ -67,8 +67,38 @@ export class EndDialogue extends Container{
       this.floatingSprites[i].texture = Texture.from("texture_dialogue_floating_sprite_lost")
     }
 
-    this.textHeadline.text = String();
+    let textHeadlineStyle: TextStyle = new TextStyle({
+      fontFamily: 'Arial',
+      fill: '#ffffff',
+      fontSize: 225,
+      fontWeight: 'bold',
+      stroke: "#391819",
+      //@ts-ignore
+      strokeThickness: 40
+    });
+
+    let textAmountStyle: TextStyle = new TextStyle({
+      fontFamily: 'Arial',
+      fill: '#ffffff',
+      fontSize: 400,
+      fontWeight: 'bold',
+      stroke: "#391819",
+      //@ts-ignore
+      strokeThickness: 60
+    });
+
+    this.textHeadline.text = "Wrong Side, Champ."
+    this.textHeadline.style = textHeadlineStyle;
+    this.textHeadline.anchor = 0.5
+    this.textHeadline.position.x = GameConstants.GAME_SCREEN_WIDTH / 2;
+    this.textHeadline.position.y = GameConstants.GAME_SCREEN_HEIGHT / 2;
+
     this.textAmount.text = String();
+    this.textAmount.style = textAmountStyle;
+    this.textAmount.anchor = 0.5
+    this.textAmount.position.x = GameConstants.GAME_SCREEN_WIDTH / 2;
+    this.textAmount.position.y = GameConstants.GAME_SCREEN_HEIGHT / 1.5;
+
     this.visible = true;
   }
 
@@ -99,17 +129,17 @@ export class EndDialogue extends Container{
       strokeThickness: 0
     });
 
-    this.textHeadline.text = "Winner Winner,\nChicken Dinner"
+    this.textHeadline.text = "Heads Up,\nYou Win!"
     this.textHeadline.style = textHeadlineStyle;
     this.textHeadline.anchor = 0.5
-    this.textHeadline.position.x = CrossyRoadGameVariables.GAME_SCREEN_WIDTH / 2;
-    this.textHeadline.position.y = CrossyRoadGameVariables.GAME_SCREEN_HEIGHT / 3;
+    this.textHeadline.position.x = GameConstants.GAME_SCREEN_WIDTH / 2;
+    this.textHeadline.position.y = GameConstants.GAME_SCREEN_HEIGHT / 3;
 
     this.textAmount.text = String(finalGains.toLocaleString('de-DE'));
     this.textAmount.style = textAmountStyle;
     this.textAmount.anchor = 0.5
-    this.textAmount.position.x = CrossyRoadGameVariables.GAME_SCREEN_WIDTH / 2;
-    this.textAmount.position.y = CrossyRoadGameVariables.GAME_SCREEN_HEIGHT / 1.5;
+    this.textAmount.position.x = GameConstants.GAME_SCREEN_WIDTH / 2;
+    this.textAmount.position.y = GameConstants.GAME_SCREEN_HEIGHT / 1.5;
 
     this.visible = true;
   }
@@ -121,6 +151,6 @@ export class EndDialogue extends Container{
   public setTextAmount(amount: number){
     console.log(amount)
     this.textAmount.text = isNaN(amount) ? 0 : amount;
-    this.textAmount.position.y = CrossyRoadGameVariables.GAME_SCREEN_HEIGHT / 1.5;
+    this.textAmount.position.y = GameConstants.GAME_SCREEN_HEIGHT / 1.5;
   }
 }
