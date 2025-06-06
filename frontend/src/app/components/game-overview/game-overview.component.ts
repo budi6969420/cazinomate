@@ -36,7 +36,7 @@ export class GameOverviewComponent implements OnInit{
     const searchTerm = this.searchInput.nativeElement.value.toLowerCase();
     if (searchTerm) {
       this.filteredGames = this.gameMetadataService.gameMetadatas.filter(game =>
-        game.title.toLowerCase().includes(searchTerm)
+        game.title.toLowerCase().includes(searchTerm) || game.id.replace(/-/g, " ").toLowerCase().includes(searchTerm)
       );
     } else {
       this.filteredGames = [...this.gameMetadataService.gameMetadatas];
