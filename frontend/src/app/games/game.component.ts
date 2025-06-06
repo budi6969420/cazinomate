@@ -208,6 +208,7 @@ export class GameComponent implements OnInit, OnDestroy {
     console.log("GameComponent ngOnDestroy: Cleaning up PIXI resources.");
 
     this.game.destroy();
+    this.controlBar.destroy();
 
     if (this.assetIdentifiers.length > 0) {
       Assets.unload(this.assetIdentifiers)

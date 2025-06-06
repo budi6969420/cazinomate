@@ -74,16 +74,19 @@ export class ControlBar extends Container {
       .fill({ color: 0x181A39 });
     const einsatzSection = this._createEinsatzmengeSection();
     const schwierigkeitSection = this._createSchwierigkeitSection();
-    const gewinnSection = this._createAktuellerGewinnSection();
+    if (this.game.getSupportsMidGamePayout()) {
+      const gewinnSection = this._createAktuellerGewinnSection();
+      gewinnSection.position.set(schwierigkeitSection.x + schwierigkeitSection.width + 80, this.barHeight / 2 - gewinnSection.height / 2);
+      this.addChild(gewinnSection);
+    }
 
     einsatzSection.position.set(50, this.barHeight / 2 - einsatzSection.height / 2);
     schwierigkeitSection.position.set(einsatzSection.x + einsatzSection.width + 80, this.barHeight / 2 - schwierigkeitSection.height / 2);
-    gewinnSection.position.set(schwierigkeitSection.x + schwierigkeitSection.width + 80, this.barHeight / 2 - gewinnSection.height / 2);
 
     this.addChild(background);
     this.addChild(einsatzSection);
     this.addChild(schwierigkeitSection);
-    this.addChild(gewinnSection);
+
 
     this._createSpielStartenButton();
 
@@ -103,7 +106,13 @@ export class ControlBar extends Container {
 
   private buttonUpdater(){
     if (this.game.getGameState() == GameState.ACTIVE){
-      this._createGeldAuszahlenButton();
+      if (this.game.getSupportsMidGamePayout()) {
+        this._createGeldAuszahlenButton();
+      }
+      else {
+        this.mainButton.name = "noButton";
+        this.removeChild(this.mainButton);
+      }
     }
     else{
       this._createSpielStartenButton();
@@ -236,6 +245,37 @@ export class ControlBar extends Container {
 
     section.addChild(buttonsContainer);
     return section;
+  }
+
+  override destroy(options?: boolean): void {
+    Ticker.shared.remove(this.currentGainsUpdater, this);
+    Ticker.shared.remove(this.buttonUpdater, this);
+
+    for (const button of this.difficultyButtons) {
+      button.removeAllListeners();
+      button.destroy({ children: true, texture: true });
+    }
+    this.difficultyButtons = [];
+
+    if (this.mainButton) {
+      this.mainButton.removeAllListeners();
+      this.mainButton.destroy({ children: true, texture: true });
+    }
+
+    this.children.forEach(child => {
+      if ((child as any).removeAllListeners) {
+        (child as any).removeAllListeners();
+      }
+      if ((child as any).destroy) {
+        (child as any).destroy({ children: true, texture: true });
+      }
+    });
+
+    this.removeChildren();
+
+    this.selectedDifficultyButton = null;
+
+    super.destroy(options);
   }
 
   private _createAktuellerGewinnSection(): Container<any> {

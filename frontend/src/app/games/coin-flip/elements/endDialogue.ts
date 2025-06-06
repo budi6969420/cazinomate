@@ -116,7 +116,7 @@ export class EndDialogue extends Container{
       fontWeight: 'bold',
       stroke: "#171a39",
       //@ts-ignore
-      strokeThickness: 40
+      strokeThickness: 0
     });
 
     let textAmountStyle: TextStyle = new TextStyle({
@@ -126,7 +126,7 @@ export class EndDialogue extends Container{
       fontWeight: 'bold',
       stroke: "#171a39",
       //@ts-ignore
-      strokeThickness: 60
+      strokeThickness: 0
     });
 
     this.textHeadline.text = "Heads Up,\nYou Win!"
