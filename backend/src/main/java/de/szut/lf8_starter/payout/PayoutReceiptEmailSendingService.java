@@ -6,10 +6,10 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class PayoutReceiptEmailSendingService extends EmailSendingService {
-    public PayoutReceiptEmailSendingService(            @Value("${email.address}") String emailAddress,
+    public PayoutReceiptEmailSendingService(            @Value("${email.api.address}") String emailAddress,
                                                         @Value("${spring.application.name}") String companyName,
-                                                        @Value("${email.API_KEY}") String apiKey,
-                                                        @Value("${email.API_SECRET}") String apiSecret,
+                                                        @Value("${email.api.key}") String apiKey,
+                                                        @Value("${email.api.secret}") String apiSecret,
                                                         PayoutReceiptEmailFormattingService emailFormattingService) {
         super(emailAddress, companyName, apiKey, apiSecret, emailFormattingService);
     }
