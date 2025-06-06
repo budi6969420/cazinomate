@@ -63,7 +63,7 @@ public class CrossyRoadGame extends BaseGame {
 
     @Override
     public String getPreviewImageUrl() {
-        return "https://cdn.budidev.de/43f81";
+        return "https://cdn.budidev.de/46c95";
     }
 
     @Override
