@@ -106,7 +106,7 @@ export class ControlBar extends Container {
 
   private buttonUpdater(){
     if (this.game.getGameState() == GameState.ACTIVE){
-      if (this.game.getSupportsMidGamePayout()) {
+      if (this.game.getSupportsMidGamePayout() && this.game.getCurrentGains() != 0) {
         this._createGeldAuszahlenButton();
       }
       else {
