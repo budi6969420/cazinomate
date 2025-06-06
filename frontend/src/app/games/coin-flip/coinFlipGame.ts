@@ -6,7 +6,6 @@ import {Interaction} from "../base-game/enums/interaction";
 import {Playground} from "./elements/playground";
 import {EndDialogue} from "./elements/endDialogue";
 import {CrossyRoadGameSession} from "../crossy-road/dtos/crossyRoadGameSession";
-import {GameConstants} from "../gameConstants";
 
 export class CoinFlipGame extends Container implements IGame {
 
@@ -60,8 +59,29 @@ export class CoinFlipGame extends Container implements IGame {
       case GameState.ACTIVE:
         this.endDialogueScreen.hide();
         break;
+      case GameState.INACTIVE:
+        this.playgroundScreen.hideCoin();
     }
   }
+
+  override destroy(options?: boolean): void {
+    Ticker.shared.remove(this.gameStateCheckingLoop, this);
+
+    if (this.playgroundScreen) {
+      this.removeChild(this.playgroundScreen);
+      this.playgroundScreen.destroy(options);
+    }
+
+    if (this.endDialogueScreen) {
+      this.removeChild(this.endDialogueScreen);
+      this.endDialogueScreen.destroy(options);
+    }
+
+    this.gameWasAlreadyInitialisedBefore = false;
+
+    super.destroy(options);
+  }
+
 
   getCurrentGains(): number {
     return this.currentGains;
@@ -76,15 +96,25 @@ export class CoinFlipGame extends Container implements IGame {
   }
 
   getInteractionForPressedKey(event: KeyboardEvent): Interaction {
-    return Interaction.PLAY;
+    let interaction: Interaction;
+
+    switch (event.code){
+      case "Enter":
+        interaction = Interaction.PLAY;
+        break;
+      default:
+        interaction = Interaction.NONE;
+    }
+
+    return interaction;
   }
 
   getName(): string {
     return "coin-flip";
   }
 
-  getIsGamePlayable(): boolean {
-    return true;
+  getSupportsMidGamePayout(): boolean {
+    return false;
   }
 
   async processInteraction(interaction: Interaction, gameSession: BaseGameSession){

@@ -114,4 +114,8 @@ export class Playground extends Container {
       gameSession.gameState == GameState[GameState.WON] ? this.game.setGameState(GameState.WON) : this.game.setGameState(GameState.LOST)
     }, 1500);
   }
+
+  hideCoin() {
+    this.coin.setHidden();
+  }
 }

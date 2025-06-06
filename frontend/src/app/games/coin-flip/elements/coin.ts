@@ -6,10 +6,7 @@ export class Coin extends Sprite {
 
   constructor() {
     super();
-    this.texture = Texture.from("texture_coin_side");
-    this.height = 23;
-    this.width = 143;
-    this.anchor = 0.5;
+    this.setInit();
   }
 
   setHugeDimensions() {
@@ -19,6 +16,18 @@ export class Coin extends Sprite {
       this.height = newDimension;
       this.width = newDimension;
     }
+  }
+  setHidden() {
+    this.height = 0;
+    this.width = 0;
+  }
+
+
+  setInit() {
+    this.texture = Texture.from("texture_coin_side");
+    this.height = 23;
+    this.width = 143;
+    this.anchor = 0.5;
   }
 
   setToWon(){

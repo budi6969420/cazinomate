@@ -8,6 +8,7 @@ import {CrossyRoadGame} from "../games/crossy-road/crossyRoadGame";
 import {GameConstants} from "../games/gameConstants";
 import {SlotsGame} from "../games/the-lucky-crewmate/slotsGame";
 import {CoinFlipGame} from "../games/coin-flip/coinFlipGame";
+import {Container} from "pixi.js";
 
 @Injectable({
   providedIn: 'root'

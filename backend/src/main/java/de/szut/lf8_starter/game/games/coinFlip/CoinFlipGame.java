@@ -25,10 +25,8 @@ public class CoinFlipGame extends BaseGame {
                         "Jede Stufe hat eigene Gewinnchancen und Multiplikatoren."
                 }),
                 new HeaderedText("Spiel starten", new String[] {
-                        "Starte das Spiel mit einem Klick auf „Spiel starten“."
-                }),
-                new HeaderedText("Mit Enter bewegen", new String[] {
-                        "Drücke die Enter-Taste, um dein Hühnchen Schritt für Schritt über die Straße zu steuern."
+                        "Starte das Spiel mit einem Klick auf „Spiel starten“.",
+                        "Wirf die Münze, indem du die Eingabetaste drückst."
                 }),
                 new HeaderedText("Spielziel", new String[] {
                         "Versuche, die richtige Münzseite zu erhalten."

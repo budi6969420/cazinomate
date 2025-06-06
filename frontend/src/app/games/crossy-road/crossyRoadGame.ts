@@ -64,7 +64,6 @@ export class CrossyRoadGame extends Container implements IGame{
   }
 
   private gameStateCheckingLoop(){
-
     switch(this.gameState){
       case GameState.LOST:
         this.endDialogueScreen.showPlayerLost();
@@ -87,6 +86,24 @@ export class CrossyRoadGame extends Container implements IGame{
     }
   }
 
+  override destroy(options?: boolean): void {
+    Ticker.shared.remove(this.gameStateCheckingLoop, this);
+
+    if (this.playgroundScreen) {
+      this.removeChild(this.playgroundScreen);
+      this.playgroundScreen.destroy(options);
+    }
+
+    if (this.endDialogueScreen) {
+      this.removeChild(this.endDialogueScreen);
+      this.endDialogueScreen.destroy(options);
+    }
+
+    this.gameWasAlreadyInitialisedBefore = false;
+
+    super.destroy(options);
+  }
+
   getInteractionForPressedKey(event: KeyboardEvent): Interaction {
     let interaction: Interaction;
 
@@ -95,12 +112,11 @@ export class CrossyRoadGame extends Container implements IGame{
         interaction = Interaction.MOVE;
         break;
       default:
-        interaction = Interaction.MOVE;
+        interaction = Interaction.NONE;
     }
 
     return interaction;
   }
-
   public getName(){
     return this.GAME_NAME;
   }
@@ -118,5 +134,8 @@ export class CrossyRoadGame extends Container implements IGame{
   }
   public setCurrentGains(gains: number) {
     this.currentGains = gains;
+  }
+  getSupportsMidGamePayout(): boolean {
+    return true;
   }
 }
