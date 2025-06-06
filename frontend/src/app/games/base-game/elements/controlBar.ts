@@ -15,7 +15,7 @@ export class ControlBar extends Container {
   private game: IGame;
   private userService: UserService
   private gameDifficulty: GameDifficulty = GameDifficulty.NORMAL;
-  private investedBalance: Text = new Text("100");
+  private investedBalance: Text;
   private currentGains: number = 0;
   private gameSessionId!: string;
   private apiToken: string;
@@ -68,6 +68,8 @@ export class ControlBar extends Container {
     this.position.y = this.game.GAME_HEIGHT-242;
     this.position.x = 0;
     this._zIndex = 9999;
+
+    this.investedBalance = new Text(String(Math.min(this.userService.myBalance, 100)));
 
     const background = new Graphics()
       .rect(0, 0, this.game.GAME_WIDTH, this.barHeight)
