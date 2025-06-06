@@ -14,8 +14,7 @@ public class PayoutItemService {
             new RumPayoutItem(),
             new RumPackPayoutItem(),
             new JackyColaPackPayoutItem(),
-            new BeerPackPayoutItem(),
-            new Note1PayoutItem()
+            new BeerPackPayoutItem()
     );
 
     public List<IPayoutItem> getPayoutItems() {
