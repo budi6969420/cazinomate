@@ -16,6 +16,9 @@ import {Container} from "pixi.js";
 export class GameMetadataService {
   private apiUrl = environment.backendApiUrl + 'game';
   gameMetadatas: GameMetadata[] = [];
+  getPlayableGameMetadatas(): GameMetadata[] {
+    return this.gameMetadatas.filter(g => g.playable);
+  }
   gameObjects: IGame[] = [
     new CrossyRoadGame(GameConstants.APP_LOGICAL_HEIGHT, GameConstants.APP_LOGICAL_WIDTH),
     new CoinFlipGame(GameConstants.APP_LOGICAL_HEIGHT, GameConstants.APP_LOGICAL_WIDTH),

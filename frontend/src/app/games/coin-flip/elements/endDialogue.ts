@@ -135,7 +135,7 @@ export class EndDialogue extends Container{
     this.textHeadline.position.x = GameConstants.GAME_SCREEN_WIDTH / 2;
     this.textHeadline.position.y = GameConstants.GAME_SCREEN_HEIGHT / 3;
 
-    this.textAmount.text = String(finalGains);
+    this.textAmount.text = String(finalGains.toLocaleString('de-DE'));
     this.textAmount.style = textAmountStyle;
     this.textAmount.anchor = 0.5
     this.textAmount.position.x = GameConstants.GAME_SCREEN_WIDTH / 2;

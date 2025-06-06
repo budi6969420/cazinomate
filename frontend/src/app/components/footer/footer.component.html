@@ -13,8 +13,8 @@
 <hr>
 <div id="midWrapper">
   <ul>
-    <h3>Spiele</h3>
-    @for (gameMetadata of gameMetaDataService.gameMetadatas; track gameMetadata.id) {
+    <h3>Spielbare Spiele</h3>
+    @for (gameMetadata of gameMetaDataService.getPlayableGameMetadatas(); track gameMetadata.id) {
       <li><a href="game/{{gameMetadata.id}}">{{gameMetadata.title}}</a></li>
     }
   </ul>

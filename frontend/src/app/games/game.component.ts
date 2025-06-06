@@ -60,7 +60,7 @@ export class GameComponent implements OnInit, OnDestroy {
       await this.initializePixiAssets();
       await this.initializePixiApplication();
       await this.loadAssetsFromManifest();
-      this.setupStage();
+      await this.setupStage();
 
     } catch (error) {
       console.error('Critical error during GameComponent initialization:', error);
@@ -152,7 +152,7 @@ export class GameComponent implements OnInit, OnDestroy {
     if (this.gameMetaData.playable) {
       this.app!.stage.addChild(this.controlBar)
     }
-    this.controlBar.findAndStartActiveGameSession();
+    await this.controlBar.findAndStartActiveGameSession();
 
     document.addEventListener('keydown', (event: KeyboardEvent) => {
       this.controlBar.controller(event);

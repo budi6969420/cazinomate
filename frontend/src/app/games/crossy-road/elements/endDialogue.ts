@@ -86,7 +86,7 @@ export class EndDialogue extends Container{
       fontWeight: 'bold',
       stroke: "#171a39",
       //@ts-ignore
-      strokeThickness: 40
+      strokeThickness: 0
     });
 
     let textAmountStyle: TextStyle = new TextStyle({
@@ -96,7 +96,7 @@ export class EndDialogue extends Container{
       fontWeight: 'bold',
       stroke: "#171a39",
       //@ts-ignore
-      strokeThickness: 60
+      strokeThickness: 0
     });
 
     this.textHeadline.text = "Winner Winner,\nChicken Dinner"
@@ -105,7 +105,7 @@ export class EndDialogue extends Container{
     this.textHeadline.position.x = CrossyRoadGameVariables.GAME_SCREEN_WIDTH / 2;
     this.textHeadline.position.y = CrossyRoadGameVariables.GAME_SCREEN_HEIGHT / 3;
 
-    this.textAmount.text = String(finalGains);
+    this.textAmount.text = String(finalGains.toLocaleString('de-DE'));
     this.textAmount.style = textAmountStyle;
     this.textAmount.anchor = 0.5
     this.textAmount.position.x = CrossyRoadGameVariables.GAME_SCREEN_WIDTH / 2;

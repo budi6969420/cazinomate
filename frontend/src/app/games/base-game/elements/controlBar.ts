@@ -155,24 +155,25 @@ export class ControlBar extends Container {
       if (this.game.getGameState() == GameState.ACTIVE) return;
 
       inputBackground
-          .clear();
+        .clear();
       inputBackground
-          .roundRect(0, label.height + 15, inputBgWidth, inputBgHeight, inputBgRadius)
-          .fill({ color: "#7030A0" });
+        .roundRect(0, label.height + 15, inputBgWidth, inputBgHeight, inputBgRadius)
+        .fill({ color: "#7030A0" });
     });
     inputBackground.on('pointerout', () => {
       this.betAmountInputIsHovered = false;
       if (this.game.getGameState() == GameState.ACTIVE) return;
 
       inputBackground
-          .clear();
+        .clear();
       inputBackground
-          .roundRect(0, label.height + 15, inputBgWidth, inputBgHeight, inputBgRadius)
-          .fill({ color: "#0A0B1F" });
+        .roundRect(0, label.height + 15, inputBgWidth, inputBgHeight, inputBgRadius)
+        .fill({ color: "#0A0B1F" });
     });
 
     return section;
   }
+
 
   private _createSchwierigkeitSection(): Container<any> {
     const section = new Container();
@@ -381,17 +382,24 @@ export class ControlBar extends Container {
   }
 
   public editBetAmount(key: string): void {
+    let numericText = this.investedBalance.text.replace(/\./g, '');
 
-    switch(true){
+    switch (true) {
       case key.includes("Backspace"):
-        this.investedBalance.text = this.investedBalance.text.substring(0, this.investedBalance.text.length-1);
+        numericText = numericText.slice(0, -1);
         break;
       case key.includes("Digit"):
-        if(this.investedBalance.text.length < 10){
-          this.investedBalance.text = String(this.investedBalance.text) + String(key.replace("Digit", ""));
+        if (numericText.length < 10) {
+          numericText += key.replace("Digit", "");
         }
+        break;
     }
+
+    const numericValue = Number(numericText) || 0;
+
+    this.investedBalance.text = numericValue.toLocaleString('de-DE');
   }
+
 
   public async controller(event: KeyboardEvent) {
 
@@ -411,6 +419,7 @@ export class ControlBar extends Container {
       this.isGameInteractionBlocked = true;
 
       let interaction = this.game.getInteractionForPressedKey(event);
+      if (interaction == Interaction.NONE) return;
       let gameSession = await this.makeInteractionRequest(interaction)
       await this.game.processInteraction(interaction, gameSession);
       this.currentGains = gameSession.gameState == GameState[GameState.LOST] ? 0 : gameSession.balanceDifference - gameSession.investedBalance;
@@ -425,7 +434,7 @@ export class ControlBar extends Container {
       gameSession = await this.startGameSession() as BaseGameSession;
     }
 
-    this.investedBalance.text = gameSession.investedBalance;
+    this.investedBalance.text = String(gameSession.investedBalance.toLocaleString('de-DE'));
     this.gameSessionId = gameSession.id;
     this.game.setGameState(GameState.ACTIVE);
 
@@ -437,14 +446,14 @@ export class ControlBar extends Container {
 
   async findAndStartActiveGameSession(){
     try {
-      let response = await fetch(environment.backendApiUrl + "api/game/session/find-active?gameId=" + this.game.getId(), {
+      let response = await fetch(environment.backendApiUrl + "game/session/find-active?gameId=" + this.game.getId(), {
         method: 'GET',
         headers: {
           authorization: "Bearer " + this.apiToken
         }
       });
       let gameSession = await response.json() as BaseGameSession;
-      this.prepareGameSession(gameSession);
+      await this.prepareGameSession(gameSession);
     } catch {
       this.game.start();
     }
@@ -454,10 +463,10 @@ export class ControlBar extends Container {
     let startSessionRequest = new BaseGameStartSessionRequest(
       this.game.getId(),
       this.gameDifficulty,
-      Number(this.investedBalance.text)
+      Number(this.investedBalance.text.replace(/\./g, '') || 0),
     );
 
-    let response = await fetch(environment.backendApiUrl + "api/game/session/start", {
+    let response = await fetch(environment.backendApiUrl + "game/session/start", {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -480,7 +489,7 @@ export class ControlBar extends Container {
       interaction
     );
 
-    let response = await fetch(environment.backendApiUrl + "api/game/session/action", {
+    let response = await fetch(environment.backendApiUrl + "game/session/action", {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

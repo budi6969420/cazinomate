@@ -4,7 +4,7 @@
   </div>
 </li>
 
-@for (gameMetaData of gameMetaDataService.gameMetadatas; track gameMetaData.id) {
+@for (gameMetaData of gameMetaDataService.getPlayableGameMetadatas(); track gameMetaData.id) {
   <li #menuItem [routerLink]="['/game', gameMetaData.id]">
     <div class="icon">
       <img [src]="gameMetaData.previewImageUrl">
