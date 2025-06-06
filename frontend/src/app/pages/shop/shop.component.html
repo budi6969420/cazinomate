@@ -10,7 +10,7 @@
     }
     <div class="container">
       @if (packageService.packages.length == 0) {
-        <div class="loader"></div>
+        <app-loading-spinner/>
       }
       <ul>
         @for (item of packageService.packages; track item.productId)

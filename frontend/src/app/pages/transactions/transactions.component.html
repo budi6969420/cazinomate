@@ -12,7 +12,7 @@
 
   @if (loading) {
     <div class="loader-container">
-      <div class="loader"></div>
+      <app-loading-spinner/>
     </div>
   } @else if (displayedGroupedMonths.length === 0) {
     <p class="no-transaction-message">

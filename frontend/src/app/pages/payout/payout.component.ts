@@ -10,6 +10,7 @@ import {PayoutItemService} from "../../services/payout-item.service";
 import {
   PayoutConfirmationModalComponent
 } from "../../components/payout-confirmation-modal/payout-confirmation-modal.component";
+import {LoadingSpinnerComponent} from "../../components/loading-spinner/loading-spinner.component";
 
 @Component({
   selector: 'app-payout',
@@ -17,6 +18,7 @@ import {
   imports: [
     PayoutItemComponent,
     PayoutConfirmationModalComponent,
+    LoadingSpinnerComponent,
   ],
   templateUrl: './payout.component.html',
   styleUrl: './payout.component.scss',

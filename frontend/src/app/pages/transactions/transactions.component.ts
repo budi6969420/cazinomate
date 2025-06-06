@@ -3,6 +3,7 @@ import { Transaction } from "../../models/transaction";
 import { UserService } from "../../services/user.service";
 import { DatePipe, NgClass, NgForOf, NgIf } from "@angular/common";
 import {FormsModule} from "@angular/forms";
+import {LoadingSpinnerComponent} from "../../components/loading-spinner/loading-spinner.component";
 
 @Component({
   selector: 'app-transactions',
@@ -14,7 +15,8 @@ import {FormsModule} from "@angular/forms";
     NgForOf,
     NgIf,
     DatePipe,
-    FormsModule
+    FormsModule,
+    LoadingSpinnerComponent
   ]
 })
 export class TransactionsComponent {
