@@ -80,3 +80,43 @@ h3 {
     }
   }
 }
+
+.pagination {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+  margin-top: 1rem;
+  align-items: center;
+  flex-wrap: wrap;
+  user-select: none;
+
+  button {
+    background: var(--app-color-background-tertiary);
+    border: none;
+    padding: 0.4rem 0.8rem;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 0.9rem;
+
+    &.active {
+      background: #333;
+      color: #fff;
+      font-weight: bold;
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: default;
+    }
+
+    &:hover:not(:disabled):not(.active) {
+      background: #ccc;
+    }
+  }
+
+  .dots {
+    padding: 0.4rem 0.8rem;
+    color: #888;
+    font-size: 0.9rem;
+  }
+}
