@@ -15,7 +15,8 @@
   <ul>
     <h3>Spielbare Spiele</h3>
     @for (gameMetadata of gameMetaDataService.getPlayableGameMetadatas(); track gameMetadata.id) {
-      <li><a href="game/{{gameMetadata.id}}">{{gameMetadata.title}}</a></li>
+      <li>
+        <p class="clickable" routerLink="game/{{gameMetadata.id}}">{{gameMetadata.title}}</p>
     }
   </ul>
   <ul>
@@ -32,14 +33,14 @@
   <ul>
     <h3>Rechtliches</h3>
     <li>
-      <a href="/datenschutz">
+      <p class="clickable" routerLink="/datenschutz">
         Datenschutz
-      </a>
+      </p>
     </li>
     <li>
-      <a href="/nutzungsbedingungen">
+      <p class="clickable" routerLink="/nutzungsbedingungen">
         Nutzungsbedingungen
-      </a>
+      <p>
     </li>
   </ul>
 </div>
