@@ -1,4 +1,4 @@
-package de.szut.lf8_starter.game.games.crossyRoadGangBang;
+package de.szut.lf8_starter.game.games.crossyRoad;
 
 import de.szut.lf8_starter.game.session.BaseSessionExtension;
 import de.szut.lf8_starter.game.session.enums.GameDifficulty;
@@ -12,7 +12,7 @@ import java.util.List;
 
 @Entity
 @Data
-public class CrossyRoadGangBangSessionExtension implements BaseSessionExtension {
+public class CrossyRoadSessionExtension implements BaseSessionExtension {
     @Id
     private String sessionId;
 

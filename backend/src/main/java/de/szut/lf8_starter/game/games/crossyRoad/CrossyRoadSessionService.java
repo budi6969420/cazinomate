@@ -1,4 +1,4 @@
-package de.szut.lf8_starter.game.games.crossyRoadGangBang;
+package de.szut.lf8_starter.game.games.crossyRoad;
 
 import de.szut.lf8_starter.game.IGame;
 import de.szut.lf8_starter.game.session.*;
@@ -8,15 +8,15 @@ import de.szut.lf8_starter.transaction.TransactionService;
 import org.springframework.stereotype.Service;
 
 @Service
-public class CrossyRoadGangBangSessionService extends BaseGameSessionService<CrossyRoadGangBangSessionExtension> {
-    public CrossyRoadGangBangSessionService(BaseSessionRepository baseSessionRepository,
-                                            CrossyRoadGangBangSessionExtensionRepository extensionRepository,
-                                            TransactionService transactionService) {
+public class CrossyRoadSessionService extends BaseGameSessionService<CrossyRoadSessionExtension> {
+    public CrossyRoadSessionService(BaseSessionRepository baseSessionRepository,
+                                    CrossyRoadSessionExtensionRepository extensionRepository,
+                                    TransactionService transactionService) {
         super(baseSessionRepository, extensionRepository, transactionService);
     }
 
     @Override
-    protected void applyGameLogic(BaseSession baseSession, CrossyRoadGangBangSessionExtension extension, String interaction) {
+    protected void applyGameLogic(BaseSession baseSession, CrossyRoadSessionExtension extension, String interaction) {
 
         var prizes = extension.getPrizeIndexValues(baseSession.getInvestedBalance(), baseSession.getDifficulty());
         switch (interaction) {
@@ -56,8 +56,8 @@ public class CrossyRoadGangBangSessionService extends BaseGameSessionService<Cro
     }
 
     @Override
-    protected CrossyRoadGangBangSessionExtension createDefaultExtension(BaseSession baseSession) {
-        var extension = new CrossyRoadGangBangSessionExtension();
+    protected CrossyRoadSessionExtension createDefaultExtension(BaseSession baseSession) {
+        var extension = new CrossyRoadSessionExtension();
         extension.setSessionId(baseSession.getId());
         extension.setCurrentIndex(-1);
         extension.setBalanceDifference(baseSession.getInvestedBalance());
@@ -67,7 +67,7 @@ public class CrossyRoadGangBangSessionService extends BaseGameSessionService<Cro
 
     @Override
     public IGame getGame() {
-        return new CrossyRoadGangBangGame();
+        return new CrossyRoadGame();
     }
 
     private Boolean hasLost(GameDifficulty difficulty) {
