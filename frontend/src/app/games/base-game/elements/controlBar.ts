@@ -87,8 +87,10 @@ export class ControlBar extends Container {
     this.addChild(einsatzSection);
     this.addChild(schwierigkeitSection);
 
+    if (this.userService.myBalance > 0) {
+      this._createSpielStartenButton();
+    }
 
-    this._createSpielStartenButton();
 
     Ticker.shared.add(this.currentGainsUpdater, this);
     Ticker.shared.add(this.buttonUpdater, this);
@@ -116,7 +118,7 @@ export class ControlBar extends Container {
         }
       }
     }
-    else{
+    else if (this.userService.myBalance > 0){
       this._createSpielStartenButton();
     }
   }
@@ -402,7 +404,11 @@ export class ControlBar extends Container {
         break;
     }
 
-    const numericValue = Number(numericText) || 0;
+    let numericValue = Number(numericText) || 0;
+
+    if (numericValue > this.userService.myBalance) {
+      numericValue = this.userService.myBalance;
+    }
 
     this.investedBalance.text = numericValue.toLocaleString('de-DE');
   }
