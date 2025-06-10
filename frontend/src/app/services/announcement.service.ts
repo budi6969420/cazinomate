@@ -32,7 +32,7 @@ export class AnnouncementService{
     const selectedGames = shuffledGames.slice(0, 2)
 
     this.createAnnouncementForGame(selectedGames[0]);
-    this.announcements.push({navigationUrl: "/shop", title: "Shop", description: "Kaufen sie unsere tollen Pakete", buttonText: "Jetzt Kaufen", imageUrl: "/images/mrCrabs.svg", isGreen: true, deactivateButton: false});
+    this.announcements.push({navigationUrl: "/shop", title: "Shop", description: "Kaufen sie unsere tollen Pakete", buttonText: "Jetzt Kaufen", imageUrl: "/images/mrCrabs.svg", isSpecial: true, deactivateButton: false});
     this.createAnnouncementForGame(selectedGames[1]);
   }
 
@@ -44,7 +44,7 @@ export class AnnouncementService{
     announcement.imageUrl = game.previewImageUrl;
     announcement.buttonText = "Jetzt Spielen";
     announcement.navigationUrl = "/game/" + game.id;
-    announcement.isGreen = false;
+    announcement.isSpecial = false;
     announcement.deactivateButton = !game.playable;
 
     this.announcements.push(announcement);

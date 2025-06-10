@@ -5,6 +5,6 @@ export class AnnouncementModel
   imageUrl: string   = "";
   buttonText: string | null = "";
   navigationUrl: string = "";
-  isGreen: boolean = false;
+  isSpecial: boolean = false;
   deactivateButton: boolean = false;
 }

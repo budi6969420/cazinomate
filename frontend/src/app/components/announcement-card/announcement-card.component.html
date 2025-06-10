@@ -1,4 +1,4 @@
-<div [ngClass]="announcementData.isGreen ? 'container green' : 'container'" (click)="onClick()">
+<div [ngClass]="announcementData.isSpecial ? 'container green' : 'container'">
   <div class="vertical-container">
     <div class="header">
       <label>{{announcementData.title}}</label>
@@ -7,7 +7,7 @@
       <label class="label">{{announcementData.description}}</label>
     </div>
     <div>
-      <button class="button" [disabled]="announcementData.deactivateButton">{{announcementData.buttonText}}</button>
+      <button class="button" [disabled]="announcementData.deactivateButton" (click)="onClick()">{{announcementData.buttonText}}</button>
     </div>
   </div>
   <div>
