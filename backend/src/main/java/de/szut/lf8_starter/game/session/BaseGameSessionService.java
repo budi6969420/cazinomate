@@ -1,15 +1,16 @@
 package de.szut.lf8_starter.game.session;
 
+import de.szut.lf8_starter.game.BaseGame;
 import de.szut.lf8_starter.game.session.enums.GameDifficulty;
 import de.szut.lf8_starter.game.session.enums.GameState;
+import de.szut.lf8_starter.statistics.GameStatisticsModel;
 import de.szut.lf8_starter.transaction.TransactionCategory;
 import de.szut.lf8_starter.transaction.TransactionService;
 import org.apache.coyote.BadRequestException;
 
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
-public abstract class BaseGameSessionService<T extends BaseSessionExtension> implements GameSessionService<T> {
+public abstract class BaseGameSessionService<T extends BaseSessionExtension> implements IGameSessionService<T> {
 
     protected final BaseSessionRepository baseSessionRepository;
     protected final BaseGameSessionExtensionRepository<T, String> extensionRepository;
@@ -25,13 +26,11 @@ public abstract class BaseGameSessionService<T extends BaseSessionExtension> imp
 
     @Override
     public Optional<GameSessionAggregate<T>> findActiveSession(String userId, String gameId) {
-        var activeSessionOpt = baseSessionRepository.findByUserIdAndGameIdAndGameState(userId, gameId, GameState.ACTIVE);
-
-        if (activeSessionOpt.isEmpty()) {
+        var activeGames = baseSessionRepository.findAllByUserIdAndGameIdAndGameState(userId, gameId, GameState.ACTIVE);
+        if (activeGames.isEmpty()) {
             return Optional.empty();
         }
-
-        var baseSession = activeSessionOpt.get();
+        var baseSession = activeGames.getFirst();
 
         var extension = extensionRepository.findBySessionId(baseSession.getId())
                 .orElseGet(() -> createDefaultExtension(baseSession));
@@ -97,10 +96,41 @@ public abstract class BaseGameSessionService<T extends BaseSessionExtension> imp
 
         applyGameLogic(baseSession, extension, interaction);
 
+        if (baseSession.getGameState().equals(GameState.WON)) {
+            var prize = getPrize(baseSession.getInvestedBalance(), baseSession.getDifficulty(), extension);
+            baseSession.setBalanceDifference(prize);
+            addBalanceToUser(baseSession.getUserId(), prize, getGame().getTitle() + " game won");
+        }
+
         baseSessionRepository.save(baseSession);
         extensionRepository.save(extension);
 
         return new GameSessionAggregate<>(baseSession, extension);
+    }
+
+    @Override
+    public GameStatisticsModel generateStatistics(String userId) {
+        var gameId = this.getGame().getId();
+        List<BaseSession> sessions;
+
+        if (userId != null) {
+            sessions = baseSessionRepository.findAllByUserIdAndGameId(userId, gameId)
+                    .stream()
+                    .filter(x -> !x.getGameState().equals(GameState.ACTIVE))
+                    .toList();
+        } else {
+            sessions = baseSessionRepository.findAllByGameId(gameId)
+                    .stream()
+                    .filter(x -> !x.getGameState().equals(GameState.ACTIVE))
+                    .toList();
+        }
+
+        var totalGamesPlayed = sessions.size();
+        var totalGamesWon = sessions.stream().filter(x -> x.getGameState().equals(GameState.WON)).count();
+        var totalAmountInvested = sessions.stream().mapToInt(BaseSession::getInvestedBalance).sum();
+        var totalAmountWon = sessions.stream().mapToInt(BaseSession::getBalanceDifference).sum();
+
+        return new GameStatisticsModel(gameId, totalGamesPlayed, (int) totalGamesWon, totalAmountInvested, totalAmountWon);
     }
 
     protected void addBalanceToUser(String userId, int amount, String description) {

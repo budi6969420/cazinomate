@@ -13,6 +13,7 @@ public class BaseSession {
     private String gameId;
     private String userId;
     private int investedBalance;
+    private int balanceDifference;
 
     @Enumerated(EnumType.STRING)
     private GameState gameState = GameState.ACTIVE;

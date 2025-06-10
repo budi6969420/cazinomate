@@ -14,6 +14,7 @@ public class BaseSessionDto {
         this.gameId = baseSession.getGameId();
         this.userId = baseSession.getUserId();
         this.investedBalance = baseSession.getInvestedBalance();
+        this.balanceDifference = baseSession.getBalanceDifference();
         this.gameState = baseSession.getGameState();
         this.difficulty = baseSession.getDifficulty();
     }
@@ -22,6 +23,8 @@ public class BaseSessionDto {
     private String gameId;
     private String userId;
     private int investedBalance;
+    private int balanceDifference;
     private GameState gameState;
     private GameDifficulty difficulty;
+
 }

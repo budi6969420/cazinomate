@@ -26,9 +26,6 @@ public class CoinFlipSessionService extends BaseGameSessionService<CoinFlipSessi
                 }
                 else {
                     baseSession.setGameState(GameState.WON);
-                    var prize = getPrize(baseSession.getInvestedBalance(), baseSession.getDifficulty());
-                    extension.setBalanceDifference(prize);
-                    addBalanceToUser(baseSession.getUserId(), prize, getGame().getTitle() + " game won");
                 }
             }
 
@@ -36,22 +33,10 @@ public class CoinFlipSessionService extends BaseGameSessionService<CoinFlipSessi
         }
     }
 
-    private int getPrize(int investedBalance, GameDifficulty difficulty) {
-        double factor;
-        switch (difficulty) {
-            case EASY -> factor = 1.5;
-            case NORMAL -> factor = 2;
-            case HARD -> factor = 3;
-            default -> throw new IllegalStateException("Unexpected difficulty: " + difficulty);
-        }
-        return (int)(investedBalance * factor);
-    }
-
     @Override
     protected CoinFlipSessionExtension createDefaultExtension(BaseSession baseSession) {
         var extension = new CoinFlipSessionExtension();
         extension.setSessionId(baseSession.getId());
-        extension.setBalanceDifference(baseSession.getInvestedBalance());
 
         return extension;
     }
@@ -59,6 +44,18 @@ public class CoinFlipSessionService extends BaseGameSessionService<CoinFlipSessi
     @Override
     public IGame getGame() {
         return new CoinFlipGame();
+    }
+
+    @Override
+    public int getPrize(int balanceInvested, GameDifficulty gameDifficulty, CoinFlipSessionExtension extension) {
+        double factor;
+        switch (gameDifficulty) {
+            case EASY -> factor = 1.5;
+            case NORMAL -> factor = 2;
+            case HARD -> factor = 3;
+            default -> throw new IllegalStateException("Unexpected difficulty: " + gameDifficulty);
+        }
+        return (int)(balanceInvested * factor);
     }
 
     private Boolean hasLost(GameDifficulty difficulty) {

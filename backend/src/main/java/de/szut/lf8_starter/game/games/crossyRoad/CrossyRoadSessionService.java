@@ -7,6 +7,9 @@ import de.szut.lf8_starter.game.session.enums.GameState;
 import de.szut.lf8_starter.transaction.TransactionService;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 public class CrossyRoadSessionService extends BaseGameSessionService<CrossyRoadSessionExtension> {
     public CrossyRoadSessionService(BaseSessionRepository baseSessionRepository,
@@ -17,7 +20,6 @@ public class CrossyRoadSessionService extends BaseGameSessionService<CrossyRoadS
 
     @Override
     protected void applyGameLogic(BaseSession baseSession, CrossyRoadSessionExtension extension, String interaction) {
-
         var prizes = extension.getPrizeIndexValues(baseSession.getInvestedBalance(), baseSession.getDifficulty());
         switch (interaction) {
             case "MOVE" -> {
@@ -25,20 +27,16 @@ public class CrossyRoadSessionService extends BaseGameSessionService<CrossyRoadS
                 if (hasLost(baseSession.getDifficulty())) {
                     baseSession.setGameState(GameState.LOST);
                 }
-                else if (prizes != null && extension.getCurrentIndex() >= prizes.size() - 1) {
+                else if (extension.getCurrentIndex() >= prizes.size() - 1) {
                     baseSession.setGameState(GameState.WON);
-                    extension.setBalanceDifference(prizes.get(extension.getCurrentIndex()));
-                    addBalanceToUser(baseSession.getUserId(), extension.getBalanceDifference(), getGame().getTitle() + " game won");
                 }
-                else if (prizes != null) {
-                    extension.setBalanceDifference(prizes.get(extension.getCurrentIndex()));
+                else {
+                    baseSession.setBalanceDifference(prizes.get(extension.getCurrentIndex()));
                 }
             }
             case "END" -> {
                 if (extension.getCurrentIndex() < 0) throw new IllegalStateException("Current index is less than 0");
                 baseSession.setGameState(GameState.WON);
-                addBalanceToUser(baseSession.getUserId(), extension.getBalanceDifference(), getGame().getTitle() + " game won");
-
                 int simulatedIndex = extension.getCurrentIndex();
                 int wouldHaveLostAt = -1;
 
@@ -60,7 +58,6 @@ public class CrossyRoadSessionService extends BaseGameSessionService<CrossyRoadS
         var extension = new CrossyRoadSessionExtension();
         extension.setSessionId(baseSession.getId());
         extension.setCurrentIndex(-1);
-        extension.setBalanceDifference(baseSession.getInvestedBalance());
 
         return extension;
     }
@@ -69,6 +66,12 @@ public class CrossyRoadSessionService extends BaseGameSessionService<CrossyRoadS
     public IGame getGame() {
         return new CrossyRoadGame();
     }
+
+    @Override
+    public int getPrize(int balanceInvested, GameDifficulty gameDifficulty, CrossyRoadSessionExtension extension) {
+        return extension.getPrizeIndexValues(balanceInvested, gameDifficulty).get(extension.getCurrentIndex());
+    }
+
 
     private Boolean hasLost(GameDifficulty difficulty) {
 
