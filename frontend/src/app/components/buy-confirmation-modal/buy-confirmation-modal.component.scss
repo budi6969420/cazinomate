@@ -30,8 +30,15 @@
 }
 
 .yes-btn {
+  background: transparent;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.yes-btn:hover {
   background: white;
-  color: black;
 }
 
 .no-btn {
@@ -46,12 +53,14 @@
 
 .popup {
   p {
-    font-size: 16px;
-    color: white;
+    font-size: var(--app-font-size-small);
+    color: var(--app-color-text-secondary);
     margin-bottom: 10px;
     text-align: center;
   }
+
 }
+
 
 img {
   width: 75px;
@@ -66,8 +75,5 @@ hr {
   border-top: 1px solid dimgrey;
 }
 
-h4 {
-
-}
 
 

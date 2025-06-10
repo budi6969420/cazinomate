@@ -5,7 +5,8 @@
     <h2>{{ product.name }}</h2>
     <img src="{{product.imageUrl}}">
     <label>{{ product.amount | number:'1.0-0' }} Mate Coins</label>
-    <label>{{ product.priceAmount / 100 | number: '1.2-2' }}€</label>
+    <h1 class="price">{{ product.priceAmount / 100 | number: '1.2-2' }}€</h1>
+    <p>Sie werden auf eine andere Seite weitergeleitet</p>
     <button class="yes-btn" (click)="handleYes()">Kaufen</button>
     <hr>
     <button class="no-btn" (click)="handleNo()">Abbrechen</button>
