@@ -68,7 +68,7 @@ public class StripeWebHookController {
         var user = this.keycloakService.getUserData(userId);
 
         var product = stripeService.getProductById(productId);
-        transactionService.TryAddTransaction(userId, product.getAmount(), TransactionCategory.Payment, "1x ".concat(product.getName()));
+        transactionService.TryAddTransaction(userId, product.getAmount(), TransactionCategory.Payment, "1x ".concat(product.getName()).concat(" was purchased for ").concat(String.valueOf(product.getPriceAmount() / 100)).concat("€"));
         this.productPurchasedReceiptEmailSendingService.sendEmail(product, user, "Kaufbestätigung");
     }
 }
