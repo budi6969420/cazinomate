@@ -46,4 +46,7 @@ export class ShopPackageComponent implements OnInit {
 
     return 'card active';
   }
+  trackByIndex(index: number, item: any): number {
+    return index;
+  }
 }

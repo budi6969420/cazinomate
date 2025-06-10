@@ -4,7 +4,7 @@
     [title]="!canAfford() ? 'Du kannst dir das nicht leisten' : ''">
 
     <div class="background-grid">
-      @for (tile of tiles; track tiles.indexOf(tile)) {
+      @for (tile of tiles; track $index) {
         <div class="grid-tile"></div>
       }
     </div>

@@ -3,12 +3,14 @@ import {PaymentLinkCreationOptionsModel} from "../../models/PaymentLinkCreationO
 import {ShopPackageService} from "../../services/shopPackage.service";
 import {ShopPackage} from "../../models/shopPackage";
 import {DecimalPipe} from "@angular/common";
+import {LoadingSpinnerComponent} from "../loading-spinner/loading-spinner.component";
 
 @Component({
   selector: 'app-buy-confirmation-modal',
   standalone: true,
   imports: [
-    DecimalPipe
+    DecimalPipe,
+    LoadingSpinnerComponent
   ],
   templateUrl: './buy-confirmation-modal.component.html',
   styleUrl: './buy-confirmation-modal.component.scss'
@@ -18,18 +20,23 @@ export class BuyConfirmationModalComponent {
   @Input() product!: ShopPackage;
   @Output() confirmationClosed = new EventEmitter();
 
+  isLaunchingLink = false;
+
   constructor(private packageService: ShopPackageService) {
   }
 
   public handleYes() {
     if (!this.product) return;
-    this.confirmationClosed.emit();
+    this.isLaunchingLink = true;
+
     let paymentLinkOptions = new PaymentLinkCreationOptionsModel();
     paymentLinkOptions.successUrl = location.origin + "/order-confirmation";
     paymentLinkOptions.cancelUrl = location.origin + "/shop";
 
     this.packageService.getPaymentLink(this.product.productId, paymentLinkOptions).subscribe((data) => {
-      location.replace(data.url)
+      location.replace(data.url);
+      this.isLaunchingLink = false;
+      this.confirmationClosed.emit();
     });
   }
 
