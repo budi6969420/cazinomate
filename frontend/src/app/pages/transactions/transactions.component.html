@@ -33,24 +33,34 @@
       </span>
     </div>
   </ng-container>
-
+  <div class="button-container">
   @if (totalPages > 1) {
-    <div class="pagination">
-      <button (click)="loadPage(currentPage - 1)" [disabled]="currentPage === 1">«</button>
+      <div></div>
+      <div class="pagination">
+        <button (click)="loadPage(currentPage - 1)" [disabled]="currentPage === 1">«</button>
 
-      <ng-container *ngFor="let page of compactPageNumbers">
-        <button
-          *ngIf="page !== '...'; else dots"
-          [class.active]="page === currentPage"
-          (click)="loadPage(page)">
-          {{ page }}
+        <ng-container *ngFor="let page of compactPageNumbers">
+          <button
+            *ngIf="page !== '...'; else dots"
+            [class.active]="page === currentPage"
+            (click)="loadPage(page)">
+            {{ page }}
+          </button>
+          <ng-template #dots>
+            <span class="dots">…</span>
+          </ng-template>
+        </ng-container>
+
+        <button (click)="loadPage(currentPage + 1)" [disabled]="currentPage === totalPages" class="nav-button">
+          »
         </button>
-        <ng-template #dots>
-          <span class="dots">…</span>
-        </ng-template>
-      </ng-container>
+      </div>
 
-      <button (click)="loadPage(currentPage + 1)" [disabled]="currentPage === totalPages">»</button>
-    </div>
+  } @else {
+    <div></div>
   }
+    <button (click)="exportTableToPdf()">
+      Als PDF exportieren
+    </button>
+  </div>
 </div>

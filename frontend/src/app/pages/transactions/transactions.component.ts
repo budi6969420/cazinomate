@@ -5,6 +5,9 @@ import { DatePipe, NgClass, NgForOf, NgIf } from "@angular/common";
 import {FormsModule} from "@angular/forms";
 import {LoadingSpinnerComponent} from "../../components/loading-spinner/loading-spinner.component";
 
+import jsPDF from 'jspdf';
+import autoTable from 'jspdf-autotable';
+
 @Component({
   selector: 'app-transactions',
   standalone: true,
@@ -111,5 +114,86 @@ export class TransactionsComponent {
     }
 
     return pages;
+  }
+
+  exportTableToPdf() {
+    const transactionsToExport = this.selectedCategory
+      ? this.allTransactions.filter(tx => tx.category === this.selectedCategory)
+      : this.allTransactions;
+
+    if (transactionsToExport.length === 0) {
+      alert('No transactions to export for the selected category.');
+      return;
+    }
+
+    const doc = new jsPDF();
+    const title = this.selectedCategory
+      ? `\"${this.selectedCategory}\" Transaktionen`
+      : 'Alle Transaktionen';
+    const details = `Benutzername: ${this.userService.myUser?.username}\nAktueller Kontostand: ${this.userService.myBalance.toLocaleString("de-DE")} MateCoins\nDatum des Exports: ${new Date().toLocaleDateString('de-DE')}\n`;
+
+    doc.setFont('Helvetica', 'bold');
+    doc.setFontSize(20);
+    doc.text(title, 14, 15);
+
+    doc.setFont('Helvetica', 'normal');
+    doc.setFontSize(15);
+    doc.text(details, 14, 25);
+
+    doc.setFont('Helvetica', 'normal');
+    doc.setFontSize(12);
+
+    const head = [['Datum', 'Beschreibung', 'Betrag (MateCoins)', 'Kategorie']];
+
+    const body = transactionsToExport.map(tx => [
+      new Date(tx.date).toLocaleString('de-DE'),
+      tx.description,
+      tx.amount.toLocaleString('de-DE'),
+      tx.category
+    ]);
+
+    autoTable(doc, {
+      head: head,
+      body: body,
+      startY: 45,
+      headStyles: { fillColor: [38, 38, 38] },
+    });
+
+    const fileName = this.selectedCategory
+      ? `transaktionen-${this.selectedCategory.toLowerCase()}-${this.getFilenameSafeDateTimeFromLocale(new Date())}.pdf`
+      : `transaktionen-${this.getFilenameSafeDateTimeFromLocale(new Date())}.pdf`;
+
+    doc.save(fileName);
+  }
+
+  getFilenameSafeDateTimeFromLocale(date: Date): string {
+    const options: Intl.DateTimeFormatOptions = {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+      hour12: false
+    };
+
+    const localeString = date.toLocaleString("de-DE", options);
+
+    const parts = localeString.match(/\d+/g);
+
+    if (!parts || parts.length !== 6) {
+      console.warn("Could not parse date parts correctly from locale string:", localeString);
+
+      return date.toISOString().replace(/[:.-Z]/g, '').slice(0, 14);
+    }
+
+    const day = parts[0];
+    const month = parts[1];
+    const year = parts[2];
+    const hour = parts[3];
+    const minute = parts[4];
+    const second = parts[5];
+
+    return `${year}-${month}-${day}_${hour}${minute}${second}`;
   }
 }

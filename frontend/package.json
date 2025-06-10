@@ -21,6 +21,8 @@
     "@pixi/sound": "^6.0.1",
     "angular-cli": "^0.1.0",
     "gsap": "^3.13.0",
+    "jspdf": "^3.0.1",
+    "jspdf-autotable": "^5.0.2",
     "keycloak-angular": "^19.0.2",
     "keycloak-js": "^26.1.4",
     "pixi.js": "^8.9.2",

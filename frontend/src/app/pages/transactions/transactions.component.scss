@@ -1,7 +1,7 @@
 .transactions-group {
   display: flex;
   flex-direction: column;
-  min-height: 900px;
+  min-height: 800px;
   min-width: 100%;
   background-color: var(--app-color-background-secondary);
   padding: 20px;
@@ -108,8 +108,16 @@ h3 {
   width: auto;
   vertical-align: middle;
 }
+.button-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin-top: 0.5rem;
+}
+
 .pagination {
-  margin-top: auto;
+
   display: flex;
   gap: 0.5rem;
   justify-content: center;
@@ -117,6 +125,7 @@ h3 {
   flex-wrap: wrap;
   user-select: none;
 }
+
 .pagination button {
   background: var(--app-color-background-tertiary);
   border: none;
@@ -125,18 +134,22 @@ h3 {
   border-radius: 5px;
   font-size: 0.9rem;
 }
+
 .pagination button.active {
   background: #333;
   color: #fff;
   font-weight: bold;
 }
+
 .pagination button:disabled {
   opacity: 0.5;
   cursor: default;
 }
+
 .pagination button:hover:not(:disabled):not(.active) {
   background: #ccc;
 }
+
 .pagination .dots {
   padding: 0.4rem 0.8rem;
   color: #888;
