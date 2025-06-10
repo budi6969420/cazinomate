@@ -8,6 +8,9 @@
   border: 1px solid var(--app-color-border);
   position: relative;
 }
+.transactions-table {
+  min-height: 680px;
+}
 .title-container {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;

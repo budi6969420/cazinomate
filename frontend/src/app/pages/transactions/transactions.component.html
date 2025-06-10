@@ -20,19 +20,21 @@
     </p>
   }
 
-  <ng-container *ngFor="let month of displayedGroupedMonths">
-    <h3>{{ month }}</h3>
+  <div class="transactions-table">
+    <ng-container *ngFor="let month of displayedGroupedMonths" >
+      <h3>{{ month }}</h3>
 
-    <div *ngFor="let tx of displayedGroupedTransactions[month]" class="transaction-row">
-      <span class="icon">📄</span>
-      <span class="date">{{ tx.date | date:'d. MMMM, HH:mm' }}</span>
-      <span class="description">{{ tx.description }}</span>
-      <span class="amount" [ngClass]="tx.amount > 0 ? 'green' : 'red'">
-        {{ tx.amount > 0 ? '+' : '' }}{{ tx.amount.toLocaleString("de-DE") }}
-        <span><img src="/images/coin.png"></span>
-      </span>
-    </div>
-  </ng-container>
+      <div *ngFor="let tx of displayedGroupedTransactions[month]" class="transaction-row">
+        <span class="icon">📄</span>
+        <span class="date">{{ tx.date | date:'d. MMMM, HH:mm' }}</span>
+        <span class="description">{{ tx.description }}</span>
+        <span class="amount" [ngClass]="tx.amount > 0 ? 'green' : 'red'">
+          {{ tx.amount > 0 ? '+' : '' }}{{ tx.amount.toLocaleString("de-DE") }}
+          <span><img src="/images/coin.png"></span>
+        </span>
+      </div>
+    </ng-container>
+  </div>
   <div class="button-container">
   @if (totalPages > 1) {
       <div></div>
@@ -51,9 +53,7 @@
           </ng-template>
         </ng-container>
 
-        <button (click)="loadPage(currentPage + 1)" [disabled]="currentPage === totalPages" class="nav-button">
-          »
-        </button>
+        <button (click)="loadPage(currentPage + 1)" [disabled]="currentPage === totalPages" class="nav-button">»</button>
       </div>
 
   } @else {
