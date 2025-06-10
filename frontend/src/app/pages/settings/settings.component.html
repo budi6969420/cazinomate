@@ -2,38 +2,40 @@
   <h1>Einstellungen</h1>
 
   <div class="container">
+    @if (isLoading) {
+      <app-loading-spinner/>
+    } @else {
       <div class="overview">
-
-          <div class="setting">
-              <div class="meta">
-                  <div class="title">
-                      <h3>E-Mail</h3>
-                      <span *ngIf="user?.emailVerified && user?.email">Bestätigt</span>
-                  </div>
-                  <span>{{user?.email}}</span>
-              </div>
+        <div class="setting">
+          <div class="meta">
+            <div class="title">
+              <h3>E-Mail</h3>
+              <span *ngIf="user?.emailVerified && user?.email">Bestätigt</span>
+            </div>
+            <span>{{user?.email}}</span>
           </div>
-          <div class="setting">
-              <div class="meta">
-                  <div class="title">
-                      <h3>Benutzername</h3>
-                  </div>
-                  <span>{{user?.username}}</span>
-              </div>
-              <button (click)="showUsernameBox()">Benutzernamen ändern</button>
+        </div>
+        <div class="setting">
+          <div class="meta">
+            <div class="title">
+              <h3>Benutzername</h3>
+            </div>
+            <span>{{user?.username}}</span>
           </div>
-          <div class="setting">
-              <div class="meta">
-                  <div class="title">
-                      <h3>Passwort</h3>
-                  </div>
-                  <span>*************</span>
-              </div>
-              <button (click)="showPasswordBox()">Passwort ändern</button>
+          <button (click)="showUsernameBox()">Benutzernamen ändern</button>
+        </div>
+        <div class="setting">
+          <div class="meta">
+            <div class="title">
+              <h3>Passwort</h3>
+            </div>
+            <span>*************</span>
           </div>
+          <button (click)="showPasswordBox()">Passwort ändern</button>
+        </div>
 
       </div>
-
+    }
   </div>
 </main>
 
