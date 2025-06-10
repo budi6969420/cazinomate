@@ -13,7 +13,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Service
-public class KeycloakService {
+public class    KeycloakService {
     private final RestTemplate restTemplate;
     private final String keycloakUrl;
     private final String adminRealm;

@@ -11,6 +11,7 @@ import {TransactionsComponent} from "./pages/transactions/transactions.component
 import {DatenschutzComponent} from "./pages/datenschutz/datenschutz.component";
 import {UseConditionsComponent} from "./pages/use-conditions/use-conditions.component";
 import {NotFoundComponent} from "./pages/not-found/not-found.component";
+import {StatisticsComponent} from "./pages/statistics/statistics.component";
 
 export const routes: Routes = [
   { path: '', component: HomeComponent},
@@ -21,6 +22,7 @@ export const routes: Routes = [
   { path: 'game/:gameId', component: GameViewComponent, canActivate: [authGuard]},
   { path: 'payout', component: PayoutComponent},
   { path: 'transactions', component: TransactionsComponent, canActivate: [authGuard]},
+  { path: 'stats', component: StatisticsComponent, canActivate: [authGuard]},
   { path: 'datenschutz', component: DatenschutzComponent},
   { path: 'nutzungsbedingungen', component: UseConditionsComponent},
   { path: 'not-found', component: NotFoundComponent},

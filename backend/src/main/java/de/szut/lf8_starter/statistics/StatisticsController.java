@@ -32,15 +32,15 @@ public class StatisticsController {
         return ResponseEntity.ok(statisticsService.getStatisticsForGameAndUser(gameId, user.getId()));
     }
 
-    @GetMapping("self")
-    public ResponseEntity<List<GameStatisticsModel>> getStatisticsForUser(
-            @RequestHeader(value = "Authorization", required = false) String authorizationHeader) throws Exception {
-        var user = keycloakService.getUserData(jwtService.decodeId(authorizationHeader));
-        if (user == null) {
-            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        @GetMapping("self")
+        public ResponseEntity<List<GameStatisticsModel>> getStatisticsForUser(
+                @RequestHeader(value = "Authorization", required = false) String authorizationHeader) throws Exception {
+            var user = keycloakService.getUserData(jwtService.decodeId(authorizationHeader));
+            if (user == null) {
+                return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+            }
+            return ResponseEntity.ok(statisticsService.getStatisticsForUser(user.getId()));
         }
-        return ResponseEntity.ok(statisticsService.getStatisticsForUser(user.getId()));
-    }
 
 
     @GetMapping("{gameId}")
