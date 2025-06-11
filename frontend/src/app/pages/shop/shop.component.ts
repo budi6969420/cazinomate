@@ -4,6 +4,7 @@ import {ShopPackageService} from "../../services/shopPackage.service";
 import {BuyConfirmationModalComponent} from "../../components/buy-confirmation-modal/buy-confirmation-modal.component";
 import {ShopPackage} from "../../models/shopPackage";
 import {KeycloakAuthService} from "../../services/keycloak-auth.service";
+import {RedeemGiftCardComponent} from "../../components/redeem-gift-card/redeem-gift-card.component";
 import {LoadingSpinnerComponent} from "../../components/loading-spinner/loading-spinner.component";
 
 @Component({
@@ -12,6 +13,7 @@ import {LoadingSpinnerComponent} from "../../components/loading-spinner/loading-
   imports: [
     ShopPackageComponent,
     BuyConfirmationModalComponent,
+    RedeemGiftCardComponent,
     LoadingSpinnerComponent,
   ],
   templateUrl: './shop.component.html',

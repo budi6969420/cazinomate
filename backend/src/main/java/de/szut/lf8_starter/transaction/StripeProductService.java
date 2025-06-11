@@ -11,7 +11,7 @@ import com.stripe.param.PriceListParams;
 import com.stripe.param.ProductListParams;
 import com.stripe.param.checkout.SessionCreateParams;
 import de.szut.lf8_starter.product.ProductWithPriceModel;
-import de.szut.lf8_starter.user.KeycloakService;
+import de.szut.lf8_starter.user.UserService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -22,18 +22,18 @@ import java.util.Map;
 @Service
 public class StripeProductService {
 
-    private final KeycloakService keycloakService;
+    private final UserService userService;
     @Value("${stripe.secret.key}")
     private String stripeSecretKey;
 
-    public StripeProductService(KeycloakService keycloakService) {
-        this.keycloakService = keycloakService;
+    public StripeProductService(UserService userService) {
+        this.userService = userService;
         Stripe.apiKey = stripeSecretKey;
     }
 
     public String createPaymentLink(String productId, String userId, String successUrl, String cancelUrl) throws StripeException {
         var product = getProductById(productId);
-        var user = keycloakService.getUserData(userId);
+        var user = userService.getUserData(userId);
         var userEmail = user.getEmail();
 
         try {

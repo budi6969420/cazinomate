@@ -1,3 +1,10 @@
+.container {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  gap: 30px;
+}
+
 .header {
   color: #FFF;
   font-family: Inter, serif;
@@ -18,10 +25,14 @@
   height: 760px;
 }
 
-.container{
+.package-container{
   display: flex;
   justify-content: center;
   margin-bottom: 30px;
+}
+
+.gift-card-container {
+  align-self: center;
 }
 
 ul {

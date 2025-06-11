@@ -3,7 +3,7 @@ package de.szut.lf8_starter.game.session;
 import de.szut.lf8_starter.game.session.requests.SessionActionRequest;
 import de.szut.lf8_starter.game.session.requests.StartSessionRequest;
 import de.szut.lf8_starter.user.JwtService;
-import de.szut.lf8_starter.user.KeycloakService;
+import de.szut.lf8_starter.user.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,13 +14,13 @@ public class GameSessionController {
 
     private final GameSessionDispatcher dispatcher;
     private final GameSessionDtoMapper dtoMapper;
-    private final KeycloakService keycloakService;
+    private final UserService userService;
     private final JwtService jwtService;
 
-    public GameSessionController(GameSessionDispatcher dispatcher, GameSessionDtoMapper dtoMapper, KeycloakService keycloakService, JwtService jwtService) {
+    public GameSessionController(GameSessionDispatcher dispatcher, GameSessionDtoMapper dtoMapper, UserService userService, JwtService jwtService) {
         this.dispatcher = dispatcher;
         this.dtoMapper = dtoMapper;
-        this.keycloakService = keycloakService;
+        this.userService = userService;
         this.jwtService = jwtService;
     }
 
@@ -28,7 +28,7 @@ public class GameSessionController {
     public ResponseEntity<? extends BaseSessionDto> findActiveSession(
             @RequestParam String gameId,
             @RequestHeader(value = "Authorization", required = false) String authorizationHeader) throws Exception {
-        var user = keycloakService.getUserData(jwtService.decodeId(authorizationHeader));
+        var user = userService.getUserData(jwtService.decodeId(authorizationHeader));
         if (user == null) return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 
         var optAggregate = dispatcher.findActive(gameId, user.getId());
@@ -41,7 +41,7 @@ public class GameSessionController {
             @RequestBody StartSessionRequest request,
             @RequestHeader(value = "Authorization", required = false) String authorizationHeader) throws Exception {
 
-        var user = keycloakService.getUserData(jwtService.decodeId(authorizationHeader));
+        var user = userService.getUserData(jwtService.decodeId(authorizationHeader));
         if (user == null) return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 
         var aggregate = dispatcher.start(request.getGameId(), user.getId(), request.getDifficulty(), request.getInvestedBalance());
@@ -53,7 +53,7 @@ public class GameSessionController {
             @RequestHeader(value = "Authorization", required = false) String authorizationHeader,
             @RequestBody SessionActionRequest request) throws Exception {
 
-        var user = keycloakService.getUserData(jwtService.decodeId(authorizationHeader));
+        var user = userService.getUserData(jwtService.decodeId(authorizationHeader));
         if (user == null) return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 
         var aggregate = dispatcher.processAction(request.getGameId(), user.getId(), request.getSessionId(), request.getInteraction());

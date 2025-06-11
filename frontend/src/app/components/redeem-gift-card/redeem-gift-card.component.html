@@ -1,0 +1,7 @@
+<div [class]="isAuthenticated ? 'container active' : 'container'">
+  <h2>Code Einlösen</h2>
+  <input [(ngModel)]="code" type="text" [mask]="'LLLL-LLLL-LLLL-LLLL'" [patterns]="letterMask" (ngModelChange)="code = code.toUpperCase()" [dropSpecialCharacters]="false" placeholder="XXXX-XXXX-XXXX-XXXX" maxlength="19">
+  <button [class]="code.length < 19 ? 'yes-btn' : 'yes-btn active'" (click)="redeemCode()">Einlösen</button>
+</div>
+<label [class]="errorMessage != '' ? 'errorMessage enabled' : 'errorMessage'">{{errorMessage}}</label>
+<app-gift-card-confirmation-modal [redeemed]="successfullyRedeemed" [amount]="amount" (confirmationClosed)="handleModalClose()"></app-gift-card-confirmation-modal>

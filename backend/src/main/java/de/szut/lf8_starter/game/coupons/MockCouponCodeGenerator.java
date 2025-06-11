@@ -1,4 +1,4 @@
-package de.szut.lf8_starter.payout.coupons;
+package de.szut.lf8_starter.game.coupons;
 
 import org.springframework.stereotype.Service;
 
