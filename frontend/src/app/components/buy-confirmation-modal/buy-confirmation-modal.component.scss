@@ -30,15 +30,11 @@
 }
 
 .yes-btn {
-  background: transparent;
-  color: white;
+  background: white;
+  color: black;
   display: flex;
   align-items: center;
   justify-content: center;
-}
-
-.yes-btn:hover {
-  background: white;
 }
 
 .no-btn {
