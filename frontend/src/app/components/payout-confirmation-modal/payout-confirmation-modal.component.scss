@@ -1,4 +1,8 @@
 .popup {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
   position: fixed;
   top: 50%;
   left: 50%;
@@ -9,7 +13,8 @@
   border-radius: 10px;
   text-align: center;
   width: 300px;
-  min-height: 80px;
+  height: 310px;
+  min-height: 300px;
   transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
   z-index: 1001;
 
@@ -21,6 +26,7 @@
 
 }
 .popup button {
+  width: 100%;
   margin: 10px;
   padding: 10px 20px;
   border: none;
@@ -31,45 +37,48 @@
 }
 
 .yes-btn {
-  background: green;
-  color: white;
-}
-
-.yes-btn:hover {
-  background: darkgreen;
+  background: white;
+  color: black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .no-btn {
-  background: red;
+  background: transparent;
   color: white;
 }
 
 .no-btn:hover {
-  background: darkred;
+  background: red;
+  color: white;
 }
 
-.popup p {
-  font-size: 16px;
-  color: white;
-  margin-bottom: 10px;
+.currency-container {
   display: flex;
-  text-align: center;
-  img {
-    width: 20px;
-    height: 20px;
-    margin-left: 5px;
-    margin-right: 5px;
+  height: 18px;
+  p {
+    font-size: var(--app-font-size-gigantic);
   }
 }
 
-.modal-backdrop {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: rgba(0, 0, 0, 0.5);
-  z-index: 1000;
-  pointer-events: auto;
+.currency {
+  width: 25px;
+  height: 25px;
+  margin: -2px 0 0 2px;
 }
+
+img {
+  width: 125px;
+  height: 125px;
+  margin: 10px;
+}
+
+hr {
+
+  border: none;
+  width: 100%;
+  border-top: 1px solid dimgrey;
+}
+
 
