@@ -1,7 +1,7 @@
 package de.szut.lf8_starter.statistics;
 
 import de.szut.lf8_starter.user.JwtService;
-import de.szut.lf8_starter.user.KeycloakService;
+import de.szut.lf8_starter.user.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,12 +12,12 @@ import java.util.List;
 @RequestMapping("statistics")
 public class StatisticsController {
     private final StatisticsService statisticsService;
-    private final KeycloakService keycloakService;
+    private final UserService userService;
     private final JwtService jwtService;
 
-    public StatisticsController(StatisticsService statisticsService, KeycloakService keycloakService, JwtService jwtService) {
+    public StatisticsController(StatisticsService statisticsService, UserService userService, JwtService jwtService) {
         this.statisticsService = statisticsService;
-        this.keycloakService = keycloakService;
+        this.userService = userService;
         this.jwtService = jwtService;
     }
 
@@ -25,7 +25,7 @@ public class StatisticsController {
     public ResponseEntity<GameStatisticsModel> getStatisticsForGameAndUser(
             @PathVariable String gameId,
             @RequestHeader(value = "Authorization", required = false) String authorizationHeader) throws Exception {
-        var user = keycloakService.getUserData(jwtService.decodeId(authorizationHeader));
+        var user = userService.getUserData(jwtService.decodeId(authorizationHeader));
         if (user == null) {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
@@ -35,7 +35,7 @@ public class StatisticsController {
         @GetMapping("self")
         public ResponseEntity<List<GameStatisticsModel>> getStatisticsForUser(
                 @RequestHeader(value = "Authorization", required = false) String authorizationHeader) throws Exception {
-            var user = keycloakService.getUserData(jwtService.decodeId(authorizationHeader));
+            var user = userService.getUserData(jwtService.decodeId(authorizationHeader));
             if (user == null) {
                 return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
             }
