@@ -670,6 +670,7 @@
             "alwaysDisplayInConsole": true,
             "clientAuthenticatorType": "client-secret",
             "redirectUris": [
+                "*",
                 "https://api.cazinomate.de",
                 "https://cazinomate.de",
                 "http://localhost:4200"
