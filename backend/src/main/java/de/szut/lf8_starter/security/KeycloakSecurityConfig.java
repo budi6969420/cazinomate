@@ -64,6 +64,7 @@ class KeycloakSecurityConfig {
 
                         .requestMatchers("/swagger", "/swagger-ui/**", "/v3/api-docs/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/giftcard/generate").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.POST, "/giftcard/pdf/generate").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.GET, "/giftcard/").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )

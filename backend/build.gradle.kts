@@ -39,6 +39,9 @@ dependencies {
     implementation("io.projectreactor:reactor-core")
     implementation("com.stripe:stripe-java:20.105.0")
     implementation("com.mailjet:mailjet-client:5.2.6")
+    implementation("org.springframework.boot:spring-boot-starter-web")
+    implementation("org.apache.pdfbox:pdfbox:2.0.30")
+    implementation("com.fasterxml.jackson.core:jackson-databind")
 }
 
 tasks.withType<Test> {
