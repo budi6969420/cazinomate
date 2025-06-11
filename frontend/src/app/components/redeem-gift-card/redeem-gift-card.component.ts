@@ -33,7 +33,6 @@ export class RedeemGiftCardComponent {
   }
 
   redeemCode() {
-    console.log("Code: " + this.code);
     this.giftCardService.redeemGiftCard(this.code).subscribe({
       next: (giftCardInfo) => {
         if (giftCardInfo != null) {
