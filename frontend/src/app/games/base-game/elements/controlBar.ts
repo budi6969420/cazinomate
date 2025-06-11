@@ -359,8 +359,6 @@ export class ControlBar extends Container {
   public _createSpielStartenButton(): void {
     if(this.mainButton && this.mainButton.name == "SpielStarten") return;
 
-    this.userService.updateSelfBalance().subscribe();
-
     const button = new Container();
     button.name = "SpielStarten";
     const buttonWidth = 700;

@@ -8,6 +8,7 @@ import {CrossyRoadGame} from "../games/crossy-road/crossyRoadGame";
 import {GameConstants} from "../games/gameConstants";
 import {SlotsGame} from "../games/slots/slotsGame";
 import {CoinFlipGame} from "../games/coin-flip/coinFlipGame";
+import {UserService} from "./user.service";
 
 @Injectable({
   providedIn: 'root'
@@ -18,15 +19,16 @@ export class GameMetadataService {
   getPlayableGameMetadatas(): GameMetadata[] {
     return this.gameMetadatas.filter(g => g.playable);
   }
-  gameObjects: IGame[] = [
-    new CrossyRoadGame(GameConstants.APP_LOGICAL_HEIGHT, GameConstants.APP_LOGICAL_WIDTH),
-    new CoinFlipGame(GameConstants.APP_LOGICAL_HEIGHT, GameConstants.APP_LOGICAL_WIDTH),
-    new SlotsGame(GameConstants.APP_LOGICAL_HEIGHT, GameConstants.APP_LOGICAL_WIDTH)
-  ]
+  gameObjects: IGame[];
   private dataLoadedSubject = new ReplaySubject<GameMetadata[]>(1);
   public dataLoaded$: Observable<GameMetadata[]> = this.dataLoadedSubject.asObservable();
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private userService: UserService) {
+    this.gameObjects = [
+      new CrossyRoadGame(GameConstants.APP_LOGICAL_HEIGHT, GameConstants.APP_LOGICAL_WIDTH, this.userService),
+      new CoinFlipGame(GameConstants.APP_LOGICAL_HEIGHT, GameConstants.APP_LOGICAL_WIDTH, this.userService),
+      new SlotsGame(GameConstants.APP_LOGICAL_HEIGHT, GameConstants.APP_LOGICAL_WIDTH)
+    ];
     this.getGameMetadatas().subscribe({
       next: (gameMetadatas) => {
         if (gameMetadatas && gameMetadatas.length > 0) {

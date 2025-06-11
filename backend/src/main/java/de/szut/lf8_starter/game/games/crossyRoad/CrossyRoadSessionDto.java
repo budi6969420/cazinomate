@@ -13,13 +13,11 @@ public class CrossyRoadSessionDto extends BaseSessionDto {
     public CrossyRoadSessionDto(BaseSession baseSession, CrossyRoadSessionExtension sessionExtension) {
         super(baseSession);
         this.currentIndex = sessionExtension.getCurrentIndex();
-        this.balanceDifference = sessionExtension.getBalanceDifference();
         this.prizeIndexValues = sessionExtension.getPrizeIndexValues(baseSession.getInvestedBalance(), baseSession.getDifficulty());
         this.wouldHaveLostAtIndex = sessionExtension.getWouldHaveLostIndex();
     }
 
     private int currentIndex;
-    private int balanceDifference;
     private List<Integer> prizeIndexValues;
     private int wouldHaveLostAtIndex;
 }
