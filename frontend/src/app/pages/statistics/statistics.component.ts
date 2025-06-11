@@ -11,7 +11,6 @@ import { GameMetadataService } from '../../services/game-metadata.service';
   standalone: true,
   imports: [
     DecimalPipe,
-    CurrencyPipe,
     TitleCasePipe,
     LoadingSpinnerComponent,
   ],
@@ -61,11 +60,6 @@ export class StatisticsComponent implements OnInit {
       statsObservable = this.statisticsService.getSelfGameStatistics().pipe(
         catchError(error => {
           console.error('Error fetching user statistics:', error);
-          if (error.status === 401 || error.status === 403) {
-            this.errorMessage = 'Sie sind nicht angemeldet oder autorisiert, Ihre Statistiken einzusehen.';
-          } else {
-            this.errorMessage = 'Fehler beim Laden Ihrer Statistiken. Bitte versuchen Sie es später erneut.';
-          }
           this.gameStats = [];
           this.calculateOverallStatistics();
           this.isLoading = false;
@@ -85,7 +79,7 @@ export class StatisticsComponent implements OnInit {
       },
       error: err => {
         if (!this.errorMessage) {
-          this.errorMessage = 'Ein unerwarteter Fehler ist aufgetreten. Bitte versuchen Sie es später erneut.';
+          this.errorMessage = 'Ein unerwarteter Fehler ist aufgetreten. Bitte versuche es später erneut.';
         }
         console.error('General statistics loading error:', err);
         this.gameStats = [];

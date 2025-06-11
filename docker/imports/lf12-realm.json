@@ -660,8 +660,8 @@
         {
             "id": "f218ef60-61b9-4759-94ea-fcc817214a17",
             "clientId": "lf12",
-            "name": "lf12",
-            "description": "LF12 Client",
+            "name": "Cazinomate",
+            "description": "Cazinomate Client",
             "rootUrl": "",
             "adminUrl": "",
             "baseUrl": "",
@@ -670,8 +670,9 @@
             "alwaysDisplayInConsole": true,
             "clientAuthenticatorType": "client-secret",
             "redirectUris": [
-                "",
                 "*",
+                "https://api.cazinomate.de",
+                "https://cazinomate.de",
                 "http://localhost:4200"
             ],
             "webOrigins": [
@@ -1418,12 +1419,12 @@
     },
     "smtpServer": {
         "replyToDisplayName": "",
-        "starttls": "false",
+        "starttls": "true",
         "auth": "true",
         "envelopeFrom": "",
-        "ssl": "true",
-        "password": "**********",
-        "port": "465",
+        "ssl": "false",
+        "password": "BigPenis6969420!"
+        "port": "587",
         "host": "smtp.strato.de",
         "replyTo": "",
         "from": "no-reply@cazinomate.de",
