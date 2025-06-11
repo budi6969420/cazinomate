@@ -16,7 +16,7 @@ public class PayoutReceiptEmailFormattingService extends BaseEmailFormattingServ
 
         return """
                 <div style='align-items: center; text-align: center; padding: 10px;'>
-                    <h2 style='color: #16B858; font-size: 20px; margin-bottom: 15px;'>%s</h2>
+                    <h2 style='color: #16B858; font-size: 20px; margin-bottom: 15px;'>1x %s wurde gekauft</h2>
                     <p style='color: #c5c5c5; font-size: 16px; margin-bottom: 10px;'>
                         Gutscheincode: <span style='font-weight: bold; color: white;'>%s</span>
                     </p>
