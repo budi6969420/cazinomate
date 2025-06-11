@@ -60,7 +60,7 @@ export class GameComponent implements OnInit, OnDestroy {
       await this.initializePixiAssets();
       await this.initializePixiApplication();
       await this.loadAssetsFromManifest();
-      this.setupStage();
+      await this.setupStage();
 
     } catch (error) {
       console.error('Critical error during GameComponent initialization:', error);
@@ -78,7 +78,7 @@ export class GameComponent implements OnInit, OnDestroy {
     if (!this.game) {
       throw new Error("Game logic must be initialized before configuring paths.");
     }
-    const gameName = this.game.getName();
+    const gameName = this.game.getId();
     this.currentGameSpecificAssetPath = `${this.GAME_ASSETS_ROOT_PATH}${gameName}/`;
     this.currentManifestUrl = `${this.currentGameSpecificAssetPath}manifest.json`;
   }
@@ -149,10 +149,10 @@ export class GameComponent implements OnInit, OnDestroy {
 
     //@ts-ignore
     this.app.stage.addChild(this.game as Container<any>);
-    if (this.game.getIsGamePlayable()) {
+    if (this.gameMetaData.playable) {
       this.app!.stage.addChild(this.controlBar)
     }
-    this.controlBar.findAndStartActiveGameSession();
+    await this.controlBar.findAndStartActiveGameSession();
 
     document.addEventListener('keydown', (event: KeyboardEvent) => {
       this.controlBar.controller(event);
@@ -206,6 +206,9 @@ export class GameComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     console.log("GameComponent ngOnDestroy: Cleaning up PIXI resources.");
+
+    this.game.destroy();
+    this.controlBar.destroy();
 
     if (this.assetIdentifiers.length > 0) {
       Assets.unload(this.assetIdentifiers)

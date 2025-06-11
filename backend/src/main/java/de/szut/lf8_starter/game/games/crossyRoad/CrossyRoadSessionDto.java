@@ -1,4 +1,4 @@
-package de.szut.lf8_starter.game.games.crossyRoadGangBang;
+package de.szut.lf8_starter.game.games.crossyRoad;
 
 import de.szut.lf8_starter.game.session.BaseSession;
 import de.szut.lf8_starter.game.session.BaseSessionDto;
@@ -9,8 +9,8 @@ import java.util.List;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class CrossyRoadGangBangSessionDto extends BaseSessionDto {
-    public CrossyRoadGangBangSessionDto(BaseSession baseSession, CrossyRoadGangBangSessionExtension sessionExtension) {
+public class CrossyRoadSessionDto extends BaseSessionDto {
+    public CrossyRoadSessionDto(BaseSession baseSession, CrossyRoadSessionExtension sessionExtension) {
         super(baseSession);
         this.currentIndex = sessionExtension.getCurrentIndex();
         this.balanceDifference = sessionExtension.getBalanceDifference();

@@ -1,17 +1,17 @@
-package de.szut.lf8_starter.game.games.crossyRoadGangBang;
+package de.szut.lf8_starter.game.games.crossyRoad;
 
 import de.szut.lf8_starter.game.BaseGame;
 import de.szut.lf8_starter.game.HeaderedText;
 
-public class CrossyRoadGangBangGame extends BaseGame {
+public class CrossyRoadGame extends BaseGame {
     @Override
     public String getId() {
-        return "39c63177-b7ad-478b-a009-69b8fa043e6f";
+        return "crossy-road";
     }
 
     @Override
     public String getTitle() {
-        return "Crossy Road Gang! Bang!";
+        return "Crossy Road";
     }
 
     @Override
@@ -57,8 +57,13 @@ public class CrossyRoadGangBangGame extends BaseGame {
     }
 
     @Override
+    public boolean getIsPlayable() {
+        return true;
+    }
+
+    @Override
     public String getPreviewImageUrl() {
-        return "https://cdn.budidev.de/43f81";
+        return "https://cdn.budidev.de/46c95";
     }
 
     @Override

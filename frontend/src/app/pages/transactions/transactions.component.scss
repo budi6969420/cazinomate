@@ -1,78 +1,160 @@
 .transactions-group {
   display: flex;
   flex-direction: column;
-  min-height: 500px;
+  min-height: 800px;
+  min-width: 100%;
   background-color: var(--app-color-background-secondary);
   padding: 20px;
   border: 1px solid var(--app-color-border);
-
+  position: relative;
 }
-
+.transactions-table {
+  min-height: 680px;
+}
+.title-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  align-items: center;
+  margin-bottom: 1rem;
+  padding: 0 1rem;
+}
+.transactions-title {
+  grid-column: 2;
+  justify-self: center;
+  margin: 0;
+  font-weight: 700;
+  font-size: 1.5rem;
+  text-align: center;
+}
+.filter-category {
+  grid-column: 3;
+  height: 100%;
+  justify-self: end;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1rem;
+  color: var(--app-color-text-secondary);
+  user-select: none;
+}
+.filter-category label {
+  font-weight: 600;
+}
+.filter-category select {
+  padding: 0.3rem 0.6rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  cursor: pointer;
+  background-color: white;
+  transition: border-color 0.2s ease;
+}
+.filter-category select:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
 .no-transaction-message {
   text-align: center;
   height: 100%;
   vertical-align: center;
   margin-top: 150px;
 }
-
-.transactions-title {
-  text-align: center;
+h3 {
+  margin-top: 20px;
 }
-
 .transaction-row {
   display: flex;
   align-items: center;
   padding: 0.5rem 0;
   border-bottom: 1px solid #444;
+}
+.transaction-row.header {
+  font-weight: bold;
+  border-bottom: 2px solid #888;
+}
+.transaction-row .icon {
+  flex-basis: 24px;
+  flex-shrink: 0;
+  display: flex;
+  justify-content: center;
+  margin-right: 8px;
+}
+.transaction-row .icon img {
+  width: 16px;
+  height: 16px;
+}
+.transaction-row .date {
+  flex-basis: 150px;
+  flex-shrink: 0;
+}
+.transaction-row .description {
+  flex-grow: 1;
+  padding: 0 1rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.transaction-row .amount {
+  flex-basis: 250px;
+  text-align: right;
+  flex-shrink: 0;
+}
+.transaction-row .amount.green {
+  color: #4caf50;
+}
+.transaction-row .amount.red {
+  color: #f44336;
+}
+.transaction-row .amount img {
+  height: 25px;
+  width: auto;
+  vertical-align: middle;
+}
+.button-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin-top: 0.5rem;
+}
 
-  &.header {
-    font-weight: bold;
-    border-bottom: 2px solid #888;
-  }
+.pagination {
 
-  .icon {
-    flex-basis: 24px;
-    flex-shrink: 0;
-    display: flex;
-    justify-content: center;
-    margin-right: 8px;
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  user-select: none;
+}
 
-    img {
-      width: 16px;
-      height: 16px;
-    }
-  }
+.pagination button {
+  background: var(--app-color-background-tertiary);
+  border: none;
+  padding: 0.4rem 0.8rem;
+  cursor: pointer;
+  border-radius: 5px;
+  font-size: 0.9rem;
+}
 
-  .date {
-    flex-basis: 150px;
-    flex-shrink: 0;
-  }
+.pagination button.active {
+  background: #333;
+  color: #fff;
+  font-weight: bold;
+}
 
-  .description {
-    flex-grow: 1;
-    padding: 0 1rem;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
+.pagination button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
 
-  .amount {
-    flex-basis: 250px;
-    text-align: right;
-    flex-shrink: 0;
+.pagination button:hover:not(:disabled):not(.active) {
+  background: #ccc;
+}
 
-    &.green {
-      color: #4caf50;
-    }
-
-    &.red {
-      color: #f44336;
-    }
-
-    img {
-      height: 25px;
-      width: auto;
-      vertical-align: middle;
-    }
-  }
+.pagination .dots {
+  padding: 0.4rem 0.8rem;
+  color: #888;
+  font-size: 0.9rem;
 }

@@ -58,7 +58,7 @@ export class SidebarComponent {
     });
 
     if (maxWidth > 0) {
-      const buffer = 10;
+      const buffer = 70;
       document.documentElement.style.setProperty('--expanded-menu-width', `${maxWidth + buffer}px`);
     } else {
       document.documentElement.style.setProperty('--expanded-menu-width', `200px`);

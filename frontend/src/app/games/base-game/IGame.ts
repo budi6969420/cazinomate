@@ -11,12 +11,13 @@ export interface IGame{
   getInteractionForPressedKey(event: KeyboardEvent): Interaction;
   processInteraction(interaction: Interaction, gameSession: BaseGameSession): Promise<void>;
 
-  getName(): string;
   getId(): string;
   getGameState(): GameState;
   getCurrentGains(): number;
-  getIsGamePlayable(): boolean;
+  getSupportsMidGamePayout(): boolean;
 
   setGameState(gameState: GameState): void;
   setCurrentGains(gains: number): void;
+
+  destroy(options?: boolean) : void;
 }

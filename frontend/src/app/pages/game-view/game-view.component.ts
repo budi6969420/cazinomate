@@ -27,6 +27,9 @@ export class GameViewComponent implements OnInit {
     this.gameMetadataService.dataLoaded$.subscribe(
         (loadedMetadatas) => {
           this.gameMetadata = <GameMetadata> loadedMetadatas.find(i => i.id === this.gameId);
+          if (!this.gameMetadata) {
+            window.location.href="/not-found";
+          }
         }
     );
   }

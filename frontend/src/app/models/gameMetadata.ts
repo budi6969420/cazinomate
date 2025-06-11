@@ -8,4 +8,5 @@ export interface GameMetadata {
   previewImageUrl: string;
   loadingIconUrl: string;
   previewHexColor: string;
+  playable: boolean;
 }

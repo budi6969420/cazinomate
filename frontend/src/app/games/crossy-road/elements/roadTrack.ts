@@ -27,7 +27,7 @@ export class RoadTrack extends Container {
     this.addChild(streetBackground)
 
     if(coinValue){
-      const coinField = new CoinField(String(coinValue));
+      const coinField = new CoinField(String(coinValue.toLocaleString('de-DE')));
       this.addChild(coinField);
       this.coinField = coinField;
     }

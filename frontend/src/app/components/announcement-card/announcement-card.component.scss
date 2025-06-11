@@ -1,11 +1,14 @@
 .container {
-  width: 350px;
-  height: 200px;
-  cursor: pointer;
+  width: 300px;
+  height: 172px;
   border-radius: 5px;
   background: linear-gradient(180deg, rgba(0, 0, 0, 0.00) 0%, rgba(42, 3, 199, 0.20) 100%), #2B2B2B;
   display: flex;
   justify-content: space-between;
+  transition: transform 0.3s ease;
+}
+.container:hover {
+  transform: sca  le(1.05);
 }
 
 .green{

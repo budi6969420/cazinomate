@@ -9,8 +9,7 @@ import {GameState} from "../base-game/enums/gameState";
 import {CrossyRoadGameVariables} from "./crossyRoadGameVariables";
 
 export class CrossyRoadGame extends Container implements IGame{
-  private readonly GAME_NAME: string = "crossy-road";
-  private readonly GAME_ID: string = "39c63177-b7ad-478b-a009-69b8fa043e6f";
+  private readonly GAME_ID: string = "crossy-road";
   private gameState: GameState = GameState.INACTIVE;
   private currentGains: number = 0;
 
@@ -33,6 +32,7 @@ export class CrossyRoadGame extends Container implements IGame{
       CrossyRoadGameVariables.GAME_SETTING_ROAD_TRACK_AMOUNT = gameSession.prizeIndexValues.length;
       CrossyRoadGameVariables.GAME_SETTING_INITIAL_CHICKEN_INDEX = gameSession.currentIndex;
       CrossyRoadGameVariables.GAME_SETTING_PRIZES_PER_FIELD = gameSession.prizeIndexValues;
+      this.currentGains = gameSession.balanceDifference - gameSession.investedBalance;
     }
 
     if (this.playgroundScreen){
@@ -57,14 +57,13 @@ export class CrossyRoadGame extends Container implements IGame{
       await this.playgroundScreen.scrollToDeathField(gameSession.wouldHaveLostAtIndex);
     }
     else{
-      this.playgroundScreen.setAllFieldsToVisited();
+      await this.playgroundScreen.setAllFieldsToVisited();
       await this.playgroundScreen.scrollToMaxWidth();
     }
     this.setGameState(GameState.WON);
   }
 
   private gameStateCheckingLoop(){
-
     switch(this.gameState){
       case GameState.LOST:
         this.endDialogueScreen.showPlayerLost();
@@ -87,6 +86,24 @@ export class CrossyRoadGame extends Container implements IGame{
     }
   }
 
+  override destroy(options?: boolean): void {
+    Ticker.shared.remove(this.gameStateCheckingLoop, this);
+
+    if (this.playgroundScreen) {
+      this.removeChild(this.playgroundScreen);
+      this.playgroundScreen.destroy(options);
+    }
+
+    if (this.endDialogueScreen) {
+      this.removeChild(this.endDialogueScreen);
+      this.endDialogueScreen.destroy(options);
+    }
+
+    this.gameWasAlreadyInitialisedBefore = false;
+
+    super.destroy(options);
+  }
+
   getInteractionForPressedKey(event: KeyboardEvent): Interaction {
     let interaction: Interaction;
 
@@ -95,14 +112,10 @@ export class CrossyRoadGame extends Container implements IGame{
         interaction = Interaction.MOVE;
         break;
       default:
-        interaction = Interaction.MOVE;
+        interaction = Interaction.NONE;
     }
 
     return interaction;
-  }
-
-  public getName(){
-    return this.GAME_NAME;
   }
   public getId() {
     return this.GAME_ID;
@@ -113,13 +126,13 @@ export class CrossyRoadGame extends Container implements IGame{
   public getCurrentGains(): number {
     return this.currentGains;
   }
-  getIsGamePlayable(): boolean {
-    return true;
-  }
   public setGameState(gameState: GameState) {
     this.gameState = gameState;
   }
   public setCurrentGains(gains: number) {
     this.currentGains = gains;
+  }
+  getSupportsMidGamePayout(): boolean {
+    return true;
   }
 }

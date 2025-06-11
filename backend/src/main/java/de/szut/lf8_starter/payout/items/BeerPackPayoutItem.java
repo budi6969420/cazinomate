@@ -10,12 +10,12 @@ public class BeerPackPayoutItem extends BasePayoutItem {
 
     @Override
     public String getName() {
-        return "Bierpackung";
+        return "6er Bier";
     }
 
     @Override
     public int getCost() {
-        return 2500;
+        return 550;
     }
 
     @Override

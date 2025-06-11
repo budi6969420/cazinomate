@@ -4,7 +4,7 @@ import { GameMetadataService } from "../../services/game-metadata.service";
 import { GameMetadata } from "../../models/gameMetadata";
 import { RouterLink } from "@angular/router";
 import { Subscription } from 'rxjs';
-import {GameTileComponent} from "../../atoms/game-tile/game-tile.component";
+import {GameTileComponent} from "../game-tile/game-tile.component";
 
 @Component({
   selector: 'app-game-overview',
@@ -36,7 +36,7 @@ export class GameOverviewComponent implements OnInit{
     const searchTerm = this.searchInput.nativeElement.value.toLowerCase();
     if (searchTerm) {
       this.filteredGames = this.gameMetadataService.gameMetadatas.filter(game =>
-        game.title.toLowerCase().includes(searchTerm)
+        game.title.toLowerCase().includes(searchTerm) || game.id.replace(/-/g, " ").toLowerCase().includes(searchTerm)
       );
     } else {
       this.filteredGames = [...this.gameMetadataService.gameMetadatas];

@@ -5,6 +5,7 @@ import {BuyConfirmationModalComponent} from "../../components/buy-confirmation-m
 import {ShopPackage} from "../../models/shopPackage";
 import {KeycloakAuthService} from "../../services/keycloak-auth.service";
 import {RedeemGiftCardComponent} from "../../components/redeem-gift-card/redeem-gift-card.component";
+import {LoadingSpinnerComponent} from "../../components/loading-spinner/loading-spinner.component";
 
 @Component({
   selector: 'app-shop',
@@ -13,6 +14,7 @@ import {RedeemGiftCardComponent} from "../../components/redeem-gift-card/redeem-
     ShopPackageComponent,
     BuyConfirmationModalComponent,
     RedeemGiftCardComponent,
+    LoadingSpinnerComponent,
   ],
   templateUrl: './shop.component.html',
   styleUrl: './shop.component.scss',

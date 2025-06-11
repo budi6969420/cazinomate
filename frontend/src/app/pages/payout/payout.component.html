@@ -10,7 +10,7 @@
     }
     <div class="container">
       @if (payoutItemService.items.length == 0) {
-        <div class="loader"></div>
+        <app-loading-spinner/>
       }
       <ul>
         @for (item of payoutItemService.items; track item.id)

@@ -11,12 +11,12 @@ public class VodkaPackPayoutItem extends BasePayoutItem {
 
     @Override
     public String getName() {
-        return "Vodka Paket";
+        return "6er Vodka";
     }
 
     @Override
     public int getCost() {
-        return 3500;
+        return 5250;
     }
 
     @Override

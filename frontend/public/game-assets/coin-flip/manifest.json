@@ -1,0 +1,59 @@
+{
+  "bundles":[
+    {
+      "name":"end_dialogue",
+      "assets":[
+        {
+          "alias": "texture_background_dialogue_game_lost",
+          "src": "./images/background_dialogue_game_lost.png"
+        },
+        {
+          "alias": "texture_background_dialogue_game_won",
+          "src": "./images/background_dialogue_game_won.png"
+        },
+        {
+          "alias": "texture_dialogue_floating_sprite_lost",
+          "src": "./images/dialogue_floating_sprite_lost.png"
+        },
+        {
+          "alias": "texture_dialogue_floating_sprite_won",
+          "src": "./images/dialogue_floating_sprite_won.png"
+        }
+      ]
+    },
+    {
+      "name":"coin",
+      "assets":[
+        {
+          "alias": "texture_coin_side",
+          "src": "./images/coin_side.png"
+        },
+        {
+          "alias": "texture_coin_lost",
+          "src": "./images/coin_lost.png"
+        },
+        {
+          "alias": "texture_coin_won",
+          "src": "./images/coin_won.png"
+        },
+        {
+          "alias": "texture_dialogue_floating_sprite_won",
+          "src": "./images/coin_won.png"
+        }
+      ]
+    },
+    {
+      "name":"hand",
+      "assets":[
+        {
+          "alias": "texture_hand_closed",
+          "src": "./images/hand_closed.png"
+        },
+        {
+          "alias": "texture_hand_opened",
+          "src": "./images/hand_opened.png"
+        }
+      ]
+    }
+  ]
+}

@@ -42,4 +42,10 @@ public class ProductWithPriceModel {
             this.currency = price.getCurrency();
         }
     }
+
+    public String getDescription() {
+        return (isRecommended() ? "⭐ Empfohlenes Produkt!\n" : "")
+                + "Enthält " + getAmount() + " MateCoins für dein Spielvergnügen.";
+
+    }
 }

@@ -1,24 +1,68 @@
 <div class="transactions-group">
+  <div class="title-container">
+    <h1 class="transactions-title">Transaktionshistorie</h1>
+    <div class="filter-category" style="margin-bottom: 1rem; text-align:center;">
+      <label for="category-select">Kategorie filtern:</label>
+      <select id="category-select" [(ngModel)]="selectedCategory" (change)="onCategoryChange(selectedCategory)">
+        <option value="">Alle Kategorien</option>
+        <option *ngFor="let category of categories" [value]="category">{{ category }}</option>
+      </select>
+    </div>
+  </div>
 
-  <h1 class="transactions-title">Transaktionshistorie</h1>
-
-  @if (groupedMonths.length == 0) {
-    <p class="no-transaction-message">Keine Transaktionen sind verfügbar.</p>
+  @if (loading) {
+    <div class="loader-container">
+      <app-loading-spinner/>
+    </div>
+  } @else if (displayedGroupedMonths.length === 0) {
+    <p class="no-transaction-message">
+      Keine Transaktionen sind verfügbar.
+    </p>
   }
 
-  <ng-container *ngFor="let month of groupedMonths">
-    <h3>{{ month }}</h3>
+  <div class="transactions-table">
+    <ng-container *ngFor="let month of displayedGroupedMonths" >
+      <h3>{{ month }}</h3>
 
-    <div *ngFor="let tx of groupedTransactions[month];" class="transaction-row">
-      <span class="icon">📄</span>
-      <span class="date">{{ tx.date | date:'d. MMMM, HH:mm' }}</span>
-      <span class="description">{{ tx.description }}</span>
-      <span class="amount" [ngClass]="tx.amount > 0 ? 'green' : 'red'">
-        {{ tx.amount > 0 ? '+' : '' }}{{ tx.amount }}
-        <span>
-          <img src="/images/coin.png">
+      <div *ngFor="let tx of displayedGroupedTransactions[month]" class="transaction-row">
+        <span class="icon">📄</span>
+        <span class="date">{{ tx.date | date:'d. MMMM, HH:mm' }}</span>
+        <span class="description">{{ tx.description }}</span>
+        <span class="amount" [ngClass]="tx.amount > 0 ? 'green' : 'red'">
+          {{ tx.amount > 0 ? '+' : '' }}{{ tx.amount.toLocaleString("de-DE") }}
+          <span><img src="/images/coin.png"></span>
         </span>
-      </span>
-    </div>
-  </ng-container>
+      </div>
+    </ng-container>
+  </div>
+  <div class="button-container">
+  @if (totalPages > 1) {
+      <div></div>
+      <div class="pagination">
+        <button (click)="loadPage(currentPage - 1)" [disabled]="currentPage === 1">«</button>
+
+        <ng-container *ngFor="let page of compactPageNumbers">
+          <button
+            *ngIf="page !== '...'; else dots"
+            [class.active]="page === currentPage"
+            (click)="loadPage(page)">
+            {{ page }}
+          </button>
+          <ng-template #dots>
+            <span class="dots">…</span>
+          </ng-template>
+        </ng-container>
+
+        <button (click)="loadPage(currentPage + 1)" [disabled]="currentPage === totalPages" class="nav-button">»</button>
+      </div>
+
+  } @else {
+    <div></div>
+  }
+    @if (displayedTransactions.length != 0) {
+      <button (click)="exportTableToPdf()">
+        Als PDF exportieren
+      </button>
+    }
+  </div>
 </div>

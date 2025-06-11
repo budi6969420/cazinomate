@@ -4,35 +4,44 @@
     <p>© {{currentYear}} CazinoMate.de | Alle Rechte vorbehalten</p>
   </div>
   <ul class="social-media-link">
-    <li><a href="https://x.com/gambling_com?ref_src=twsrc%5Egoogle%7Ctwcamp%5Eserp%7Ctwgr%5Eauthor" target="_blank" rel="noopener noreferrer"><img src="/images/twitter-logo.svg"
+    <li><a href="https://x.com/rickroll?lang=en" target="_blank" rel="noopener noreferrer"><img src="/images/twitter-logo.svg"
                                                                                                                                                    alt="twitter icon"></a></li>
-    <li><a href="https://www.instagram.com/b._.di/" target="_blank" rel="noopener noreferrer"><img src="/images/insta-logo.svg" alt="insta icon"></a></li>
+    <li><a href="https://www.instagram.com/_rick_rolled__/" target="_blank" rel="noopener noreferrer"><img src="/images/insta-logo.svg" alt="insta icon"></a></li>
     <li><a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" target="_blank" rel="noopener noreferrer"><img src="/images/youtube-logo.svg" alt="youtube icon"></a></li>
   </ul>
 </div>
 <hr>
 <div id="midWrapper">
   <ul>
-    <h3>Spiele</h3>
-    @for (gameMetadata of gameMetaDataService.gameMetadatas; track gameMetadata.id) {
-      <li><a href="game/{{gameMetadata.id}}">{{gameMetadata.title}}</a></li>
+    <h3>Spielbare Spiele</h3>
+    @for (gameMetadata of gameMetaDataService.getPlayableGameMetadatas(); track gameMetadata.id) {
+      <li>
+        <p class="clickable" routerLink="game/{{gameMetadata.id}}">{{gameMetadata.title}}</p>
     }
   </ul>
   <ul>
-    <h3>Support</h3>
+    <h3>Unterstützung & Hilfe</h3>
     <li>
-      <a href="https://www.sucht.de/">Hilfezentrum<img src="/images/link-external-icon.svg" alt="Hilfezentrum link"></a>
+      <a href="https://www.sucht.de/" target="_blank" rel="noopener noreferrer">Hilfezentrum<img src="/images/link-external-icon.svg" alt="Hilfezentrum link"></a>
     </li>
     <li>
       <a
-        href="https://www.bioeg.de/service/infotelefone/gluecksspielsucht/#:~:text=Das%20Bundesinstitut%20f%C3%BCr%20%C3%96ffentliche%20Gesundheit,Rufnummer%200800%20%2D%20137%2027%2000.">Glücksspiel-Beratungsstelle<img
+        href="https://www.bioeg.de/service/infotelefone/gluecksspielsucht/#:~:text=Das%20Bundesinstitut%20f%C3%BCr%20%C3%96ffentliche%20Gesundheit,Rufnummer%200800%20%2D%20137%2027%2000." target="_blank" rel="noopener noreferrer">Glücksspiel-Beratungsstelle<img
         src="/images/link-external-icon.svg" alt="Hilfezentrum link"></a>
     </li>
   </ul>
   <ul>
-    <h3>Über uns</h3>
-    <li class="clickable">Datenschutz</li>
-    <li class="clickable">Nutzungsbedingungen</li>
+    <h3>Rechtliches</h3>
+    <li>
+      <p class="clickable" routerLink="/datenschutz">
+        Datenschutz
+      </p>
+    </li>
+    <li>
+      <p class="clickable" routerLink="/nutzungsbedingungen">
+        Nutzungsbedingungen
+      <p>
+    </li>
   </ul>
 </div>
 @if (sponsorService.sponsors.length > 0) {

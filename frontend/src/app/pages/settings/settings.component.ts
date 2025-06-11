@@ -6,13 +6,15 @@ import { NewUsername } from "../../models/newUsername";
 import { user } from "../../models/user";
 import { FormsModule } from "@angular/forms";
 import { CommonModule } from '@angular/common';
+import {LoadingSpinnerComponent} from "../../components/loading-spinner/loading-spinner.component";
 
 @Component({
   selector: 'app-settings',
   standalone: true,
   imports: [
     FormsModule,
-    CommonModule
+    CommonModule,
+    LoadingSpinnerComponent
   ],
   templateUrl: './settings.component.html',
   styleUrl: './settings.component.scss'
@@ -28,6 +30,7 @@ export class SettingsComponent implements OnInit {
   currentPasswordforChangingUsername!: string;
 
   user: user | null = null;
+  isLoading = false;
 
   constructor(
       private userService: UserService,
@@ -35,9 +38,11 @@ export class SettingsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.isLoading = true;
     this.userService.updateSelfUserInfo().subscribe((userData) => {
       this.user = userData;
       this.cdr.markForCheck();
+      this.isLoading = false;
     });
   }
 

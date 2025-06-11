@@ -1,0 +1,40 @@
+.not-found-container {
+  height: 60vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  font-family: Arial, sans-serif;
+  background-color: var(--app-color-background-primary);
+  color: var(--app-color-text-primary);
+
+  h1 {
+    font-size: 6rem;
+    margin: 0;
+  }
+
+  h2 {
+    font-size: 2rem;
+    margin: 0 0 1rem 0;
+  }
+
+  p {
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+  }
+
+  .btn {
+    padding: 0.8rem 1.6rem;
+    background-color: var(--app-color-background-secondary);
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+
+    &:hover {
+      background-color: var(--app-color-background-tertiary);
+    }
+  }
+}

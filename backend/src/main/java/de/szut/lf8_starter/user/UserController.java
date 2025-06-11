@@ -37,7 +37,7 @@ public class UserController {
     @GetMapping("/self/transactions")
     public ResponseEntity<List<TransactionDto>> getSelfTransactions(
             @RequestHeader(value = "Authorization", required = false) String authorizationHeader) throws Exception {
-        return ResponseEntity.ok(transactionService
+                return ResponseEntity.ok(transactionService
                 .getUserTransactions(jwtService.decodeId(authorizationHeader))
                 .stream()
                 .map(TransactionDto::new)

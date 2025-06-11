@@ -10,12 +10,12 @@ public class JackyColaPackPayoutItem extends BasePayoutItem {
 
     @Override
     public String getName() {
-        return "Jacky Cola Paket";
+        return "6er Jacky Cola";
     }
 
     @Override
     public int getCost() {
-        return 3500;
+        return 1750;
     }
 
     @Override

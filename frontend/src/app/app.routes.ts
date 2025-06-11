@@ -8,6 +8,9 @@ import {OrderConfirmationComponent} from "./pages/order-confirmation/order-confi
 import {FaqComponent} from "./pages/faq/faq.component";
 import {PayoutComponent} from "./pages/payout/payout.component";
 import {TransactionsComponent} from "./pages/transactions/transactions.component";
+import {DatenschutzComponent} from "./pages/datenschutz/datenschutz.component";
+import {UseConditionsComponent} from "./pages/use-conditions/use-conditions.component";
+import {NotFoundComponent} from "./pages/not-found/not-found.component";
 
 export const routes: Routes = [
   { path: '', component: HomeComponent},
@@ -18,4 +21,8 @@ export const routes: Routes = [
   { path: 'game/:gameId', component: GameViewComponent, canActivate: [authGuard]},
   { path: 'payout', component: PayoutComponent},
   { path: 'transactions', component: TransactionsComponent, canActivate: [authGuard]},
+  { path: 'datenschutz', component: DatenschutzComponent},
+  { path: 'nutzungsbedingungen', component: UseConditionsComponent},
+  { path: 'not-found', component: NotFoundComponent},
+  { path: '**', redirectTo: 'not-found' }
 ];
