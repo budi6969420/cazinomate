@@ -7,6 +7,7 @@ import {CrossyRoadGameSession} from "./dtos/crossyRoadGameSession";
 import {Interaction} from "../base-game/enums/interaction";
 import {GameState} from "../base-game/enums/gameState";
 import {CrossyRoadGameVariables} from "./crossyRoadGameVariables";
+import {UserService} from "../../services/user.service";
 
 export class CrossyRoadGame extends Container implements IGame{
   private readonly GAME_ID: string = "crossy-road";
@@ -21,7 +22,7 @@ export class CrossyRoadGame extends Container implements IGame{
 
   private gameWasAlreadyInitialisedBefore: boolean = false;
 
-  constructor(GAME_HEIGHT: number,GAME_WIDTH: number) {
+  constructor(GAME_HEIGHT: number,GAME_WIDTH: number, private userService: UserService) {
     super();
     this.GAME_HEIGHT = GAME_HEIGHT;
     this.GAME_WIDTH = GAME_WIDTH;
@@ -69,6 +70,7 @@ export class CrossyRoadGame extends Container implements IGame{
         this.endDialogueScreen.showPlayerLost();
         break;
       case GameState.WON:
+        this.userService.updateSelfBalance();
         this.endDialogueScreen.showPlayerWon(this.currentGains);
         break;
       case GameState.ACTIVE:

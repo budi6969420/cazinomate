@@ -6,6 +6,7 @@ import {Interaction} from "../base-game/enums/interaction";
 import {Playground} from "./elements/playground";
 import {EndDialogue} from "./elements/endDialogue";
 import {CrossyRoadGameSession} from "../crossy-road/dtos/crossyRoadGameSession";
+import {UserService} from "../../services/user.service";
 
 export class CoinFlipGame extends Container implements IGame {
 
@@ -19,7 +20,7 @@ export class CoinFlipGame extends Container implements IGame {
   private playgroundScreen!: Playground;
   private endDialogueScreen!: EndDialogue;
 
-  constructor(GAME_HEIGHT: number, GAME_WIDTH: number) {
+  constructor(GAME_HEIGHT: number, GAME_WIDTH: number, private userService: UserService) {
     super();
 
     this.GAME_HEIGHT = GAME_HEIGHT;
@@ -54,6 +55,7 @@ export class CoinFlipGame extends Container implements IGame {
         this.endDialogueScreen.showPlayerLost();
         break;
       case GameState.WON:
+        this.userService.updateSelfBalance().subscribe();
         this.endDialogueScreen.showPlayerWon(this.currentGains);
         break;
       case GameState.ACTIVE:
