@@ -68,10 +68,12 @@ export class CrossyRoadGame extends Container implements IGame{
     switch(this.gameState){
       case GameState.LOST:
         this.endDialogueScreen.showPlayerLost();
+        this.gameState = GameState.INACTIVE;
         break;
       case GameState.WON:
-        this.userService.updateSelfBalance();
+        this.userService.updateSelfBalance().subscribe();
         this.endDialogueScreen.showPlayerWon(this.currentGains);
+        this.gameState = GameState.INACTIVE;
         break;
       case GameState.ACTIVE:
         this.endDialogueScreen.hide();
