@@ -17,12 +17,6 @@ export class GiftCardService {
   public redeemGiftCard(code: string)
   {
     let dto: GiftCardDto = {id: code};
-
-    try {
-      return this.http.post<GiftCardInfoDto>(this.apiUrl, dto);
-    }
-    catch (error) {
-      return null;
-    }
+    return this.http.post<GiftCardInfoDto>(this.apiUrl, dto);
   }
 }

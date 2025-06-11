@@ -21,7 +21,7 @@ public class PayoutController {
     private final ICouponCodeGenerator couponCodeGenerator;
     private final PayoutReceiptEmailSendingService payoutReceiptEmailSendingService;
 
-    public PayoutController(PayoutItemService payoutItemService, JwtService jwtService, TransactionService transactionService, UserService userService, @Qualifier("mock") ICouponCodeGenerator couponCodeGenerator) {
+    public PayoutController(PayoutItemService payoutItemService, JwtService jwtService, TransactionService transactionService, UserService userService, @Qualifier("mock") ICouponCodeGenerator couponCodeGenerator, PayoutReceiptEmailSendingService payoutReceiptEmailSendingService) {
         this.payoutItemService = payoutItemService;
         this.jwtService = jwtService;
         this.transactionService = transactionService;

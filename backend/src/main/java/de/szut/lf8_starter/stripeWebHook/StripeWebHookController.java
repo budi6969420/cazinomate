@@ -9,7 +9,7 @@ import com.stripe.model.checkout.Session;
 import com.stripe.net.Webhook;
 import de.szut.lf8_starter.transaction.TransactionCategory;
 import de.szut.lf8_starter.transaction.TransactionService;
-import de.szut.lf8_starter.user.KeycloakService;
+import de.szut.lf8_starter.user.UserService;
 import jakarta.annotation.PostConstruct;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -22,7 +22,7 @@ public class StripeWebHookController {
 
     private final StripeProductService stripeService;
     private final TransactionService transactionService;
-    private final KeycloakService keycloakService;
+    private final UserService userService;
     private final ProductPurchasedReceiptEmailSendingService productPurchasedReceiptEmailSendingService;
 
     @Value("${stripe.secret.key}")
@@ -36,10 +36,10 @@ public class StripeWebHookController {
         Stripe.apiKey = stripeSecretKey;
     }
 
-    public StripeWebHookController(StripeProductService stripeService, TransactionService transactionService, KeycloakService keycloakService, ProductPurchasedReceiptEmailSendingService productPurchasedReceiptEmailSendingService) {
+    public StripeWebHookController(StripeProductService stripeService, TransactionService transactionService, UserService userService, ProductPurchasedReceiptEmailSendingService productPurchasedReceiptEmailSendingService) {
         this.stripeService = stripeService;
         this.transactionService = transactionService;
-        this.keycloakService = keycloakService;
+        this.userService = userService;
         this.productPurchasedReceiptEmailSendingService = productPurchasedReceiptEmailSendingService;
     }
 
@@ -65,7 +65,7 @@ public class StripeWebHookController {
     private void handleCompletedSession(Session session) throws Exception {
         var productId = session.getMetadata().get("productId");
         var userId = session.getMetadata().get("userId");
-        var user = this.keycloakService.getUserData(userId);
+        var user = this.userService.getUserData(userId);
 
         var product = stripeService.getProductById(productId);
         transactionService.TryAddTransaction(userId, product.getAmount(), TransactionCategory.Payment, "1x ".concat(product.getName()).concat(" was purchased for ").concat(String.valueOf(product.getPriceAmount() / 100)).concat("€"));

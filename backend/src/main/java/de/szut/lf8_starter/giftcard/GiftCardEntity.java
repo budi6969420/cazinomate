@@ -8,7 +8,7 @@ import java.util.Date;
 
 @Entity
 @Data
-public class GiftCardModel {
+public class GiftCardEntity {
     @Id
     private String id;
     private int amount;

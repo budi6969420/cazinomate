@@ -1,13 +1,14 @@
 package de.szut.lf8_starter.giftcard;
 
 import de.szut.lf8_starter.game.coupons.ICouponCodeGenerator;
+import de.szut.lf8_starter.transaction.TransactionCategory;
+import de.szut.lf8_starter.transaction.TransactionService;
 import de.szut.lf8_starter.user.UserService;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -17,15 +18,17 @@ public class GiftCardService {
     private final GiftCardRepository giftCardRepository;
     private final ICouponCodeGenerator couponCodeGenerator;
     private final UserService userService;
+    private final TransactionService transactionService;
 
-    public GiftCardService(GiftCardRepository giftCardRepository, ICouponCodeGenerator couponCodeGenerator, UserService userService) {
+    public GiftCardService(GiftCardRepository giftCardRepository, ICouponCodeGenerator couponCodeGenerator, UserService userService, TransactionService transactionService) {
         this.giftCardRepository = giftCardRepository;
         this.couponCodeGenerator = couponCodeGenerator;
         this.userService = userService;
+        this.transactionService = transactionService;
     }
 
-    public GiftCardModel generateGiftCard(String creatorId, int amount) {
-        var model = new GiftCardModel();
+    public GiftCardEntity generateGiftCard(String creatorId, int amount) {
+        var model = new GiftCardEntity();
         model.setId(couponCodeGenerator.generate().toUpperCase());
         model.setAmount(amount);
         model.setCreatedOn(Date.from(Instant.now()));
@@ -35,11 +38,11 @@ public class GiftCardService {
         return model;
     }
 
-    public Optional<GiftCardModel> getGiftCard(String id) {
+    public Optional<GiftCardEntity> getGiftCard(String id) {
         return this.giftCardRepository.findById(id.toUpperCase());
     }
 
-    public List<GiftCardModel> getAllNonUsedGiftCards() {
+    public List<GiftCardEntity> getAllNonUsedGiftCards() {
         return this.giftCardRepository.findAll().stream().filter(x -> x.getUsedByUserId() == null).collect(Collectors.toList());
     }
 
@@ -52,6 +55,9 @@ public class GiftCardService {
         }
 
         if (giftCard.get().getUsedByUserId() != null) return false;
+        if (!transactionService.TryAddTransaction(userid, giftCard.get().getAmount(), TransactionCategory.GiftCard, "GiftCard with code " + giftCard.get().getId() + " used by user " + giftCard.get().getId() + " was redeemed")) {
+            return false;
+        }
 
         giftCard.get().setUsedByUserId(userid);
         giftCard.get().setUsedOn(Date.from(Instant.now()));

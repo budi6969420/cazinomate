@@ -28,7 +28,7 @@ public class GiftCardController {
             @RequestBody GiftCardIdDto dto) throws Exception {
         var giftCard = giftCardService.getGiftCard(dto.getId());
         if (giftCard.isEmpty()) {
-            return ResponseEntity.badRequest().build();
+            return ResponseEntity.notFound().build();
         }
 
         if (giftCardService.TryUseGiftCard(dto.getId(), jwtService.decodeId(authorizationHeader))) {
