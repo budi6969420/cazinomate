@@ -29,6 +29,26 @@
   border-color: var(--app-color-text-primary);
 }
 
+.currency {
+  width: 15px;
+}
+
+.currency-container {
+  display: flex;
+  align-items: center;
+  justify-content: right;
+  margin-left: auto;
+}
+
+.statement-container {
+  display: flex;
+  align-items: center;
+}
+
+.currency-container-card {
+  display: flex;
+}
+
 .view-selector button.active {
   background-color: var(--app-color-green);
   color: white;
@@ -125,11 +145,10 @@ h2::after {
   transition: transform var(--app-transition-time-medium) ease, box-shadow var(--app-transition-time-medium) ease;
   border: 1px solid var(--app-color-background-tertiary);
 
-  /* --- NEW / MODIFIED STYLES FOR BOTTOM ALIGNMENT --- */
-  display: flex; /* Enable flexbox */
-  flex-direction: column; /* Stack children vertically */
-  justify-content: space-between; /* Push items to ends, putting extra space between */
-  align-items: center; /* Center horizontally if items don't take full width */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .stat-card:hover {
@@ -141,18 +160,18 @@ h2::after {
   margin-top: 0;
   color: var(--app-color-text-secondary);
   font-size: var(--app-font-size-normal);
-  margin-bottom: var(--app-spacing-xsmall); /* Keep this margin for spacing below the title */
+  margin-bottom: var(--app-spacing-xsmall);
 }
 
 .stat-card p {
   font-size: var(--app-font-size-large);
   font-weight: bold;
   color: var(--app-color-text-primary);
-  margin: auto 0 0; /* Pushes this paragraph to the bottom, taking all available space above it */
-  flex-grow: 1; /* Allows this paragraph to take up available space, pushing it to bottom */
-  display: flex; /* Make it a flex container to align its own content if needed */
-  align-items: flex-end; /* Align its own content to the bottom */
-  justify-content: center; /* Center its content horizontally */
+  margin: auto 0 0;
+  flex-grow: 1;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
 }
 
 .percentage {

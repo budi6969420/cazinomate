@@ -36,11 +36,15 @@
         </div>
         <div class="stat-card">
           <h3>Gesamt investierter Betrag</h3>
-          <p>{{ totalOverallAmountInvested | currency:'EUR':'symbol':'1.0-0':'de-DE' }}</p>
+          <div class="currency-container-card">
+            <p>{{ totalOverallAmountInvested | number:'1.0-0':'de-DE' }}</p><img class="currency" src="/images/coin.png">
+          </div>
         </div>
         <div class="stat-card">
           <h3>Gesamt gewonnener Betrag</h3>
-          <p>{{ totalOverallAmountWon | currency:'EUR':'symbol':'1.0-0':'de-DE' }}</p>
+          <div class="currency-container-card">
+            <p>{{ totalOverallAmountWon | number:'1.0-0':'de-DE' }}</p><img class="currency" src="/images/coin.png">
+          </div>
         </div>
         <div class="stat-card">
           <h3>Gesamt-ROI</h3>
@@ -59,8 +63,18 @@
               <p><strong>Gespielte Spiele:</strong> {{ stat.totalGamesPlayed | number:'1.0-0':'de-DE' }}</p>
               <p><strong>Gewonnene Spiele:</strong> {{ stat.totalGamesWon | number:'1.0-0':'de-DE' }}</p>
               <p><strong>Gewinnrate:</strong> <span class="percentage" [class.positive]="getWinRate(stat) >= 50">{{ getWinRate(stat) | number:'1.2-2':'de-DE' }}%</span></p>
-              <p><strong>Investierter Betrag:</strong> {{ stat.amountInvested | currency:'EUR':'symbol':'1.0-0':'de-DE' }}</p>
-              <p><strong>Gewonnener Betrag:</strong> {{ stat.amountWon | currency:'EUR':'symbol':'1.0-0':'de-DE' }}</p>
+              <div class="statement-container">
+                <strong>Investierter Betrag:</strong>
+                <div class="currency-container">
+                  <p> {{ stat.amountInvested | number:'1.0-0':'de-DE' }}</p><img class="currency" src="/images/coin.png">
+                </div>
+              </div>
+              <div class="statement-container">
+                <strong>Gewonnener Betrag:</strong>
+                <div class="currency-container">
+                  <p> {{ stat.amountWon | number:'1.0-0':'de-DE' }}</p><img class="currency" src="/images/coin.png">
+                </div>
+              </div>
               <p><strong>ROI:</strong> <span class="percentage" [class.positive]="getROI(stat) >= 0" [class.negative]="getROI(stat) < 0">{{ getROI(stat) | number:'1.2-2':'de-DE' }}%</span></p>
             </div>
             <div class="chart-placeholder" [id]="'chart-' + stat.gameId">
