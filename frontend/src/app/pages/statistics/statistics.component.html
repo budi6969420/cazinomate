@@ -1,0 +1,77 @@
+<div class="statistics-container">
+  <h1>Spielstatistiken Dashboard</h1>
+
+  <div class="view-selector">
+    <button [class.active]="currentView === 'global'" (click)="switchView('global')">Globale Statistiken</button>
+    <button [class.active]="currentView === 'self'" (click)="switchView('self')">Meine Statistiken</button>
+  </div>
+
+  @if (isLoading) {
+    <div>
+      <app-loading-spinner/>
+    </div>
+  }
+
+  @if (errorMessage) {
+    <div class="error-message">
+      <p>{{ errorMessage }}</p>
+    </div>
+  }
+
+  @if (!isLoading && !errorMessage && gameStats.length > 0) {
+    <section class="overall-stats">
+      <h2>Gesamtleistung</h2>
+      <div class="overall-cards">
+        <div class="stat-card">
+          <h3>Gesamt gespielte Spiele</h3>
+          <p>{{ totalOverallGamesPlayed | number:'1.0-0':'de-DE' }}</p>
+        </div>
+        <div class="stat-card">
+          <h3>Gesamt gewonnene Spiele</h3>
+          <p>{{ totalOverallGamesWon | number:'1.0-0':'de-DE' }}</p>
+        </div>
+        <div class="stat-card">
+          <h3>Gesamt-Gewinnrate</h3>
+          <p class="percentage" [class.positive]="overallWinRate >= 50">{{ overallWinRate | number:'1.2-2':'de-DE' }}%</p>
+        </div>
+        <div class="stat-card">
+          <h3>Gesamt investierter Betrag</h3>
+          <p>{{ totalOverallAmountInvested | currency:'EUR':'symbol':'1.0-0':'de-DE' }}</p>
+        </div>
+        <div class="stat-card">
+          <h3>Gesamt gewonnener Betrag</h3>
+          <p>{{ totalOverallAmountWon | currency:'EUR':'symbol':'1.0-0':'de-DE' }}</p>
+        </div>
+        <div class="stat-card">
+          <h3>Gesamt-ROI</h3>
+          <p class="percentage" [class.positive]="overallROI >= 0" [class.negative]="overallROI < 0">{{ overallROI | number:'1.2-2':'de-DE' }}%</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="charts-section">
+      <h2>Spielspezifische Statistiken</h2>
+      <div class="chart-grid">
+        @for (stat of gameStats; track stat.gameId) {
+          <div class="chart-card">
+            <h3>{{ stat.gameId | titlecase }}</h3>
+            <div class="game-stats-detail">
+              <p><strong>Gespielte Spiele:</strong> {{ stat.totalGamesPlayed | number:'1.0-0':'de-DE' }}</p>
+              <p><strong>Gewonnene Spiele:</strong> {{ stat.totalGamesWon | number:'1.0-0':'de-DE' }}</p>
+              <p><strong>Gewinnrate:</strong> <span class="percentage" [class.positive]="getWinRate(stat) >= 50">{{ getWinRate(stat) | number:'1.2-2':'de-DE' }}%</span></p>
+              <p><strong>Investierter Betrag:</strong> {{ stat.amountInvested | currency:'EUR':'symbol':'1.0-0':'de-DE' }}</p>
+              <p><strong>Gewonnener Betrag:</strong> {{ stat.amountWon | currency:'EUR':'symbol':'1.0-0':'de-DE' }}</p>
+              <p><strong>ROI:</strong> <span class="percentage" [class.positive]="getROI(stat) >= 0" [class.negative]="getROI(stat) < 0">{{ getROI(stat) | number:'1.2-2':'de-DE' }}%</span></p>
+            </div>
+            <div class="chart-placeholder" [id]="'chart-' + stat.gameId">
+            </div>
+          </div>
+        }
+      </div>
+    </section>
+  } @else if (!isLoading && !errorMessage && gameStats.length === 0) {
+    <div class="no-data-message">
+      <p>Für die aktuelle Ansicht sind keine Statistikdaten verfügbar.</p>
+    </div>
+  }
+</div>

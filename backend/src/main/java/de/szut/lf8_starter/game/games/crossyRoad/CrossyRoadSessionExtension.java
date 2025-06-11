@@ -17,7 +17,6 @@ public class CrossyRoadSessionExtension implements BaseSessionExtension {
     private String sessionId;
 
     private int currentIndex;
-    private int balanceDifference;
 
     @Transient
     private int wouldHaveLostIndex = -1;
