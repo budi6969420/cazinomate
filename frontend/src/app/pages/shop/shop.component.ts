@@ -4,6 +4,7 @@ import {ShopPackageService} from "../../services/shopPackage.service";
 import {BuyConfirmationModalComponent} from "../../components/buy-confirmation-modal/buy-confirmation-modal.component";
 import {ShopPackage} from "../../models/shopPackage";
 import {KeycloakAuthService} from "../../services/keycloak-auth.service";
+import {RedeemGiftCardComponent} from "../../components/redeem-gift-card/redeem-gift-card.component";
 
 @Component({
   selector: 'app-shop',
@@ -11,6 +12,7 @@ import {KeycloakAuthService} from "../../services/keycloak-auth.service";
   imports: [
     ShopPackageComponent,
     BuyConfirmationModalComponent,
+    RedeemGiftCardComponent,
   ],
   templateUrl: './shop.component.html',
   styleUrl: './shop.component.scss',

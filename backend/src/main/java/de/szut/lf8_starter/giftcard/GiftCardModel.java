@@ -11,6 +11,7 @@ import java.util.Date;
 public class GiftCardModel {
     @Id
     private String id;
+    private int amount;
     private Date createdOn;
     private String createdByUserId;
     private String usedByUserId;

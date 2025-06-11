@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import java.time.Instant;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -23,9 +24,10 @@ public class GiftCardService {
         this.userService = userService;
     }
 
-    public GiftCardModel generateGiftCard(String creatorId) {
+    public GiftCardModel generateGiftCard(String creatorId, int amount) {
         var model = new GiftCardModel();
-        model.setId(couponCodeGenerator.generate());
+        model.setId(couponCodeGenerator.generate().toUpperCase());
+        model.setAmount(amount);
         model.setCreatedOn(Date.from(Instant.now()));
         model.setCreatedByUserId(creatorId);
 
@@ -34,7 +36,7 @@ public class GiftCardService {
     }
 
     public Optional<GiftCardModel> getGiftCard(String id) {
-        return this.giftCardRepository.findById(id);
+        return this.giftCardRepository.findById(id.toUpperCase());
     }
 
     public List<GiftCardModel> getAllNonUsedGiftCards() {
@@ -43,7 +45,7 @@ public class GiftCardService {
 
     public boolean TryUseGiftCard(String id, String userid) {
         var user = this.userService.getUserData(userid);
-        var giftCard = getGiftCard(id);
+        var giftCard = getGiftCard(id.toUpperCase());
 
         if (user == null || giftCard.isEmpty()) {
             return false;

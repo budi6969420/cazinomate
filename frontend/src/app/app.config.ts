@@ -6,6 +6,7 @@ import { KeycloakAuthService } from "./services/keycloak-auth.service";
 import { AuthInterceptor } from './auth.interceptor';
 import {registerLocaleData} from "@angular/common";
 import localeDe from '@angular/common/locales/de';
+import {provideNgxMask} from "ngx-mask";
 
 export function initializeKeycloakCustom(keycloakAuthService: KeycloakAuthService) {
   return () => keycloakAuthService.init();
@@ -16,6 +17,7 @@ registerLocaleData(localeDe);
 export const appConfig: ApplicationConfig = {
   providers: [
     { provide: LOCALE_ID, useValue: 'de-DE'},
+    provideNgxMask(),
     provideRouter(routes),
     provideHttpClient(withInterceptorsFromDi()),
     KeycloakAuthService,

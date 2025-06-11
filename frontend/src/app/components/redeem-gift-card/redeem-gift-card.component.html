@@ -1,0 +1,6 @@
+<div [class]="isAuthenticated ? 'container active' : 'container'">
+  <h2>Code Einlösen</h2>
+  <input [(ngModel)]="code" type="text" mask="AAAA-AAAA-AAAA-AAAA" placeholder="XXXX-XXXX-XXXX-XXXX" maxlength="19">
+  <button class="yes-btn" (click)="redeemCode()">Einlösen</button>
+</div>
+<app-gift-card-confirmation-modal [redeemed]="successfullyRedeemed" (confirmationClosed)="handleModalClose()"></app-gift-card-confirmation-modal>

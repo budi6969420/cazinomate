@@ -1,14 +1,15 @@
-<div [class]="!isAuthenticated ? 'background warning' : 'background'">
-  <h1 class="header">Wähle dein Mate Coin Paket aus</h1>
+<div class="container">
+  <div [class]="!isAuthenticated ? 'background warning' : 'background'">
+    <h1 class="header">Wähle dein Mate Coin Paket aus</h1>
     @if (!isAuthenticated) {
       <div class="warning-box">
         <strong>Warnung:</strong> Um etwas zu kaufen müssen Sie angemeldet sein.
       </div>
     }
     @if (selectedPackage) {
-      <app-buy-confirmation-modal [product]="selectedPackage" (confirmationClosed)="handleModalClose()">></app-buy-confirmation-modal>
+      <app-buy-confirmation-modal [product]="selectedPackage" (confirmationClosed)="handleModalClose()"></app-buy-confirmation-modal>
     }
-    <div class="container">
+    <div class="package-container">
       @if (packageService.packages.length == 0) {
         <div class="loader"></div>
       }
@@ -18,5 +19,9 @@
           <li><app-shopPackage [package]="item" [isAuthenticated]="isAuthenticated" (packageClicked)="handlePackageClick($event)"></app-shopPackage></li>
         }
       </ul>
+    </div>
+  </div>
+  <div class="gift-card-container">
+    <app-redeem-gift-card [isAuthenticated]="isAuthenticated"></app-redeem-gift-card>
   </div>
 </div>

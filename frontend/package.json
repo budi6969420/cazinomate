@@ -23,6 +23,7 @@
     "gsap": "^3.13.0",
     "keycloak-angular": "^19.0.2",
     "keycloak-js": "^26.1.4",
+    "ngx-mask": "^19.0.7",
     "pixi.js": "^8.9.2",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
