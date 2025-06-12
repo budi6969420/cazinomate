@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "user")
+@RequestMapping(value = "/user")
 public class UserController {
     private final UserService userService;
     private final JwtService jwtService;
@@ -32,7 +32,7 @@ public class UserController {
 
     @GetMapping("/self/balance")
     public ResponseEntity<BalanceDto> getSelfBalance(@RequestHeader(value = "Authorization", required = false) String authorizationHeader) throws Exception {
-        return ResponseEntity.ok(new BalanceDto(transactionService.GetUserBalance(jwtService.decodeId(authorizationHeader))));
+        return ResponseEntity.ok(new BalanceDto(transactionService.getUserBalance(jwtService.decodeId(authorizationHeader))));
     }
     @GetMapping("/self/transactions")
     public ResponseEntity<List<TransactionDto>> getSelfTransactions(
@@ -55,7 +55,7 @@ public class UserController {
     @GetMapping("/{userId}/balance")
     public ResponseEntity<BalanceDto> getBalance(@PathVariable String userId) {
         if (userService.getUserData(userId) == null) return ResponseEntity.notFound().build();
-        return ResponseEntity.ok(new BalanceDto(transactionService.GetUserBalance(userId)));
+        return ResponseEntity.ok(new BalanceDto(transactionService.getUserBalance(userId)));
     }
 
     @PutMapping("/password")

@@ -49,7 +49,7 @@ public abstract class BaseGameSessionService<T extends BaseSessionExtension> imp
             throw new IllegalArgumentException("Invested balance must be greater than 0");
         }
 
-        if (transactionService.GetUserBalance(userId) < investedBalance) {
+        if (transactionService.getUserBalance(userId) < investedBalance) {
             throw new BadRequestException("user does not have enough balance");
         }
 
@@ -134,7 +134,7 @@ public abstract class BaseGameSessionService<T extends BaseSessionExtension> imp
     }
 
     protected void addBalanceToUser(String userId, int amount, String description) {
-        this.transactionService.TryAddTransaction(userId, amount, TransactionCategory.Game, description);
+        this.transactionService.tryAddTransaction(userId, amount, TransactionCategory.Game, description);
     }
 
     protected abstract void applyGameLogic(BaseSession baseSession, T extension, String interaction);

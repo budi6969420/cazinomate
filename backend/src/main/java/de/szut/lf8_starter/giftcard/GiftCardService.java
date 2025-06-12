@@ -55,7 +55,7 @@ public class GiftCardService {
         }
 
         if (giftCard.get().getUsedByUserId() != null) return false;
-        if (!transactionService.TryAddTransaction(userid, giftCard.get().getAmount(), TransactionCategory.GiftCard, "GiftCard with code " + giftCard.get().getId() + " was redeemed")) {
+        if (!transactionService.tryAddTransaction(userid, giftCard.get().getAmount(), TransactionCategory.GiftCard, "GiftCard with code " + giftCard.get().getId() + " was redeemed")) {
             return false;
         }
 

@@ -16,7 +16,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "giftcard")
+@RequestMapping(value = "/giftcard")
 public class GiftCardController {
 
     private final JwtService jwtService;

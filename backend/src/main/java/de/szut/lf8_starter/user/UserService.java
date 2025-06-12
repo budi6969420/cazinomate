@@ -1,6 +1,7 @@
 package de.szut.lf8_starter.user;
 
 import de.szut.lf8_starter.user.dto.KeycloakUserDto;
+import lombok.Data;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
@@ -8,9 +9,12 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.reactive.function.BodyInserters;
+import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 @Service
 public class UserService {
@@ -22,6 +26,7 @@ public class UserService {
     private final String normalClientId;
     private final String adminUsername;
     private final String adminPassword;
+    private static final String BEARER_REGEX_PATTERN = "^(\\{\\\"access_token\\\":\\\"(\\w+.){1,},\\\"expires_in\\\":\\d+,\\\"refresh_expires_in\\\":\\d+,\\\"refresh_token\\\":\\\"(\\w+.){1,},\\X+})$";
 
     public UserService(@Value("${keycloak.server-url}") String keycloakUrl,
                        @Value("${keycloak.realm}") String realm,
@@ -131,9 +136,9 @@ public class UserService {
                     request,
                     Void.class
             );
-            System.out.println("Password updated successfully for user ID: " + userId);
+            //System.out.println("Password updated successfully for user ID: " + userId);
         } catch (HttpClientErrorException e) {
-            System.err.println("Error updating password for user ID: " + userId + ". Response: " + e.getResponseBodyAsString());
+            //System.err.println("Error updating password for user ID: " + userId + ". Response: " + e.getResponseBodyAsString());
         }
     }
 
@@ -145,23 +150,22 @@ public class UserService {
         requestBody.add("username", username);
         requestBody.add("password", password);
 
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-
-        HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(requestBody, headers);
+        WebClient client = WebClient.builder()
+                .baseUrl(keycloakUrl)
+                .build();
 
         try {
-            restTemplate.postForEntity(
-                    keycloakUrl + "/realms/" + realm + "/protocol/openid-connect/token",
-                    request,
-                    TokenResponse.class
-            );
-            return true;
-        } catch (HttpClientErrorException.Unauthorized e) {
-            return false;
+            String requestResponse = client.post()
+                    .uri("/realms/" + realm + "/protocol/openid-connect/token")
+                    .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+                    .body(BodyInserters.fromFormData(requestBody))
+                    .retrieve().bodyToMono(String.class).block();
+
+            return Pattern.compile(BEARER_REGEX_PATTERN)
+                    .matcher(requestResponse)
+                    .matches();
         } catch (Exception e) {
-            throw new RuntimeException("Error validating current password", e);
+            return false;
         }
     }
-
 }

@@ -9,7 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("game/session")
+@RequestMapping("/game/session")
 public class GameSessionController {
 
     private final GameSessionDispatcher dispatcher;

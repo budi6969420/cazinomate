@@ -1,14 +1,11 @@
 package de.szut.lf8_starter.game;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RequestMapping(value = "game")
+@RequestMapping(value = "/game")
 @RestController
 public class GameController {
 
@@ -19,7 +16,7 @@ public class GameController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<GameMetadata> getGameMetadata(@RequestParam final String id) {
+    public ResponseEntity<GameMetadata> getGameMetadata(@PathVariable final String id) {
         var game = this.gameService.getGameMetadataById(id);
         if (game == null) return ResponseEntity.notFound().build();
         return ResponseEntity.ok(game);

@@ -13,15 +13,15 @@ public class TransactionService {
         this.transactionRepository = transactionRepository;
     }
 
-    public Boolean TryAddTransaction(String userId, int amount, TransactionCategory category, String description) {
-        if (GetUserBalance(userId) +  amount < 0) {
+    public Boolean tryAddTransaction(String userId, int amount, TransactionCategory category, String description) {
+        if (getUserBalance(userId) +  amount < 0) {
             return false;
         }
         transactionRepository.save(new TransactionModel(userId, amount, category, description, new Date()));
         return true;
     }
 
-    public int GetUserBalance(String userId) {
+    public int getUserBalance(String userId) {
         return transactionRepository.findByUserIdOrderByDateDesc(userId).stream().mapToInt(TransactionModel::getAmount).sum();
     }
 
