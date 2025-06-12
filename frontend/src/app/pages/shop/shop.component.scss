@@ -1,8 +1,12 @@
 .container {
   display: flex;
   flex-direction: row;
-  justify-content: flex-end;
+  justify-content: center;
   gap: 30px;
+}
+
+.placeholder {
+  width: 270px;
 }
 
 .header {
@@ -65,5 +69,3 @@ ul {
 .warning-box strong {
   margin-right: 5px;
 }
-
-

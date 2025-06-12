@@ -1,16 +1,20 @@
 .container {
-  display: flex;
+  display: inline-flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  background: #272727;
+  background: var(--app-color-background-secondary);
   padding: 20px;
-  padding-bottom: 0px;
+  border-radius: 10px;
   text-align: center;
   width: 230px;
-  height: 120px;
+  height: auto;
   pointer-events: none;
   opacity: 0.33;
+}
+
+h1 {
+  margin-bottom: 5px;
 }
 
 .container.active {
@@ -60,13 +64,15 @@ input {
 }
 
 .errorMessage {
-  display: flex;
+  display: none;
   justify-content: center;
   color: red;
   opacity: 0;
   font-weight: bold;
+  margin-top: 5px;
 }
 
 .errorMessage.enabled {
   opacity: 1;
+  display: flex;
 }
