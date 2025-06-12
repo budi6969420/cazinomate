@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 
-@RequestMapping(value = "/api/stripe-webhook")
+@RequestMapping(value = "/stripe-webhook")
 @RestController
 public class StripeWebHookController {
 
